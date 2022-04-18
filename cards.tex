@@ -1,0 +1,69 @@
+\documentclass[12pt]{scrartcl}
+
+\usepackage[    % set up dimensions
+	a6paper, 
+	landscape,
+	left=1.5cm,   
+	right=1.5cm,  
+	top=1.5cm,
+	right=1.5cm, 
+	showframe,
+	nomarginpar,  % this removes the right margin, centering the text in the middle
+	noheadfoot,  % this removes the head and foot margin
+	]{geometry}
+
+%\pagestyle{empty}
+
+\usepackage{graphicx}
+\usepackage{tikz}
+
+% Fonts and encodings
+\usepackage[nf]{coelacanth}
+\usepackage[T1]{fontenc}
+
+\usepackage{longtable} % Um Tabellen zu machen, die mehrere Seiten lang sind und einen passenden Seitenumbruch haben.
+%\usepackage[singlespacing]{setspace} % Zeilenabstand
+\usepackage{nicefrac} % für besser aussehende Brüche
+
+%\usepackage[object=vectorian]{pgfornament}
+
+\begin{document}
+	\pagestyle{empty}
+	
+	\begin{tikzpicture}[remember picture, overlay]
+		% pgfornament does give very simple and nice vectorian graphics for tikz.
+		% The problem is that the lines are too thick and figure 41 is also slightly cropped.
+		% pst-vectorian works very well.
+		% we're now using the original files from vectorian exported as eps file
+		
+		% DEBUGGING grid
+		%\draw[line width=0.75pt, color=teal, step=.5cm, xshift=0.08cm, yshift=0.43cm] (current page.south west) grid ++(14.85cm,10.5cm);
+		% DEBUGGING corners
+		%\node [circle, fill=red, minimum size=1pt, xshift=0.0cm, yshift=-0.0cm, scale=0.2] at (current page.north west) {};
+		%\node [circle, fill=red, minimum size=1pt, xshift=0.5cm, yshift=-0.5cm, scale=0.2] at (current page.north west) {};
+		
+		
+		\node[anchor=north west, xshift=0.5cm, yshift=-0.5cm, inner sep=0] at (current page.north west){\includegraphics[scale=0.8, angle=0, origin=c]{img/corner}};
+		\node[anchor=north east, xshift=-0.5cm, yshift=-0.5cm, inner sep=0] at (current page.north east){\includegraphics[scale=0.8, angle=0, origin=c]{img/corner2}};
+		\node[anchor=south west, xshift=0.5cm, yshift=0.5cm, inner sep=0] at (current page.south west){\includegraphics[scale=0.8, angle=180, origin=c]{img/corner2}};
+		\node[anchor=south east, xshift=-0.5cm, yshift=0.5cm, inner sep=0] at (current page.south east){\includegraphics[scale=0.8, angle=180, origin=c]{img/corner}};
+		
+		
+		% Original pgfornament style:
+		%\node[anchor=north west, xshift=0.5cm, yshift=-0.5cm,inner sep=0] at (current page.north west){\pgfornament[scale=0.5]{41}};
+		%\node[anchor=north east, xshift=-0.5cm, yshift=-0.5cm, inner sep=0] at (current page.north east){\pgfornament[scale=0.5,symmetry=v]{41}};
+		%\node[anchor=south west, xshift=0.5cm, yshift=0.5cm, inner sep=0] at (current page.south west){\pgfornament[scale=0.5,symmetry=h]{41}};
+		%\node[anchor=south east, xshift=-0.5cm, yshift=0.5cm, inner sep=0] at (current page.south east){\pgfornament[scale=0.5,symmetry=c]{41}};
+		
+		% Background as an image, for example a parchment like texture
+		%\tikz[remember picture, overlay] \node[opacity=0.5, inner sep=0pt] at (current page.center){\includegraphics[width=\paperwidth,height=\paperheight]{example-image}};
+	\end{tikzpicture}
+	
+	\begin{longtable}{p{1cm}p{10cm}}
+		1 -- 2 & Testfigur\\
+		3 -- 4 & Test2 blarg\\
+		5 -- 8 & Test1\\
+		
+	\end{longtable}
+	
+\end{document}
