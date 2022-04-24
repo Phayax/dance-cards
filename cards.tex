@@ -5,7 +5,7 @@
 	landscape,
 	left=1.45cm,   
 	right=1.45cm,  
-	top=1.5cm,
+	top=1.6cm,
 	right=1.5cm, 
 	%showframe,
 	nomarginpar,  % this removes the right margin, centering the text in the middle
@@ -48,10 +48,10 @@
 	%\node [circle, fill=red, minimum size=1pt, xshift=0.5cm, yshift=-0.5cm, scale=0.2] at (current page.north west) {};
 	
 	
-	\node[anchor=north west, xshift=0.5cm, yshift=-0.5cm, inner sep=0] at (current page.north west){\includegraphics[scale=0.8, angle=0, origin=c]{img/corner}};
-	\node[anchor=north east, xshift=-0.5cm, yshift=-0.5cm, inner sep=0] at (current page.north east){\includegraphics[scale=0.8, angle=0, origin=c]{img/corner2}};
-	\node[anchor=south west, xshift=0.5cm, yshift=0.5cm, inner sep=0] at (current page.south west){\includegraphics[scale=0.8, angle=180, origin=c]{img/corner2}};
-	\node[anchor=south east, xshift=-0.5cm, yshift=0.5cm, inner sep=0] at (current page.south east){\includegraphics[scale=0.8, angle=180, origin=c]{img/corner}};
+	\node[anchor=north west, xshift=0.5cm, yshift=-0.5cm, inner sep=0] at (current page.north west){\includegraphics[scale=0.8, angle=0, origin=c]{img/corner_black}};
+	\node[anchor=north east, xshift=-0.5cm, yshift=-0.5cm, inner sep=0] at (current page.north east){\includegraphics[scale=0.8, angle=0, origin=c]{img/corner2_black}};
+	\node[anchor=south west, xshift=0.5cm, yshift=0.5cm, inner sep=0] at (current page.south west){\includegraphics[scale=0.8, angle=180, origin=c]{img/corner2_black}};
+	\node[anchor=south east, xshift=-0.5cm, yshift=0.5cm, inner sep=0] at (current page.south east){\includegraphics[scale=0.8, angle=180, origin=c]{img/corner_black}};
 	
 	
 	% Original pgfornament style:
@@ -100,24 +100,24 @@
 }
 \newcommand{\danceeasymarker}{
 	\begin{tikzpicture}[remember picture, overlay]
-		\node[anchor=south, xshift=0cm, yshift=0.5cm, inner sep=0] at (current page.south){\pgfornament[width=6cm]{80}};
+		\node[anchor=south, xshift=0cm, yshift=0.5cm, inner sep=0] at (current page.south){\pgfornament[width=4cm]{80}};
 	\end{tikzpicture}
 }
 \newcommand{\dancemediummarker}{
 	\begin{tikzpicture}[remember picture, overlay]
-		\node[anchor=south, xshift=0cm, yshift=0.5cm, inner sep=0] at (current page.south){\pgfornament[width=7cm]{83}};
+		\node[anchor=south, xshift=0cm, yshift=0.5cm, inner sep=0] at (current page.south){\pgfornament[width=5cm]{83}};
 	\end{tikzpicture}
 }
 \newcommand{\dancedifficultmarker}{
 \begin{tikzpicture}[remember picture, overlay]
-	\node[anchor=south, xshift=0cm, yshift=0.4cm, inner sep=0] at (current page.south){\pgfornament[width=6cm]{84}};
+	\node[anchor=south, xshift=0cm, yshift=0.4cm, inner sep=0] at (current page.south){\pgfornament[width=5cm]{84}};
 \end{tikzpicture}
 }
 \newcommand{\danceinstructionsbegin}{\begin{longtable}{p{1cm}p{9.8cm}}}
 \newcommand{\danceinstructionsend}{\end{longtable}}
 \newcommand{\danceinstructionsel}{~ & ~ \\}
 
-\setlength{\topskip}{0pt}
+\setlength{\topskip}{12pt}
 \setlength{\parskip}{0pt}
 
 
@@ -1475,7 +1475,7 @@ Takte&\\
 1--8 	& FC Ronde\\
 9--16	& SC Ronde\\
 1--8 	& H1+H2, D1+D2  1½ Ronde\\
-9--16 	& Dos-á-Dos\\
+9--16 	& Dos-á-Dos
 \dancemediummarker
 \danceinstructionsend
 
@@ -1647,7 +1647,7 @@ Paare in Korobushka-Fassung nach oben schauend.
 
 \dancename{Land of Mist and Wonder}
 \iffalse\subsection{Land of Mist and Wonder}\fi % fool texstudio into displaying subsections
-\danceinfo{4-Paar Set, 1er und 3er improper, 2er und 3er stehen Rücken an Rücken, ¾-Takt}
+\danceinfo{4-Paar Set, 1er und 3er improper,\\ 2er und 3er stehen Rücken an Rücken, ¾-Takt}
 \danceinstructionsbegin
 \textbf{Teil}&\textbf{A1:}\\
 1 -- 8 	& Mirror-image-Hecken auf den Seitenlinien. Die 1er gehen durch die 2er, die 3er gehen durch die 4er. Drei Schritte für jeden Wechsel. Die Paare können wann immer möglich Handfassung aufnehmen.\\
