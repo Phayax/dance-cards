@@ -58,7 +58,7 @@ def patch_tex_content(base_tex_file, target_tex_file, content):
 
 
 def split_file(base_tex_file: Path, target_file_path: Path):
-    with open(base_tex_file, "r") as f:
+    with open(base_tex_file, "r", encoding="utf-8") as f:
         file_content = f.readlines()
     # join the lines (keeping newlines)
     file_content = "".join(file_content)
@@ -72,7 +72,7 @@ def split_file(base_tex_file: Path, target_file_path: Path):
     for dance in dances:
         name = extract_filename(dance)
         dance_file = target_file_path / name
-        with open(dance_file, "w") as f:
+        with open(dance_file, "w", encoding="utf-8") as f:
             dance_text = header + dance + end
             f.write(dance_text)
 
@@ -103,11 +103,13 @@ if __name__ == '__main__':
     # see if we can just call latexmk on the whole directory so it compiles everything in it
     #ret = subprocess.run(["latexmk"], cwd=p)
     #print(f"Return Code: {ret.returncode}")
-    dance_list = [file for file in p.iterdir() if file.is_file and file.suffix == ".tex"]
-    pool = Pool()
-    joblist = []
-    for file in dance_list:
-        pool.apply_async(compile_dance, )
+
+
+    #dance_list = [file for file in p.iterdir() if file.is_file and file.suffix == ".tex"]
+    #pool = Pool()
+    #joblist = []
+    #for file in dance_list:
+    #    pool.apply_async(compile_dance, )
 
 
     dance_list = [file for file in p.iterdir() if file.is_file and file.suffix == ".tex"]
