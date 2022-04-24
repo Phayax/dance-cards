@@ -60,6 +60,7 @@ def patch_tex_content(base_tex_file, target_tex_file, content):
 def split_file(base_tex_file: Path, target_file_path: Path):
     with open(base_tex_file, "r", encoding="utf-8") as f:
         file_content = f.readlines()
+        file_content = [line for line in file_content if not line.strip().startswith(r"%")]
     # join the lines (keeping newlines)
     file_content = "".join(file_content)
 
@@ -92,15 +93,10 @@ if __name__ == '__main__':
     shutil.copy(".latexmkrc", str(p / ".latexmkrc"))
     shutil.copytree(Path("./img"), p / "img")
     split_file(Path(BASE_TEX_FILE), p)
+    single_pdf_target = Path("./single/")
+    single_pdf_target.mkdir(exist_ok=True, parents=False)
 
-    #for dance in DANCES:
-
-        #target_tex_path = p / f"{dance['name']}.tex"
-        #target_pdf_name = f"{dance['name'].pdf}"
-        #patch_tex_content(BASE_TEX_FILE, target_tex_path, dance['tex-content'])
-
-
-    # see if we can just call latexmk on the whole directory so it compiles everything in it
+    # can just call latexmk on the whole directory so it compiles everything in it
     #ret = subprocess.run(["latexmk"], cwd=p)
     #print(f"Return Code: {ret.returncode}")
 
@@ -118,7 +114,11 @@ if __name__ == '__main__':
 
         pbar.set_postfix_str("%s" % file.name)
         ret = subprocess.run(["latexmk", file.name], cwd=p, capture_output=True)
-        #print(f"Return Code: {ret.returncode}")
+        if ret.returncode == 0:
+            pdf_path = p / ".build" / f"{file.stem}.pdf"
+            shutil.copy(pdf_path, single_pdf_target / pdf_path.name)
+        else:
+            print(f"Warning latexmk returned with non-zero Returncode {ret.returncode} on file {file}!")
 
 
     # once we're done remove all files from build dir
