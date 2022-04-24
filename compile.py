@@ -104,7 +104,10 @@ if __name__ == '__main__':
     #ret = subprocess.run(["latexmk"], cwd=p)
     #print(f"Return Code: {ret.returncode}")
     dance_list = [file for file in p.iterdir() if file.is_file and file.suffix == ".tex"]
-
+    pool = Pool()
+    joblist = []
+    for file in dance_list:
+        pool.apply_async(compile_dance, )
 
 
     dance_list = [file for file in p.iterdir() if file.is_file and file.suffix == ".tex"]
