@@ -53,14 +53,16 @@ jobs:
       
       # Runs a single command using the runners shell
       - name: Get content
-        run: ls .
+        run: ls -la .
       
       - name: Get dir content
-        run: ls action-test
+        run: ls -la action-test
+      - name: Get dir content
+        run: ls -la action-test/.build
 
       
-      #- name: Archive pdf
-      #  uses: actions/upload-artifact@v3
-      #  with:
-      #    name: build-pdf
-      #    path: action-test/Allemande.pdf
+      - name: Archive pdf
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-pdf
+          path: action-test/.build/Allemande.pdf
