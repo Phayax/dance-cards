@@ -41,7 +41,7 @@ jobs:
         uses: dante-ev/latex-action@2021-A
         with:
           # The root LaTeX file to be compiled
-          root_file: action-test/Allemande.tex
+          root_file: Allemande.tex
           # The working directory for the latex compiler to be invoked
           working_directory: action-test/# optional
           # LaTeX engine to be used
