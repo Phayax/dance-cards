@@ -51,8 +51,16 @@ jobs:
           # Install extra packages by apt-get
           #extra_system_packages: # optional
       
-      - name: Archive pdf
-        uses: actions/upload-artifact@v3
-        with:
-          name: build-pdf
-          path: action-test/Allemande.pdf
+      # Runs a single command using the runners shell
+      - name: Get content
+        run: ls .
+      
+      - name: Get dir content
+        run: ls action-test
+
+      
+      #- name: Archive pdf
+      #  uses: actions/upload-artifact@v3
+      #  with:
+      #    name: build-pdf
+      #    path: action-test/Allemande.pdf
