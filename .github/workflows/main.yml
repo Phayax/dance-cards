@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: Create PDF
 
 # Controls when the workflow will run
 on:
@@ -50,3 +50,9 @@ jobs:
           #args: # optional, default is -pdf -latexoption=-file-line-error -latexoption=-interaction=nonstopmode
           # Install extra packages by apt-get
           #extra_system_packages: # optional
+      
+      - name: Archive pdf
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-pdf
+          path: action-test/Allemande.pdf
