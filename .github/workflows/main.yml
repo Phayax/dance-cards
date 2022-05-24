@@ -43,7 +43,7 @@ jobs:
           # The root LaTeX file to be compiled
           root_file: Allemande.tex
           # The working directory for the latex compiler to be invoked
-          working_directory: action-test/# optional
+          working_directory: action-test
           # LaTeX engine to be used
           #compiler: # optional, default is latexmk
           # Extra arguments to be passed to the latex compiler
