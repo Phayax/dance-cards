@@ -1,7 +1,8 @@
 # Dancing Cards
 ## LaTeX Calling Cards for historic dances
 
-
+## All-in-one or separate Cards
+The Cards are all in one big .tex file
 
 
 

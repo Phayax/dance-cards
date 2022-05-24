@@ -107,7 +107,6 @@ if __name__ == '__main__':
     #for file in dance_list:
     #    pool.apply_async(compile_dance, )
 
-
     dance_list = [file for file in p.iterdir() if file.is_file and file.suffix == ".tex"]
     for file in (pbar := tqdm(sorted(dance_list))):
 
