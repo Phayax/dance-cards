@@ -31,6 +31,17 @@ def sanitize_filenames(name):
     return name
 
 
+def dance_contains_tex_code(content: str) -> bool:
+    lines = content.split("\n")
+    lines = [line.strip() for line in lines]
+    lines = [line for line in lines if not line.startswith("%")]
+    lines = [line for line in lines if line != ""]
+    if len(lines) > 0:
+        return True
+    else:
+        return False
+
+
 def extract_filename(dance):
     # remove leading and trailing whitespaces so we can easily search
     # for the first line break
@@ -74,11 +85,14 @@ def split_file(base_tex_file: Path, target_file_path: Path):
 
     header, content = file_content.split(r"\begin{document}")
     header += r"\begin{document}"
-    dance_content, end = file_content.split(r"\end{document}")
+    dance_content, end = content.split(r"\end{document}")
     end = "\n" + r"\end{document}" + end
     dances = dance_content.split(r"\newpage")
 
     for dance in dances:
+        # first check if there is content once all spaces and comments are removed:
+        if not dance_contains_tex_code(dance):
+            continue
         name = extract_filename(dance)
         dance_file = target_file_path / name
         with open(dance_file, "w", encoding="utf-8") as f:
