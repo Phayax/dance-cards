@@ -3,7 +3,7 @@ import shutil
 from pathlib import Path
 from multiprocessing import Pool
 
-from tqdm import tqdm
+#from tqdm import tqdm
 
 #from dances import DANCES
 
