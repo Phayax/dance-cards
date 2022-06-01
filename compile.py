@@ -24,15 +24,23 @@ def sanitize_filenames(name):
 
     name = name.replace(" ", "_")
 
-    # TODO: implement scanning for scriptsize and such
+    name = name.replace("normalsize", "")
+    name = name.replace("scriptsize", "")
+    name = name.replace("nicefrac", "")
+
     return name
 
 
 def extract_filename(dance):
+    # remove leading and trailing whitespaces so we can easily search
+    # for the first line break
+    dance = dance.strip("\n")
     ret = dance.find(r"\dancename")
-    if ret > 0:
+    if ret >= 0:
+        # searching for the open bracket of \dancename>{<
         start = dance.find(r"{", ret) + 1
-        end = dance.find(r"}", ret)
+        # searching for the end of the line
+        end = dance.find("\n", ret)
         raw_name = dance[start:end]
         name = sanitize_filenames(raw_name)
         return name + ".tex"
@@ -82,34 +90,16 @@ def compile_dance(filename, working_dir):
     ret = subprocess.run(["latexmk", filename], cwd=working_dir)
     return ret
 
-if __name__ == '__main__':
-    if Path(TEMP_DIR).exists():
-        shutil.rmtree(Path(TEMP_DIR))
+def compile_dances_parallel():
+    dance_list = [file for file in p.iterdir() if file.is_file and file.suffix == ".tex"]
+    pool = Pool()
+    joblist = []
+    for file in dance_list:
+        pool.apply_async(compile_dance, )
 
-
-    # create build directory
-    p = Path(TEMP_DIR)
-    p.mkdir(exist_ok=False)
-    shutil.copy(".latexmkrc", str(p / ".latexmkrc"))
-    shutil.copytree(Path("./img"), p / "img")
-    split_file(Path(BASE_TEX_FILE), p)
-    single_pdf_target = Path("./single/")
-    single_pdf_target.mkdir(exist_ok=True, parents=False)
-
-    # can just call latexmk on the whole directory so it compiles everything in it
-    #ret = subprocess.run(["latexmk"], cwd=p)
-    #print(f"Return Code: {ret.returncode}")
-
-
-    #dance_list = [file for file in p.iterdir() if file.is_file and file.suffix == ".tex"]
-    #pool = Pool()
-    #joblist = []
-    #for file in dance_list:
-    #    pool.apply_async(compile_dance, )
-
+def compile_dance_serial():
     dance_list = [file for file in p.iterdir() if file.is_file and file.suffix == ".tex"]
     for file in (pbar := tqdm(sorted(dance_list))):
-
 
         pbar.set_postfix_str("%s" % file.name)
         ret = subprocess.run(["latexmk", file.name], cwd=p, capture_output=True)
@@ -119,7 +109,22 @@ if __name__ == '__main__':
         else:
             print(f"Warning latexmk returned with non-zero Returncode {ret.returncode} on file {file}!")
 
-
     # once we're done remove all files from build dir
     #for file in p.iterdir():
     #    file.unlink()
+
+if __name__ == '__main__':
+    # remove potential old build data
+    if Path(TEMP_DIR).exists():
+        shutil.rmtree(Path(TEMP_DIR))
+
+    # create build directory
+    p = Path(TEMP_DIR)
+    p.mkdir(exist_ok=False)
+    shutil.copy(".latexmkrc", str(p / ".latexmkrc"))
+    shutil.copytree(Path("./img"), p / "img")
+    split_file(base_tex_file=Path(BASE_TEX_FILE), target_file_path=p)
+    single_pdf_target = Path("./single/")
+    single_pdf_target.mkdir(exist_ok=True, parents=False)
+
+    # then call latexmk on build-single-temp
