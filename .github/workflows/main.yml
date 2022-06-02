@@ -60,7 +60,7 @@ jobs:
         uses: dante-ev/latex-action@2021-A
         with:
           # The root LaTeX file to be compiled
-          root_file: .
+          root_file: ""
           # The working directory for the latex compiler to be invoked
           working_directory: build-single-temp
           # LaTeX engine to be used
