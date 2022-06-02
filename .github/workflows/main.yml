@@ -71,7 +71,7 @@ jobs:
           #extra_system_packages: # optional
 
       - name: Copy single pdfs
-        run: cp build-single-temp/*.pdf single/
+        run: cp build-single-temp/.build/*.pdf single/
       
       # Runs a single command using the runners shell
       - name: Get content
