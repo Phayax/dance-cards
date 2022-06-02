@@ -72,22 +72,12 @@ jobs:
 
       - name: Copy single pdfs
         run: cp build-single-temp/.build/*.pdf single/
-      
-      # Runs a single command using the runners shell
-      - name: Get content
-        run: ls -la .
-      
-      - name: Get dir content
-        run: ls -la action-test
-      - name: Get dir content
-        run: ls -la action-test/.build
 
-      
       - name: Archive pdf
         uses: actions/upload-artifact@v3
         with:
           name: single-pdfs
-          path: action-test/single
+          path: single/
           
       - name: Archive full pdf
         uses: actions/upload-artifact@v3
