@@ -2,8 +2,8 @@ see below for english version
 # Tanzkarten
 # LaTeX Tanzkarten für Historische und davon inspirierte Tänze
 ## Download
-[Tanzkarten A6 - Alle Tänze zusammen](https://github.com/Phayax/dance-cards/releases/download/v0.1/Tanzkarten.pdf)  
-[Tanzkarten A6 - Ein Tanz pro PDF](https://github.com/Phayax/dance-cards/releases/download/v0.1/Einzel-Karten.zip)
+[Tanzkarten A6 - Alle Tänze zusammen](https://github.com/Phayax/dance-cards/releases/latest/download/Tanzkarten.pdf)  
+[Tanzkarten A6 - Ein Tanz pro PDF](https://github.com/Phayax/dance-cards/releases/latest/download/Einzel-Karten.zip)
 
 # Verwendung
 ### Druck
