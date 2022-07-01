@@ -89,12 +89,13 @@ def split_file(base_tex_file: Path, target_file_path: Path):
     end = "\n" + r"\end{document}" + end
     dances = dance_content.split(r"\newpage")
 
-    for dance in dances:
+    for idx, dance in enumerate(dances):
         # first check if there is content once all spaces and comments are removed:
         if not dance_contains_tex_code(dance):
             continue
         name = extract_filename(dance)
-        dance_file = target_file_path / name
+        # add an index so we know in which order they appear in the main document.
+        dance_file = target_file_path / f"{idx:03d}_{name}"
         with open(dance_file, "w", encoding="utf-8") as f:
             dance_text = header + dance + end
             f.write(dance_text)
