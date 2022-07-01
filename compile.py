@@ -6,6 +6,7 @@ from multiprocessing import Pool
 #from tqdm import tqdm
 
 #from dances import DANCES
+from tqdm import tqdm
 
 PATCH = "% CONTENT HERE"
 
@@ -32,10 +33,16 @@ def sanitize_filenames(name):
 
 
 def dance_contains_tex_code(content: str) -> bool:
+    # check if it is the last empty page:
+    # in that case return false
+    if r"\ClearShipoutPictureBG" in content:
+        return False
+
     lines = content.split("\n")
     lines = [line.strip() for line in lines]
     lines = [line for line in lines if not line.startswith("%")]
     lines = [line for line in lines if line != ""]
+
     if len(lines) > 0:
         return True
     else:
@@ -46,6 +53,7 @@ def extract_filename(dance):
     # remove leading and trailing whitespaces so we can easily search
     # for the first line break
     dance = dance.strip("\n")
+
     ret = dance.find(r"\dancename")
     if ret >= 0:
         # searching for the open bracket of \dancename>{<
