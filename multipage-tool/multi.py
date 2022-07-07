@@ -8,6 +8,49 @@ import PyPDF2
 TARGET_FOLDER = "../single"
 
 
+def get_page_indices(single_pdf_path: Path, full_pdf_path: Path):
+    # get the lengths for all single_files:
+    single_list = [file for file in single_pdf_path.iterdir() if file.suffix == ".pdf"]
+    single_list.sort()
+    length_dict = {}
+    total_page_count = 0
+    for file in single_list:
+        reader = PyPDF2.PdfFileReader(str(file))
+        length = reader.numPages
+        total_page_count += length
+        if length in length_dict.keys():
+            length_dict[length].append(file)
+        else:
+            length_dict.update({length: [file]})
+
+
+    full_pdf_length = PyPDF2.PdfFileReader(str(full_pdf_path)).numPages
+    if not full_pdf_length == total_page_count + 1:
+        raise ValueError(f"Expected exactly one more page in the full pdf, but got {full_pdf_length - total_page_count} more pages.\n\tFull pdf: {full_pdf_length},\n\tCumulative Single Page Count: {total_page_count}.")
+    return length_dict
+
+
+class NupTexDocument:
+    NUP_HEAD_CODE = r"""\documentclass[12pt,a4paper,landscape]{scrartcl}
+    \usepackage[a6paper]{geometry}
+    \usepackage{pdfpages}
+    \usepackage{xcolor}
+    %\geometry{showframe}
+    %\geometry{left=1.2cm,right=1.2cm,top=1.5cm,bottom=1.5cm}
+    \pagestyle{empty}
+    % Define very light gray color so as to be nearly invisible
+    \definecolor{ultra-light-gray}{gray}{0.98}
+    % since pdfpages uses fbox to draw the frames lets change the stroke color
+    % to the desired value
+    \renewcommand\fbox{\fcolorbox{ultra-light-gray}{white}}
+
+    \begin{document}"""
+
+    NUP_FOOT_CODE = r"""\end{document}
+    """
+    def __init__(self, dance_list, ):
+        pass
+
 
 class NupPage:
 
@@ -41,6 +84,11 @@ class NupPage:
                 self.slots_back[idx] = empty_page_idx
 
     def get_tex_code(self, pdf_path: Path) -> str:
+        """
+        This method outputs pdfpages code to plot on front and one back of a page.
+        :param pdf_path: path to the pdf file from which to take pages
+        :return:
+        """
         angle = 0 if self.fold_edge == 'short' else 180
         tex_str = ""
         tex_str += self.NUP_TEX_START
@@ -54,22 +102,13 @@ class NupPage:
         return tex_str
 
 if __name__ == '__main__':
-    n = NupPage('long', 2)
-    n.replace_none_pages(empty_page_idx=4)
-    print(n.get_tex_code(Path("test.pdf")))
-    exit()
-    length_dict = {}
-    p = Path(TARGET_FOLDER)
-    for file in p.iterdir():
-        if file.suffix != ".pdf":
-            continue
+    #n = NupPage('long', 2)
+    #n.replace_none_pages(empty_page_idx=4)
+    #print(n.get_tex_code(Path("test.pdf")))
+    #exit()
 
-        reader = PyPDF2.PdfFileReader(str(file))
-        length = reader.numPages
+    SINGLE_PATH = Path("../dev-debug/single")
+    FULL_PATH = Path("../dev-debug/Tanzkarten.pdf")
 
-        if length in length_dict.keys():
-            length_dict[length].append(file)
-        else:
-            length_dict.update({length: [file]})
-
-    pprint(length_dict, indent=4)
+    l = get_page_indices(single_pdf_path=SINGLE_PATH, full_pdf_path=FULL_PATH)
+    pprint(l, indent=4)
