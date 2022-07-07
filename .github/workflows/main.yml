@@ -51,6 +51,9 @@ jobs:
           # Install extra packages by apt-get
           #extra_system_packages: # optional
 
+      - name: Install Python dependencies
+        run: pip3 install tqdm
+      
       - name: Run split script
         run: python3 compile.py
 
