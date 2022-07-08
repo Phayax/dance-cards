@@ -1,11 +1,47 @@
+import itertools
 from pathlib import Path
 from pprint import pprint
-from typing import Literal
+from typing import Literal, Dict, List, Union, Any, Hashable
 
 import PyPDF2
 
 
 TARGET_FOLDER = "../single"
+
+
+def invert_list_dict(input_dict: Dict[int, List[Path]]) -> Dict[Path, int]:
+    """
+    Inverts a dictionary of the Type:
+        {
+            Hashable: [
+                Hashable,
+                Hashable,
+                ...
+                Hashable
+            ],
+        }
+    All Items in the List will have the key as their value.
+    :param input_dict:
+    :return:
+    """
+    inv_dict = {}
+    for key, values in input_dict.items():
+        for value in values:
+            inv_dict.update({value:key})
+    # sort the dictionary
+    inv_dict = dict(sorted(inv_dict.items()))
+    return inv_dict
+
+
+def convert_page_numbers_to_indices(page_no_dict: Dict[int, List[Path]]) -> Dict[Path, List[int]]:
+    inv_dict = invert_list_dict(page_no_dict)
+    counting_index = 1
+    for key, value in inv_dict.items():
+        # FIXME: check if it is fine that we change the type here from int to List[int]:
+        inv_dict[key] = list(range(counting_index, counting_index + value))
+        counting_index += value
+
+    return inv_dict
 
 
 def get_page_indices(single_pdf_path: Path, full_pdf_path: Path):
@@ -48,9 +84,54 @@ class NupTexDocument:
 
     NUP_FOOT_CODE = r"""\end{document}
     """
-    def __init__(self, dance_list, ):
-        pass
 
+    def __init__(self, dance_dict: Dict[int, List[Path]]):
+        self.dance_dict = dance_dict
+
+    @classmethod
+    def split_into_front_back_pairs(cls, dance_idxs: List[int]) -> List[List[int]]:
+        num_pages = len(dance_idxs)
+        # make page count even
+        if num_pages % 2 == 1:
+            dance_idxs.append(None)
+            num_pages += 1
+
+        pages = []
+        for idx in range(int(num_pages / 2)):
+            pages.append([dance_idxs[idx], dance_idxs[idx+int(num_pages / 2)]])
+
+        return pages
+
+    def layout_dances(self, dance_list: List[Path], nup_factor: int):
+        page_list = []
+        # create working copy of dance_dict with only the selected dances
+        sel_dance_dict = self.copy_dict_and_drop_unlisted(self.dance_dict, dance_list)
+        # we want to process dances from large to small
+        sel_dance_dict = dict(reversed(sorted(sel_dance_dict.items())))
+        # now let's iterate over the dances
+
+        dance_idx_dict = convert_page_numbers_to_indices(sel_dance_dict)
+
+        for page_count, dances in sel_dance_dict.items():
+            for dance in dances:
+                split_pages = self.split_into_front_back_pairs(dance_idx_dict[dance])
+                page_list.extend(split_pages)
+
+        # TODO: iterate over pagelist by nup_factor ** 2 slices and add
+        #       those slices as new NupPage's. Needs to handle the end of the list somehow.
+
+        pprint(dance_list)
+
+    @classmethod
+    def copy_dict_and_drop_unlisted(cls, input_dict: Dict[int, List[Path]], target_list: List[Path]) -> Dict[int, List[Path]]:
+        working_dict = input_dict.copy()
+        for key, values in working_dict.items():
+            # keep only the dances that also occur in the target_list
+            # FIXME: the use of sets currently doesn't allow for the layouting
+            #        of the same dance twice! fix this if necessary.
+            new_values = list(set(values) & (set(target_list)))
+            working_dict[key] = new_values
+        return working_dict
 
 class NupPage:
 
@@ -101,6 +182,7 @@ class NupPage:
         tex_str += self.NUP_TEX_END.format(nup_factor=self.nup_factor, angle=angle, pdfpath=str(pdf_path.resolve()))
         return tex_str
 
+
 if __name__ == '__main__':
     #n = NupPage('long', 2)
     #n.replace_none_pages(empty_page_idx=4)
@@ -110,5 +192,13 @@ if __name__ == '__main__':
     SINGLE_PATH = Path("../dev-debug/single")
     FULL_PATH = Path("../dev-debug/Tanzkarten.pdf")
 
-    l = get_page_indices(single_pdf_path=SINGLE_PATH, full_pdf_path=FULL_PATH)
-    pprint(l, indent=4)
+    dance_dict = get_page_indices(single_pdf_path=SINGLE_PATH, full_pdf_path=FULL_PATH)
+    ntc = NupTexDocument(dance_dict)
+    #l = convert_page_numbers_to_indices(l)
+    pprint(dance_dict, indent=4, width=180)
+    flat_dance_list = list(dance_dict.values())
+    # flatten code from: https://stackoverflow.com/a/953097
+    flat_dance_list = list(itertools.chain.from_iterable(flat_dance_list))
+    flat_dance_list.sort()
+    ntc.layout_dances(dance_list=flat_dance_list, nup_factor=2)
+
