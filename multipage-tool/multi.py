@@ -1,12 +1,12 @@
 import itertools
 from pathlib import Path
-from pprint import pprint
-from typing import Literal, Dict, List, Union, Any, Hashable, Iterable, Sized, Sequence
+from typing import Literal, Dict, List, Iterable, Sequence
 
 import PyPDF2
 
-
 TARGET_FOLDER = "../single"
+
+NO_PAGE: int = -1
 
 
 def chunker(seq: Sequence, size: int) -> Iterable:
@@ -38,7 +38,7 @@ def invert_list_dict(input_dict: Dict[int, List[Path]]) -> Dict[Path, int]:
     inv_dict = {}
     for key, values in input_dict.items():
         for value in values:
-            inv_dict.update({value:key})
+            inv_dict.update({value: key})
     # sort the dictionary
     inv_dict = dict(sorted(inv_dict.items()))
     return inv_dict
@@ -105,7 +105,7 @@ class NupTexDocument:
         num_pages = len(dance_idxs)
         # make page count even
         if num_pages % 2 == 1:
-            dance_idxs.append(None)
+            dance_idxs.append(NO_PAGE)
             num_pages += 1
 
         pages = []
@@ -160,6 +160,7 @@ class NupTexDocument:
             working_dict[key] = new_values
         return working_dict
 
+
 class NupPage:
 
     NUP_TEX_START = r"\includepdf[pages={"
@@ -171,8 +172,8 @@ class NupPage:
         self.nup_factor = nup_factor
         self.fold_edge = fold_edge
 
-        self.slots_front = [None] * int(nup_factor ** 2)
-        self.slots_back = [None] * int(nup_factor ** 2)
+        self.slots_front: List[int] = [NO_PAGE] * int(nup_factor ** 2)
+        self.slots_back: List[int] = [NO_PAGE] * int(nup_factor ** 2)
         self.next_free_slot: int = 0
 
     def __len__(self) -> int:
@@ -190,11 +191,11 @@ class NupPage:
         :return:
         """
         for idx in range(len(self.slots_front)):
-            if self.slots_front[idx] is None:
+            if self.slots_front[idx] == NO_PAGE:
                 self.slots_front[idx] = empty_page_idx
 
         for idx in range(len(self.slots_back)):
-            if self.slots_back[idx] is None:
+            if self.slots_back[idx] == NO_PAGE:
                 self.slots_back[idx] = empty_page_idx
 
     def get_arranged_back_numbers(self):
