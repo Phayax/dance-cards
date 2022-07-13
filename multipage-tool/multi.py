@@ -1,7 +1,7 @@
 import itertools
 from pathlib import Path
 from pprint import pprint
-from typing import Literal, Dict, List, Union, Any, Hashable
+from typing import Literal, Dict, List, Union, Any, Hashable, Iterable, Sized, Sequence
 
 import PyPDF2
 
@@ -9,13 +9,13 @@ import PyPDF2
 TARGET_FOLDER = "../single"
 
 
-def chunker(seq, size):
+def chunker(seq: Sequence, size: int) -> Iterable:
     """
-    Returns an iterator that goes over an Iterable in chunks of size <size>.
+    Returns an iterator that goes over a list in chunks of size <size>.
     From: https://stackoverflow.com/a/434328
-    :param seq:
-    :param size:
-    :return:
+    :param seq: A Sequence (e.g. list, tuple) that will be split into chunks
+    :param size: Number of elements per chunk
+    :return: An Iterable that contains the chunks
     """
     return (seq[pos:pos + size] for pos in range(0, len(seq), size))
 
@@ -224,6 +224,7 @@ if __name__ == '__main__':
 
     SINGLE_PATH = Path("../dev-debug/single")
     FULL_PATH = Path("../dev-debug/Tanzkarten.pdf")
+    OUT_PATH = Path("test.tex")
 
     dance_dict = get_page_indices(single_pdf_path=SINGLE_PATH, full_pdf_path=FULL_PATH)
     ntc = NupTexDocument(dance_dict, FULL_PATH)
@@ -233,5 +234,5 @@ if __name__ == '__main__':
     # flatten code from: https://stackoverflow.com/a/953097
     flat_dance_list = list(itertools.chain.from_iterable(flat_dance_list))
     flat_dance_list.sort()
-    ntc.layout_dances(output_file="test.tex", dance_list=flat_dance_list, fold_edge="short", nup_factor=4)
+    ntc.layout_dances(output_file=OUT_PATH, dance_list=flat_dance_list, fold_edge="short", nup_factor=4)
 
