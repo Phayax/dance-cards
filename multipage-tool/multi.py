@@ -217,22 +217,34 @@ class NupPage:
 
 
 if __name__ == '__main__':
-    #n = NupPage('long', 2)
-    #n.replace_none_pages(empty_page_idx=4)
-    #print(n.get_tex_code(Path("test.pdf")))
-    #exit()
 
     SINGLE_PATH = Path("../dev-debug/single")
     FULL_PATH = Path("../dev-debug/Tanzkarten.pdf")
     OUT_PATH = Path("test.tex")
 
     dance_dict = get_page_indices(single_pdf_path=SINGLE_PATH, full_pdf_path=FULL_PATH)
-    ntc = NupTexDocument(dance_dict, FULL_PATH)
-    #l = convert_page_numbers_to_indices(l)
-    pprint(dance_dict, indent=4, width=180)
+    ntc = NupTexDocument(dance_dict=dance_dict, nup_pdf_source=FULL_PATH)
     flat_dance_list = list(dance_dict.values())
     # flatten code from: https://stackoverflow.com/a/953097
     flat_dance_list = list(itertools.chain.from_iterable(flat_dance_list))
     flat_dance_list.sort()
-    ntc.layout_dances(output_file=OUT_PATH, dance_list=flat_dance_list, fold_edge="short", nup_factor=4)
+    flat_dance_list = flat_dance_list[:10]
+    p = Path("./")
+    p.mkdir(exist_ok=True, parents=False)
+
+    # TODO: make a check that ensures that the full file is correctly placed relative to the output file!
+
+    ntc.layout_dances(output_file=p / "multi_2x2_short.tex", dance_list=flat_dance_list, fold_edge="short",
+                      nup_factor=2)
+    ntc.layout_dances(output_file=p / "multi_2x2_long.tex", dance_list=flat_dance_list, fold_edge="long",
+                      nup_factor=2)
+    # ntc.layout_dances(output_file=p / "multi_3x3_short.tex", dance_list=flat_dance_list, fold_edge="short",
+    #                   nup_factor=3)
+    # ntc.layout_dances(output_file=p / "multi_3x3_long.tex", dance_list=flat_dance_list, fold_edge="long",
+    #                   nup_factor=3)
+    # ntc.layout_dances(output_file=p / "multi_4x4_short.tex", dance_list=flat_dance_list, fold_edge="short",
+    #                   nup_factor=4)
+    # ntc.layout_dances(output_file=p / "multi_4x4_long.tex", dance_list=flat_dance_list, fold_edge="long",
+    #                   nup_factor=4)
+
 
