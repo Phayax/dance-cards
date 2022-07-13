@@ -197,6 +197,28 @@ class NupPage:
             if self.slots_back[idx] is None:
                 self.slots_back[idx] = empty_page_idx
 
+    def get_arranged_back_numbers(self):
+        arranged_numbers = []
+        if self.fold_edge == "short":
+            # Goal: Flip the indices vertically:
+            #   1  2  3     ->    3  2  1
+            #   4  5  6     ->    6  5  4
+            #   7  8  9     ->    9  8  7
+            #
+            #   1  2  3  4  ->  4  3  2  1
+            #   5  6  7  8  ->  8  7  6  5
+            #   9 10 11 12  -> 12 11 10  9
+            #  13 14 15 16  -> 16 15 14 13
+            for chunk in chunker(self.slots_back, self.nup_factor):
+                arranged_numbers.extend(reversed(chunk))
+            # iterate over lines:
+
+
+        else:
+            raise NotImplementedError("blurg")
+
+        return arranged_numbers
+
     def get_tex_code(self, pdf_path: Path) -> str:
         """
         This method outputs pdfpages code to plot on front and one back of a page.
@@ -204,13 +226,14 @@ class NupPage:
         :return:
         """
         angle = 0 if self.fold_edge == 'short' else 180
+
         tex_str = ""
         tex_str += self.NUP_TEX_START
         tex_str += ", ".join([str(x) for x in self.slots_front])
         # We have an angle of 0 here (normal orientation):
         tex_str += self.NUP_TEX_END.format(nup_factor=self.nup_factor, angle=0, pdfpath=str(pdf_path.as_posix()))
         tex_str += self.NUP_TEX_START
-        tex_str += ", ".join([str(x) for x in self.slots_back])
+        tex_str += ", ".join([str(x) for x in self.get_arranged_back_numbers()])
         # apply angle here because the back side needs to be in the same format as the front
         tex_str += self.NUP_TEX_END.format(nup_factor=self.nup_factor, angle=angle, pdfpath=str(pdf_path.as_posix()))
         return tex_str
@@ -235,9 +258,9 @@ if __name__ == '__main__':
     # TODO: make a check that ensures that the full file is correctly placed relative to the output file!
 
     ntc.layout_dances(output_file=p / "multi_2x2_short.tex", dance_list=flat_dance_list, fold_edge="short",
-                      nup_factor=2)
-    ntc.layout_dances(output_file=p / "multi_2x2_long.tex", dance_list=flat_dance_list, fold_edge="long",
-                      nup_factor=2)
+                      nup_factor=3)
+    #ntc.layout_dances(output_file=p / "multi_2x2_long.tex", dance_list=flat_dance_list, fold_edge="long",
+    #                  nup_factor=2)
     # ntc.layout_dances(output_file=p / "multi_3x3_short.tex", dance_list=flat_dance_list, fold_edge="short",
     #                   nup_factor=3)
     # ntc.layout_dances(output_file=p / "multi_3x3_long.tex", dance_list=flat_dance_list, fold_edge="long",
