@@ -70,10 +70,10 @@ def get_page_indices(single_pdf_path: Path, full_pdf_path: Path):
         else:
             length_dict.update({length: [file]})
 
-
     full_pdf_length = PyPDF2.PdfFileReader(str(full_pdf_path)).numPages
     if not full_pdf_length == total_page_count + 1:
-        raise ValueError(f"Expected exactly one more page in the full pdf, but got {full_pdf_length - total_page_count} more pages.\n\tFull pdf: {full_pdf_length},\n\tCumulative Single Page Count: {total_page_count}.")
+        raise ValueError(f"Expected exactly one more page in the full pdf, but got {full_pdf_length - total_page_count}\
+         more pages.\n\tFull pdf: {full_pdf_length},\n\tCumulative Single Page Count: {total_page_count}.")
     return length_dict
 
 
@@ -99,6 +99,13 @@ class NupTexDocument:
     def __init__(self, dance_dict: Dict[int, List[Path]], nup_pdf_source: Path):
         self.dance_dict = dance_dict
         self.source_pdf_path = nup_pdf_source
+
+        self.empty_page_idx = self.get_last_page_idx(nup_pdf_source)
+
+    @classmethod
+    def get_last_page_idx(cls, pdf_path: Path) -> int:
+        reader = PyPDF2.PdfFileReader(str(pdf_path))
+        return reader.numPages
 
     @classmethod
     def split_into_front_back_pairs(cls, dance_idxs: List[int]) -> List[List[int]]:
@@ -131,9 +138,6 @@ class NupTexDocument:
                 split_pages = self.split_into_front_back_pairs(dance_idx_dict[dance])
                 page_list.extend(split_pages)
 
-        # TODO: iterate over pagelist by nup_factor ** 2 slices and add
-        #       those slices as new NupPage's. Needs to handle the end of the list somehow.
-
         with open(output_file, "w") as out_file:
             out_file.write(self.NUP_HEAD_CODE)
 
@@ -141,16 +145,14 @@ class NupTexDocument:
                 page = NupPage(fold_edge=fold_edge, nup_factor=nup_factor)
                 for pair in chunk:
                     page.add_single_front_back(pair)
-                #print(chunk)
-                page.replace_none_pages(153)
+                page.replace_none_pages(self.empty_page_idx)
                 out_file.write(page.get_tex_code(self.source_pdf_path))
             out_file.write(self.NUP_FOOT_CODE)
 
-
-        #pprint(dance_list)
-
     @classmethod
     def copy_dict_and_drop_unlisted(cls, input_dict: Dict[int, List[Path]], target_list: List[Path]) -> Dict[int, List[Path]]:
+        # TODO: create a class for dance_dict
+        #       it is such an unwieldy data structure that it probably should be encapsulated in a class
         working_dict = input_dict.copy()
         for key, values in working_dict.items():
             # keep only the dances that also occur in the target_list
@@ -281,5 +283,3 @@ if __name__ == '__main__':
                       nup_factor=4)
     ntc.layout_dances(output_file=p / "multi_4x4_long.tex", dance_list=flat_dance_list, fold_edge="long",
                       nup_factor=4)
-
-
