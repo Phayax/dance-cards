@@ -208,11 +208,11 @@ class NupPage:
         tex_str += self.NUP_TEX_START
         tex_str += ", ".join([str(x) for x in self.slots_front])
         # We have an angle of 0 here (normal orientation):
-        tex_str += self.NUP_TEX_END.format(nup_factor=self.nup_factor, angle=0, pdfpath=str(pdf_path))
+        tex_str += self.NUP_TEX_END.format(nup_factor=self.nup_factor, angle=0, pdfpath=str(pdf_path.as_posix()))
         tex_str += self.NUP_TEX_START
         tex_str += ", ".join([str(x) for x in self.slots_back])
         # apply angle here because the back side needs to be in the same format as the front
-        tex_str += self.NUP_TEX_END.format(nup_factor=self.nup_factor, angle=angle, pdfpath=str(pdf_path))
+        tex_str += self.NUP_TEX_END.format(nup_factor=self.nup_factor, angle=angle, pdfpath=str(pdf_path.as_posix()))
         return tex_str
 
 
