@@ -200,7 +200,7 @@ class NupPage:
     def get_arranged_back_numbers(self):
         arranged_numbers = []
         if self.fold_edge == "short":
-            # Goal: Flip the indices vertically:
+            # Goal: Flip the indices horizontally:
             #   1  2  3     ->    3  2  1
             #   4  5  6     ->    6  5  4
             #   7  8  9     ->    9  8  7
@@ -209,13 +209,24 @@ class NupPage:
             #   5  6  7  8  ->  8  7  6  5
             #   9 10 11 12  -> 12 11 10  9
             #  13 14 15 16  -> 16 15 14 13
-            for chunk in chunker(self.slots_back, self.nup_factor):
-                arranged_numbers.extend(reversed(chunk))
+
             # iterate over lines:
-
-
+            for chunk in chunker(self.slots_back, self.nup_factor):
+                # flip each line
+                arranged_numbers.extend(reversed(chunk))
         else:
-            raise NotImplementedError("blurg")
+            # Goal: Flip the indices vertically:
+            # Also: the pages need to be flipped by 180° degrees
+            #   1  2  3     ->    7  8  9
+            #   4  5  6     ->    4  5  6
+            #   7  8  9     ->    1  2  3
+            #
+            #   1  2  3  4  -> 13 14 15 16
+            #   5  6  7  8  ->  9 10 11 12
+            #   9 10 11 12  ->  5  6  7  8
+            #  13 14 15 16  ->  1  2  3  4
+            for chunk in chunker(self.slots_back, self.nup_factor):
+                arranged_numbers = chunk + arranged_numbers
 
         return arranged_numbers
 
@@ -251,23 +262,23 @@ if __name__ == '__main__':
     # flatten code from: https://stackoverflow.com/a/953097
     flat_dance_list = list(itertools.chain.from_iterable(flat_dance_list))
     flat_dance_list.sort()
-    flat_dance_list = flat_dance_list[:10]
+
     p = Path("./")
     p.mkdir(exist_ok=True, parents=False)
 
     # TODO: make a check that ensures that the full file is correctly placed relative to the output file!
 
     ntc.layout_dances(output_file=p / "multi_2x2_short.tex", dance_list=flat_dance_list, fold_edge="short",
+                      nup_factor=2)
+    ntc.layout_dances(output_file=p / "multi_2x2_long.tex", dance_list=flat_dance_list, fold_edge="long",
+                      nup_factor=2)
+    ntc.layout_dances(output_file=p / "multi_3x3_short.tex", dance_list=flat_dance_list, fold_edge="short",
                       nup_factor=3)
-    #ntc.layout_dances(output_file=p / "multi_2x2_long.tex", dance_list=flat_dance_list, fold_edge="long",
-    #                  nup_factor=2)
-    # ntc.layout_dances(output_file=p / "multi_3x3_short.tex", dance_list=flat_dance_list, fold_edge="short",
-    #                   nup_factor=3)
-    # ntc.layout_dances(output_file=p / "multi_3x3_long.tex", dance_list=flat_dance_list, fold_edge="long",
-    #                   nup_factor=3)
-    # ntc.layout_dances(output_file=p / "multi_4x4_short.tex", dance_list=flat_dance_list, fold_edge="short",
-    #                   nup_factor=4)
-    # ntc.layout_dances(output_file=p / "multi_4x4_long.tex", dance_list=flat_dance_list, fold_edge="long",
-    #                   nup_factor=4)
+    ntc.layout_dances(output_file=p / "multi_3x3_long.tex", dance_list=flat_dance_list, fold_edge="long",
+                      nup_factor=3)
+    ntc.layout_dances(output_file=p / "multi_4x4_short.tex", dance_list=flat_dance_list, fold_edge="short",
+                      nup_factor=4)
+    ntc.layout_dances(output_file=p / "multi_4x4_long.tex", dance_list=flat_dance_list, fold_edge="long",
+                      nup_factor=4)
 
 
