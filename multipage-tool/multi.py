@@ -79,7 +79,7 @@ def get_page_indices(single_pdf_path: Path, full_pdf_path: Path):
 
 class NupTexDocument:
     NUP_HEAD_CODE = r"""\documentclass[12pt,a4paper,landscape]{scrartcl}
-    \usepackage[a6paper]{geometry}
+    \usepackage[a4paper]{geometry}
     \usepackage{pdfpages}
     \usepackage{xcolor}
     %\geometry{showframe}
