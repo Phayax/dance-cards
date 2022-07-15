@@ -1,3 +1,4 @@
+import argparse
 import itertools
 from pathlib import Path
 from typing import Literal, Dict, List, Iterable, Sequence
@@ -254,13 +255,45 @@ class NupPage:
 
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--single_pdfs", type=Path, help="the path to the directory of all split-pdfs", required=True)
+    parser.add_argument("--full_pdf", type=Path, help="the path to the full pdf with all dances", required=True)
+    parser.add_argument("--nup_factor", type=int, help="How many rows and columns should there be on one a4 page.", required=True)
+    parser.add_argument("--fold_edge", type=str, help="Either 'short' or 'long' depending on which edge you want to fold the pages for double sided printing.")
+    parser.add_argument("--output_tex", type=Path, help="path to where the output tex file should be created.", required=True)
+    args = parser.parse_args()
 
-    SINGLE_PATH = Path("../dev-debug/single")
-    FULL_PATH = Path("../dev-debug/Tanzkarten.pdf")
-    OUT_PATH = Path("test.tex")
+    #SINGLE_PATH = Path("../dev-debug/single")
+    #FULL_PATH = Path("../dev-debug/Tanzkarten.pdf")
+    #OUT_PATH = Path("test.tex")
 
-    dance_dict = get_page_indices(single_pdf_path=SINGLE_PATH, full_pdf_path=FULL_PATH)
-    ntc = NupTexDocument(dance_dict=dance_dict, nup_pdf_source=FULL_PATH)
+    # dance_dict = get_page_indices(single_pdf_path=SINGLE_PATH, full_pdf_path=FULL_PATH)
+    # ntc = NupTexDocument(dance_dict=dance_dict, nup_pdf_source=FULL_PATH)
+    # flat_dance_list = list(dance_dict.values())
+    # # flatten code from: https://stackoverflow.com/a/953097
+    # flat_dance_list = list(itertools.chain.from_iterable(flat_dance_list))
+    # flat_dance_list.sort()
+    #
+    # p = Path("./")
+    # p.mkdir(exist_ok=True, parents=False)
+
+    # TODO: make a check that ensures that the full file is correctly placed relative to the output file!
+
+    # ntc.layout_dances(output_file=p / "multi_2x2_short.tex", dance_list=flat_dance_list, fold_edge="short",
+    #                   nup_factor=2)
+    # ntc.layout_dances(output_file=p / "multi_2x2_long.tex", dance_list=flat_dance_list, fold_edge="long",
+    #                   nup_factor=2)
+    # ntc.layout_dances(output_file=p / "multi_3x3_short.tex", dance_list=flat_dance_list, fold_edge="short",
+    #                   nup_factor=3)
+    # ntc.layout_dances(output_file=p / "multi_3x3_long.tex", dance_list=flat_dance_list, fold_edge="long",
+    #                   nup_factor=3)
+    # ntc.layout_dances(output_file=p / "multi_4x4_short.tex", dance_list=flat_dance_list, fold_edge="short",
+    #                   nup_factor=4)
+    # ntc.layout_dances(output_file=p / "multi_4x4_long.tex", dance_list=flat_dance_list, fold_edge="long",
+    #                   nup_factor=4)
+
+    dance_dict = get_page_indices(single_pdf_path=args.single_pdfs, full_pdf_path=args.full_pdf)
+    ntc = NupTexDocument(dance_dict=dance_dict, nup_pdf_source=args.full_pdf)
     flat_dance_list = list(dance_dict.values())
     # flatten code from: https://stackoverflow.com/a/953097
     flat_dance_list = list(itertools.chain.from_iterable(flat_dance_list))
@@ -269,17 +302,4 @@ if __name__ == '__main__':
     p = Path("./")
     p.mkdir(exist_ok=True, parents=False)
 
-    # TODO: make a check that ensures that the full file is correctly placed relative to the output file!
-
-    ntc.layout_dances(output_file=p / "multi_2x2_short.tex", dance_list=flat_dance_list, fold_edge="short",
-                      nup_factor=2)
-    ntc.layout_dances(output_file=p / "multi_2x2_long.tex", dance_list=flat_dance_list, fold_edge="long",
-                      nup_factor=2)
-    ntc.layout_dances(output_file=p / "multi_3x3_short.tex", dance_list=flat_dance_list, fold_edge="short",
-                      nup_factor=3)
-    ntc.layout_dances(output_file=p / "multi_3x3_long.tex", dance_list=flat_dance_list, fold_edge="long",
-                      nup_factor=3)
-    ntc.layout_dances(output_file=p / "multi_4x4_short.tex", dance_list=flat_dance_list, fold_edge="short",
-                      nup_factor=4)
-    ntc.layout_dances(output_file=p / "multi_4x4_long.tex", dance_list=flat_dance_list, fold_edge="long",
-                      nup_factor=4)
+    ntc.layout_dances(output_file=args.output_tex, dance_list=flat_dance_list, fold_edge=args.fold_edge, nup_factor=args.nup_factor)
