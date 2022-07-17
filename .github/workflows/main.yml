@@ -82,8 +82,14 @@ jobs:
           name: full-pdf
           path: .build/cards.pdf
 
-      - name: Create multipage tex file
+      - name: Create multipage tex file 2x2
         run: python multi.py --single_pdfs single/ --full_pdf .build/cards.pdf --nup_factor 2 --fold_edge short --output_tex cards_2x2.tex
+
+      - name: Create multipage tex file 3x3
+        run: python multi.py --single_pdfs single/ --full_pdf .build/cards.pdf --nup_factor 3 --fold_edge short --output_tex cards_3x3.tex
+
+      - name: Create multipage tex file 4x4
+        run: python multi.py --single_pdfs single/ --full_pdf .build/cards.pdf --nup_factor 4 --fold_edge short --output_tex cards_4x4.tex
 
       - name: Compile multipage
         # You may pin to the exact commit or the version.
@@ -106,3 +112,47 @@ jobs:
         with:
           name: cards-2x2-pdf
           path: .build/cards_2x2.pdf
+
+      - name: Compile multipage
+        # You may pin to the exact commit or the version.
+        # uses: dante-ev/latex-action@49cf7cb5f79e7b2006dbdffea85e02bec0b6244b
+        uses: dante-ev/latex-action@2021-A
+        with:
+          # The root LaTeX file to be compiled
+          root_file: cards_3x3.tex
+          # The working directory for the latex compiler to be invoked
+          working_directory: .
+          # LaTeX engine to be used
+          #compiler: # optional, default is latexmk
+          # Extra arguments to be passed to the latex compiler
+          #args: # optional, default is -pdf -latexoption=-file-line-error -latexoption=-interaction=nonstopmode
+          # Install extra packages by apt-get
+          #extra_system_packages: # optional
+
+      - name: Archive multipage pdf
+        uses: actions/upload-artifact@v3
+        with:
+          name: cards-3x3-pdf
+          path: .build/cards_3x3.pdf
+
+      - name: Compile multipage 4x4
+        # You may pin to the exact commit or the version.
+        # uses: dante-ev/latex-action@49cf7cb5f79e7b2006dbdffea85e02bec0b6244b
+        uses: dante-ev/latex-action@2021-A
+        with:
+          # The root LaTeX file to be compiled
+          root_file: cards_4x4.tex
+          # The working directory for the latex compiler to be invoked
+          working_directory: .
+          # LaTeX engine to be used
+          #compiler: # optional, default is latexmk
+          # Extra arguments to be passed to the latex compiler
+          #args: # optional, default is -pdf -latexoption=-file-line-error -latexoption=-interaction=nonstopmode
+          # Install extra packages by apt-get
+          #extra_system_packages: # optional
+
+      - name: Archive multipage pdf
+        uses: actions/upload-artifact@v3
+        with:
+          name: cards-4x4-pdf
+          path: .build/cards_4x4.pdf
