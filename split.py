@@ -8,11 +8,11 @@ from multiprocessing import Pool
 #from dances import DANCES
 from tqdm import tqdm
 
-PATCH = "% CONTENT HERE"
+#PATCH = "% CONTENT HERE"
 
 BASE_TEX_FILE = "./cards.tex"
 
-TEMP_DIR = "./build-single-temp/"
+TEMP_DIR = "./split/"
 
 
 def sanitize_filenames(name):
