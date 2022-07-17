@@ -6,12 +6,13 @@ from multiprocessing import Pool
 #from tqdm import tqdm
 
 #from dances import DANCES
+from tqdm import tqdm
 
-PATCH = "% CONTENT HERE"
+#PATCH = "% CONTENT HERE"
 
 BASE_TEX_FILE = "./cards.tex"
 
-TEMP_DIR = "./build-single-temp/"
+TEMP_DIR = "./split/"
 
 
 def sanitize_filenames(name):
@@ -32,10 +33,16 @@ def sanitize_filenames(name):
 
 
 def dance_contains_tex_code(content: str) -> bool:
+    # check if it is the last empty page:
+    # in that case return false
+    if r"\ClearShipoutPictureBG" in content:
+        return False
+
     lines = content.split("\n")
     lines = [line.strip() for line in lines]
     lines = [line for line in lines if not line.startswith("%")]
     lines = [line for line in lines if line != ""]
+
     if len(lines) > 0:
         return True
     else:
@@ -46,6 +53,7 @@ def extract_filename(dance):
     # remove leading and trailing whitespaces so we can easily search
     # for the first line break
     dance = dance.strip("\n")
+
     ret = dance.find(r"\dancename")
     if ret >= 0:
         # searching for the open bracket of \dancename>{<
@@ -89,12 +97,13 @@ def split_file(base_tex_file: Path, target_file_path: Path):
     end = "\n" + r"\end{document}" + end
     dances = dance_content.split(r"\newpage")
 
-    for dance in dances:
+    for idx, dance in enumerate(dances):
         # first check if there is content once all spaces and comments are removed:
         if not dance_contains_tex_code(dance):
             continue
         name = extract_filename(dance)
-        dance_file = target_file_path / name
+        # add an index so we know in which order they appear in the main document.
+        dance_file = target_file_path / f"{idx:03d}_{name}"
         with open(dance_file, "w", encoding="utf-8") as f:
             dance_text = header + dance + end
             f.write(dance_text)
