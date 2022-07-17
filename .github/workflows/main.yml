@@ -41,8 +41,10 @@ jobs:
           # Install extra packages by apt-get
           #extra_system_packages: # optional
 
+
+      # TODO: move to requirements.txt
       - name: Install python dependencies
-        run: pip install tqdm
+        run: pip install tqdm pypdf2
         
       - name: Run split script
         run: python3 split.py
@@ -55,7 +57,7 @@ jobs:
           # The root LaTeX file to be compiled
           root_file: ""
           # The working directory for the latex compiler to be invoked
-          working_directory: build-single-temp
+          working_directory: split
           # LaTeX engine to be used
           #compiler: # optional, default is latexmk
           # Extra arguments to be passed to the latex compiler
@@ -63,10 +65,12 @@ jobs:
           # Install extra packages by apt-get
           #extra_system_packages: # optional
 
-      - name: Copy single pdfs
-        run: cp build-single-temp/.build/*.pdf single/
+        # copy those to a separate directory to archive them
+      - name: Copy split pdfs
+        run: cp split/.build/*.pdf single/
 
-      - name: Archive pdf
+      # TODO: rename pdf files to german names
+      - name: Archive split pdfs
         uses: actions/upload-artifact@v3
         with:
           name: single-pdfs
@@ -77,3 +81,28 @@ jobs:
         with:
           name: full-pdf
           path: .build/cards.pdf
+
+      - name: Create multipage tex file
+        run: python multi.py --single-pdfs single/ --full_pdf .build/cards.pdf --nup_factor 2 --fold_edge short --output_tex cards_2x2.tex
+
+      - name: Compile multipage
+        # You may pin to the exact commit or the version.
+        # uses: dante-ev/latex-action@49cf7cb5f79e7b2006dbdffea85e02bec0b6244b
+        uses: dante-ev/latex-action@2021-A
+        with:
+          # The root LaTeX file to be compiled
+          root_file: cards_2x2.tex
+          # The working directory for the latex compiler to be invoked
+          working_directory: .
+          # LaTeX engine to be used
+          #compiler: # optional, default is latexmk
+          # Extra arguments to be passed to the latex compiler
+          #args: # optional, default is -pdf -latexoption=-file-line-error -latexoption=-interaction=nonstopmode
+          # Install extra packages by apt-get
+          #extra_system_packages: # optional
+
+      - name: Archive multipage pdf
+        uses: actions/upload-artifact@v3
+          with:
+            name: cards-2x2-pdf
+            path: .build/cards_2x2.pdf
