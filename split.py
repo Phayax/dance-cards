@@ -107,6 +107,7 @@ def split_file(base_tex_file: Path, target_file_path: Path):
         with open(dance_file, "w", encoding="utf-8") as f:
             dance_text = header + dance + end
             f.write(dance_text)
+        print(f"\t{dance_file.name}")
 
 
 def compile_dance(filename, working_dir):
@@ -141,6 +142,10 @@ if __name__ == '__main__':
     if Path(TEMP_DIR).exists():
         shutil.rmtree(Path(TEMP_DIR))
 
+    print("="*60)
+    print("Splitting tex file.")
+    print("Generated files:")
+    print("-"*30)
     # create build directory
     p = Path(TEMP_DIR)
     p.mkdir(exist_ok=False)
@@ -150,4 +155,5 @@ if __name__ == '__main__':
     single_pdf_target = Path("./single/")
     single_pdf_target.mkdir(exist_ok=True, parents=False)
 
+    print("="*60)
     # then call latexmk on build-single-temp
