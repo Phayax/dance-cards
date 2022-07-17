@@ -102,6 +102,6 @@ jobs:
 
       - name: Archive multipage pdf
         uses: actions/upload-artifact@v3
-          with:
-            name: cards-2x2-pdf
-            path: .build/cards_2x2.pdf
+        with:
+          name: cards-2x2-pdf
+          path: .build/cards_2x2.pdf
