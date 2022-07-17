@@ -41,7 +41,6 @@ jobs:
           # Install extra packages by apt-get
           #extra_system_packages: # optional
 
-
       # TODO: move to requirements.txt
       - name: Install python dependencies
         run: pip install tqdm pypdf2
