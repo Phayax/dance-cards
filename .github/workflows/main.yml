@@ -82,7 +82,7 @@ jobs:
           path: .build/cards.pdf
 
       - name: Create multipage tex file
-        run: python multi.py --single-pdfs single/ --full_pdf .build/cards.pdf --nup_factor 2 --fold_edge short --output_tex cards_2x2.tex
+        run: python multi.py --single_pdfs single/ --full_pdf .build/cards.pdf --nup_factor 2 --fold_edge short --output_tex cards_2x2.tex
 
       - name: Compile multipage
         # You may pin to the exact commit or the version.
