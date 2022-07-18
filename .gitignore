@@ -1,5 +1,7 @@
 ## Custom:
 .build/
+split/
+.idea
 
 
 ## Core latex/pdflatex auxiliary files:
