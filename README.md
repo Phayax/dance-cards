@@ -1,16 +1,26 @@
 see below for english version
 # Tanzkarten
 # LaTeX Tanzkarten für Historische und davon inspirierte Tänze
+
+## [Für Tanzkarten zum Ball in Wuppertal 2022 immer hier entlang](https://github.com/Phayax/dance-cards/blob/ball-2022/BALL.md)
+
 ## Download
-[Tanzkarten A6 - Alle Tänze zusammen](https://github.com/Phayax/dance-cards/releases/latest/download/Tanzkarten.pdf)  
-[Tanzkarten A6 - Ein Tanz pro PDF](https://github.com/Phayax/dance-cards/releases/latest/download/Einzel-Karten.zip)
+
+[Tanzkarten A6 - Alle Tänze zusammen](https://github.com/Phayax/dance-cards/releases/latest/download/Tanzanleitungen.pdf)  
+[Tanzkarten A6 - Ein Tanz pro PDF](https://github.com/Phayax/dance-cards/releases/latest/download/Tanzanleitungen-einzeln.zip)
 
 # Verwendung
 ### Druck
 Die Karten können zum Beispiel mit Adobe Acrobat auf A4 Papier gedruckt werden (immer 4 auf eine Seite).   
 Papier schwerer als 200g/m² liefert schöne Ergebnisse.  
 
-Wenn man die Karten doppelseitig drucken möchte, muss man die richtigen Seiten "zueinander" legen, dies erfordert etwas mehr Aufwand, in Kürze wird es hier aber dafür fertige PDFs geben.
+Wenn man die Karten doppelseitig drucken möchte, muss man die richtigen Seiten "zueinander" legen, dies erfordert etwas mehr Aufwand. Dafür gibt es hier PDFs, bei denen die Seiten richtig für doppelseitigen Druck angeordnet wurden (in den Druckeinstellungen den "Falz" auf "kurze Seite" einstellen).
+
+- [2x2 Tanzkarten auf A4- ergibt A6](https://github.com/Phayax/dance-cards/releases/latest/download/Tanzanleitungen_2x2_A6.pdf)
+- [3x3 Tanzkarten auf A4- ergibt ~A7](https://github.com/Phayax/dance-cards/releases/latest/download/Tanzanleitungen_3x3_A7.pdf)
+- [4x4 Tanzkarten auf A4- ergibt A8](https://github.com/Phayax/dance-cards/releases/latest/download/Tanzanleitungen_4x4_A8.pdf)
+
+Während die A6 Karten 0,5cm Rand haben, was die meisten Drucker gut schaffen müssten, wird der Rand bei den kleiner Formaten weniger als 0,5cm sein. Hier muss man eventuell die Seitengröße im PDF-Programm leicht anpassen.
 
 ## Vorlage weiterverwenden
 Empfohlene Software:
