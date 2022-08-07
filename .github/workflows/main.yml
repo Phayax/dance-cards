@@ -1,4 +1,7 @@
-name: "Create PDF"
+# This is a basic workflow to help you get started with Actions
+# TODO: split workflows as described here: https://docs.github.com/en/actions/using-workflows/about-workflows#creating-dependent-jobs
+
+name: Create PDF
 
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
@@ -21,16 +24,6 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
-
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
-
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
       
       - name: LaTeX compilation full pdf
         # You may pin to the exact commit or the version.
@@ -48,11 +41,12 @@ jobs:
           # Install extra packages by apt-get
           #extra_system_packages: # optional
 
-      - name: Install Python dependencies
-        run: pip3 install tqdm
-      
+      # TODO: move to requirements.txt
+      - name: Install python dependencies
+        run: pip install tqdm pypdf2
+        
       - name: Run split script
-        run: python3 compile.py
+        run: python3 split.py
 
       - name: LaTeX compilation
         # You may pin to the exact commit or the version.
@@ -62,7 +56,7 @@ jobs:
           # The root LaTeX file to be compiled
           root_file: ""
           # The working directory for the latex compiler to be invoked
-          working_directory: build-single-temp
+          working_directory: split
           # LaTeX engine to be used
           #compiler: # optional, default is latexmk
           # Extra arguments to be passed to the latex compiler
@@ -70,10 +64,12 @@ jobs:
           # Install extra packages by apt-get
           #extra_system_packages: # optional
 
-      - name: Copy single pdfs
-        run: cp build-single-temp/.build/*.pdf single/
+        # copy those to a separate directory to archive them
+      - name: Copy split pdfs
+        run: cp split/.build/*.pdf single/
 
-      - name: Archive pdf
+      # TODO: rename pdf files to german names
+      - name: Archive split pdfs
         uses: actions/upload-artifact@v3
         with:
           name: single-pdfs
@@ -84,3 +80,58 @@ jobs:
         with:
           name: full-pdf
           path: .build/cards.pdf
+
+
+      - name: Create multipage tex file 2x2
+        run: python multi.py --single_pdfs single/ --full_pdf .build/cards.pdf --nup_factor 2 --fold_edge short --output_tex cards_2x2.tex
+
+      - name: Create multipage tex file 3x3
+        run: python multi.py --single_pdfs single/ --full_pdf .build/cards.pdf --nup_factor 3 --fold_edge short --output_tex cards_3x3.tex
+
+      - name: Create multipage tex file 4x4
+        run: python multi.py --single_pdfs single/ --full_pdf .build/cards.pdf --nup_factor 4 --fold_edge short --output_tex cards_4x4.tex
+
+      - name: Compile multipage 2x2
+        uses: dante-ev/latex-action@2021-A
+        with:
+          root_file: cards_2x2.tex
+          working_directory: .
+          #compiler: # optional, default is latexmk
+          #args: # optional, default is -pdf -latexoption=-file-line-error -latexoption=-interaction=nonstopmode
+          #extra_system_packages: # optional
+
+      - name: Archive multipage pdf
+        uses: actions/upload-artifact@v3
+        with:
+          name: cards-2x2-pdf
+          path: .build/cards_2x2.pdf
+
+      - name: Compile multipage 3x3
+        uses: dante-ev/latex-action@2021-A
+        with:
+          root_file: cards_3x3.tex
+          working_directory: .
+          #compiler: # optional, default is latexmk
+          #args: # optional, default is -pdf -latexoption=-file-line-error -latexoption=-interaction=nonstopmode
+          #extra_system_packages: # optional
+
+      - name: Archive multipage pdf
+        uses: actions/upload-artifact@v3
+        with:
+          name: cards-3x3-pdf
+          path: .build/cards_3x3.pdf
+
+      - name: Compile multipage 4x4
+        uses: dante-ev/latex-action@2021-A
+        with:
+          root_file: cards_4x4.tex
+          working_directory: .
+          #compiler: # optional, default is latexmk
+          #args: # optional, default is -pdf -latexoption=-file-line-error -latexoption=-interaction=nonstopmode
+          #extra_system_packages: # optional
+
+      - name: Archive multipage pdf
+        uses: actions/upload-artifact@v3
+        with:
+          name: cards-4x4-pdf
+          path: .build/cards_4x4.pdf
