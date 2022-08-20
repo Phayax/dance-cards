@@ -1,0 +1,262 @@
+\documentclass[
+	12pt,
+	%draft, % show overfull hboxes
+	]{scrartcl}
+
+\usepackage[    % set up dimensions
+	a6paper, 
+	landscape,
+	left=1.45cm,   
+	right=1.45cm,  
+	top=1.6cm,
+	bottom=1.6cm, 
+	%showframe,
+	nomarginpar,  % this removes the right margin, centering the text in the middle
+	noheadfoot,  % this removes the head and foot margin
+	]{geometry}
+
+%\pagestyle{empty}
+
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{external}
+\usepackage{eso-pic}
+
+% Fonts and encodings
+\usepackage[nf]{coelacanth}
+\usepackage[T1]{fontenc}
+
+\usepackage{longtable} % Um Tabellen zu machen, die mehrere Seiten lang sind und einen passenden Seitenumbruch haben.
+\usepackage{multicol}
+%\usepackage[singlespacing]{setspace} % Zeilenabstand
+\usepackage{nicefrac} % für besser aussehende Brüche
+
+\usepackage[object=vectorian]{pgfornament}
+
+% pstricks vs pgf/tikz:
+% Originally we used pstricks to draw the background ornaments.
+% This had the disadvantage of having to use `latex -> dvips -> ps2pdf` with the correct options to get the background
+% graphics to display in the right orientation. The necessary options also varied between MiKTeX and TeXLive :-(.
+%
+% Since i have more experience with tikz, i decided to use that, because it was easier to position the
+% elements (they weren't placed quite correctly with the pstricks version.).
+
+% pgfornament vs eps files
+% I wanted to use pgfornament at first because it has everything necessary in one easy package.
+% Unfortunately the graphics in pgfornament end up having quite thick strokes. This does not look good at the scales
+% we're using the patterns.
+% So i downloaded the vectorian files and extracted the patterns manually with Inkscape. This probably leads to a slowdown though.
+
+
+\AddToShipoutPictureBG{%
+\begin{tikzpicture}[remember picture, overlay]
+	% pgfornament does give very simple and nice vectorian graphics for tikz.
+	% The problem is that the lines are too thick and figure 41 is also slightly cropped.
+	% pst-vectorian works very well.
+	% we're now using the original files from vectorian exported as eps file
+	
+	% DEBUGGING grid
+	%\draw[line width=0.75pt, color=teal, step=.5cm, xshift=0.08cm, yshift=0.43cm] (current page.south west) grid ++(14.85cm,10.5cm);
+	% DEBUGGING corners
+	%\node [circle, fill=red, minimum size=1pt, xshift=0.0cm, yshift=-0.0cm, scale=0.2] at (current page.north west) {};
+	%\node [circle, fill=red, minimum size=1pt, xshift=0.5cm, yshift=-0.5cm, scale=0.2] at (current page.north west) {};
+	
+	% TODO: This slows down compilation a lot.
+	%       Maybe find a faster way to do this.
+	\node[anchor=north west, xshift=0.5cm, yshift=-0.5cm, inner sep=0] at (current page.north west){\includegraphics[scale=0.8, angle=0, origin=c]{img/corner_black}};
+	\node[anchor=north east, xshift=-0.5cm, yshift=-0.5cm, inner sep=0] at (current page.north east){\includegraphics[scale=0.8, angle=0, origin=c]{img/corner2_black}};
+	\node[anchor=south west, xshift=0.5cm, yshift=0.5cm, inner sep=0] at (current page.south west){\includegraphics[scale=0.8, angle=180, origin=c]{img/corner2_black}};
+	\node[anchor=south east, xshift=-0.5cm, yshift=0.5cm, inner sep=0] at (current page.south east){\includegraphics[scale=0.8, angle=180, origin=c]{img/corner_black}};
+	
+	
+	% Original pgfornament style:
+%	\node[anchor=north west, xshift=0.5cm, yshift=-0.5cm,inner sep=0] at (current page.north west){\pgfornament[scale=0.5]{41}};
+%	\node[anchor=north east, xshift=-0.5cm, yshift=-0.5cm, inner sep=0] at (current page.north east){\pgfornament[scale=0.5,symmetry=v]{41}};
+%	\node[anchor=south west, xshift=0.5cm, yshift=0.5cm, inner sep=0] at (current page.south west){\pgfornament[scale=0.5,symmetry=h]{41}};
+%	\node[anchor=south east, xshift=-0.5cm, yshift=0.5cm, inner sep=0] at (current page.south east){\pgfornament[scale=0.5,symmetry=c]{41}};
+	
+	% Background as an image, for example a parchment like texture
+	%\tikz[remember picture, overlay] \node[opacity=0.5, inner sep=0pt] at (current page.center){\includegraphics[width=\paperwidth,height=\paperheight]{example-image}};
+	
+\end{tikzpicture}
+}
+
+\newcommand{\danceinfo}[1]{%
+	{\raggedleft\footnotesize{#1}\par}
+}
+\newcommand{\dancename}[1]{
+	% Dimension are manually chosen so they don't collide with the ornaments in the corners.	
+	\begin{tikzpicture}[remember picture, overlay]
+%		\node[] at (0, 0) (title) {Text};		
+		\node[anchor=north, yshift=-0.5cm, inner sep=0, text width=10.5cm, align=center] at (current page.north){\Huge{#1}};
+	\end{tikzpicture}
+}
+\newcommand{\origininfo}[3]{
+	% Dimension are manually chosen so they don't collide with the ornaments in the corners.
+	\begin{tikzpicture}[remember picture, overlay]
+		% setting the font size in the node options, since it doesn't seem to 
+		% take effect when used in the node text. 
+		\node[anchor=south west, xshift=1.3cm, yshift=1.15cm, inner sep=0, align=left, font={\scriptsize}] at (current page.south west){Choreographie:\\{#1}};
+		\node[anchor=south east, xshift=-1.2cm, yshift=1.15cm, inner sep=0, align=right, font={\scriptsize}] at (current page.south east){Musik:\\ {#2}\\ {#3}};
+	\end{tikzpicture}
+}
+\newcommand{\danceeasymarker}{
+	\begin{tikzpicture}[remember picture, overlay]
+		\node[anchor=south, xshift=0cm, yshift=0.5cm, inner sep=0] at (current page.south){\pgfornament[width=4cm]{80}};
+	\end{tikzpicture}
+}
+\newcommand{\dancemediummarker}{
+	\begin{tikzpicture}[remember picture, overlay]
+		\node[anchor=south, xshift=0cm, yshift=0.5cm, inner sep=0] at (current page.south){\pgfornament[width=5cm]{83}};
+	\end{tikzpicture}
+}
+\newcommand{\dancedifficultmarker}{
+\begin{tikzpicture}[remember picture, overlay]
+	\node[anchor=south, xshift=0cm, yshift=0.4cm, inner sep=0] at (current page.south){\pgfornament[width=5cm]{84}};
+\end{tikzpicture}
+}
+\newcommand{\danceinstructionsbegin}{\begin{longtable}{p{1cm}p{9.8cm}}}
+\newcommand{\danceinstructionsend}{\end{longtable}}
+\newcommand{\danceinstructionsel}{~ & ~ \\}
+
+\setlength{\topskip}{12pt}
+\setlength{\parskip}{0pt}
+
+\pagestyle{empty}
+
+\begin{document}
+	
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% A Celt's New Dance
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\iffalse
+%\newpage
+%
+%\iffalse\subsection{[A Celt's New Dance]}\fi % fool texstudio into displaying subsections
+%
+%\dancename{A Celt's New Dance}
+%\danceinfo{Grand Square}
+%\danceinstructionsbegin
+%1 -- 8 & Durchgefasst zum Kreis Meet \& Fall back\\
+%9 -- 16 & zum Partner wenden 2-Hände Kette, dann Referenz zum neuen Partner.\\
+%1 -- 16 & Wiederholen (Man endet wieder beim eigenen Partner)\\
+%\danceinstructionsel
+%
+%\danceinstructionsend
+%%\dancelengthmarker{6}
+%%\dancedifficultmarker
+%\fi
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% A' Rovin
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+
+\iffalse\subsection{A' Rovin}\fi % fool texstudio into displaying subsections
+
+\dancename{A' Rovin}
+
+\danceinfo{Longway for as many as will}
+\danceinstructionsbegin
+1 -- 8 	& Paar 1 Lead Down \& Cast Up (lebhaft gesprungen)\\
+9 -- 16	& Paar 2 Lead Up \& Cast Down (lebhaft gesprungen)\\
+\danceinstructionsel
+1 -- 8 	& Dos-á-dos\\
+9 -- 16	& Set Rechts zurück und Turn rechts wieder rein\\
+\danceinstructionsel
+1 -- 8 	& \nicefrac{3}{4} Kette
+\danceinstructionsend
+\danceeasymarker
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% A Trip to Kilburn
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+
+\dancename{A Trip to Kilburn}
+%\subsection{A Trip to Kilburn}
+\iffalse\subsection{A Trip to Kilburn}\fi % fool texstudio into displaying subsections
+\danceinfo{Longway for as many as will}
+\danceinstructionsbegin
+1 -- 4 	& FC Settingsteps rechts aufeinander zu\\
+5 -- 8 	& FC Settingsteps zurück\\
+9 -- 12 & FC Platzwechsel, Klatschen beim dritten Schritt (auf 11)\\
+13-- 16 & FC Turn links\\
+\danceinstructionsel
+1 -- 16 & SC Settingsteps links, Platzwechel, Turn links\\
+\danceinstructionsel
+1 -- 8 	& Halber Setkreis\\
+9 -- 16 & Dos-à-dos\\
+\danceinstructionsel
+1 -- 8 	& \nicefrac{3}{4} Kette\\
+9 -- 16 & Ronde
+\dancemediummarker
+\danceinstructionsend
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Allemande (Paartanz)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+
+\dancename{Allemande}
+%\subsection{Allemande}
+\iffalse\subsection{Allemande (Paartanz)}\fi % fool texstudio into displaying subsections
+\danceinfo{Paartanz}
+\textit{Die Dame steht vor dem Herren in der Kiekbuschfassung}\\
+\danceinstructionsbegin
+1 -- 24 & 3x Chassé links und Chassé rechts, dann wenden\\
+%\danceinstructionsel
+1 -- 24 & 3x Chassé links und Chassé rechts zurück\\
+& \textit{Linke Hände lösen, zueinander wenden}\\
+\danceinstructionsel
+1 -- 8 	& Das Paar tanzt seitwärts ein kleines Chassé links, dann ein Chassé rechts\\
+1 -- 4 	& Schritt kick nach links und rechts\\
+5 -- 8 	& Platzwechsel mit Handtour links\\
+\danceinstructionsel
+& \textit{Rechte Hände loslassen, linke Hände fassen}\\
+1 -- 8 & Das Paar tanzt seitwärts ein kleines Chassé links, dann ein Chassé rechts\\
+1 -- 4 	& Schritt kick nach rechts und links\\
+5 -- 8 	& Die Dame dreht vor dem Herren und nimmt wieder Kiekbuschfassung an.
+\dancemediummarker
+\danceinstructionsend
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% An Improper Notion
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+
+\dancename{An Improper Notion}
+\iffalse\subsection{An Improper Notion}\fi % fool texstudio into displaying subsections
+\danceinfo{Longway for as many as will}
+\danceinstructionsbegin
+1 -- 8 	& Lead Up \& Down\\
+1 -- 4 	& Paar 1 Cast Down, Paar 2 \textbf{Cross Up}\\
+5 -- 8 	& Paar 1 Lead Up, Paar 2 Cast Down\\
+\danceinstructionsel
+1 -- 4 	& Set links\\
+5 -- 8 	& Paar 1 Cast Down, Paar 2 Lead Up\\
+1 -- 4 	& Set links\\
+5 -- 8 	& Paar 2 Cast Down, Paar 1 Lead Up\\
+9 -- 12 & Paar 1 Cast Down, Paar 2 Lead Up\\
+\danceinstructionsel
+1 -- 16 & Paar 1 Figure of Eight durch Paar 2\\
+\danceinstructionsend
+\textit{~~~~~Paar 2 ist abwechselnd proper und improper.}
+\dancemediummarker
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Empty Page in the End for Layouting Multipage A4 Pages
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+% remove the background
+\ClearShipoutPictureBG{}
+\null  % to have some content (otherwise the page would not be displayed)
+
+\end{document}
