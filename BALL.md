@@ -12,6 +12,8 @@ Wer aufmerksam ist, wird das aber in der ersten Runde bemerken und sich meist le
 Ansonsten hilft es auch vor Beginn des Tanzes die Umstehenden zu fragen, meistens kristallisiert sich dann etwas heraus.
 
 ## Downloads
+Wenn man die Karten doppelseitig drucken möchte, muss man die richtigen Seiten "zueinander" legen, dies erfordert etwas mehr Aufwand. Dafür gibt es hier PDFs, bei denen die Seiten richtig für doppelseitigen Druck angeordnet wurden (in den Druckeinstellungen den "Falz" auf "kurze Seite" einstellen).
+
 ### Tanzkarten als ein A6 PDF:
 - [Tanzanleitungen-A6](https://github.com/Phayax/dance-cards/releases/download/ball22-v0.1/Tanzanleitungen.pdf)
 
@@ -22,3 +24,5 @@ Ansonsten hilft es auch vor Beginn des Tanzes die Umstehenden zu fragen, meisten
 - [Tanzanleitungen-2x2-A6](https://github.com/Phayax/dance-cards/releases/download/ball22-v0.1/Tanzanleitungen_2x2_A6.pdf)
 - [Tanzanleitungen-3x3-A7](https://github.com/Phayax/dance-cards/releases/download/ball22-v0.1/Tanzanleitungen_3x3_A7.pdf)
 - [Tanzanleitungen-4x4-A8](https://github.com/Phayax/dance-cards/releases/download/ball22-v0.1/Tanzanleitungen_4x4_A8.pdf)
+
+Während die A6 Karten 0,5cm Rand haben, was die meisten Drucker gut schaffen müssten, wird der Rand bei den kleineren Formaten weniger als 0,5cm sein. Hier muss man eventuell die Seitengröße im PDF-Programm leicht anpassen.
