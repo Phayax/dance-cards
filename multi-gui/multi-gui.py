@@ -4,7 +4,7 @@ from pathlib import Path
 from PyQt5 import QtWidgets, uic, QtGui, QtCore
 from PyQt5.QtGui import QPixmap, QPalette, QColor, QFont
 from PyQt5.QtWidgets import QListWidget, QPushButton, QHBoxLayout, QWidget, QVBoxLayout, QAbstractItemView, \
-    QListWidgetItem, QFileDialog
+    QListWidgetItem, QFileDialog, QFrame, QCheckBox
 
 
 class Color(QWidget):
@@ -18,6 +18,26 @@ class Color(QWidget):
         self.setPalette(palette)
 
 
+class QHLine(QFrame):
+    """
+    Code from: https://stackoverflow.com/a/41068447
+    """
+    def __init__(self):
+        super(QHLine, self).__init__()
+        self.setFrameShape(QFrame.HLine)
+        self.setFrameShadow(QFrame.Sunken)
+
+
+class QVLine(QFrame):
+    """
+        Code from: https://stackoverflow.com/a/41068447
+    """
+    def __init__(self):
+        super(QVLine, self).__init__()
+        self.setFrameShape(QFrame.VLine)
+        self.setFrameShadow(QFrame.Sunken)
+
+
 class Ui(QtWidgets.QMainWindow):
     def __init__(self):
         super(Ui, self).__init__()  # Call the inherited classes __init__ method
@@ -26,6 +46,7 @@ class Ui(QtWidgets.QMainWindow):
 
         self.setMinimumSize(400, 400)
         self.list_widget = QListWidget()
+        self.list_widget.itemClicked.connect(self.list_widget_item_clicked)
         self.button_load_folder = QPushButton("Load Folder")
         self.button_load_folder.clicked.connect(self.click_load_folder)
 
@@ -40,11 +61,13 @@ class Ui(QtWidgets.QMainWindow):
         sub_v_layout = QVBoxLayout()
         h_layout.addWidget(self.list_widget)
         h_layout.addLayout(sub_v_layout)
+        # h_layout.addWidget(QVLine())
         # sub_v_layout.addWidget(QPushButton("testtext"))
         # sub_v_layout.addWidget(QPushButton("test 2"))
         sub_v_layout.addWidget(self.button_select_all)
         sub_v_layout.addWidget(self.button_deselect_all)
         sub_v_layout.addWidget(self.button_load_folder)
+        sub_v_layout.addWidget(QHLine())
         sub_v_layout.addWidget(self.button_create)
 
         widget = QWidget()
@@ -66,6 +89,13 @@ class Ui(QtWidgets.QMainWindow):
 
         self.show()  # Show the GUI
 
+    def list_widget_item_clicked(self, item: QListWidgetItem):
+        print(f"Item: {item.text()} clicked.")
+        # if item.checkState() == QtCore.Qt.CheckState.Checked:
+        #     item.setCheckState(QtCore.Qt.CheckState.Unchecked)
+        # elif item.checkState() == QtCore.Qt.CheckState.Unchecked:
+        #     item.setCheckState(QtCore.Qt.CheckState.Checked)
+
     def click_load_folder(self):
         #dialog = QFileDialog
         #dialog.setFileMode(QFileDialog.FileMode.DirectoryOnly)
@@ -83,21 +113,26 @@ class Ui(QtWidgets.QMainWindow):
     def load_list_from_folder(self, path: Path):
         self.list_widget.clear()
         for file in sorted(path.glob("*.pdf")):
-            list_item = QListWidgetItem(file.stem)
-            list_item.setFlags(list_item.flags() | QtCore.Qt.ItemIsUserCheckable)
-            list_item.setCheckState(QtCore.Qt.Checked)
+            list_item = QListWidgetItem()
             self.list_widget.addItem(list_item)
+            self.list_widget.setItemWidget(list_item, QCheckBox(file.stem))
+            self.list_widget.itemWidget(list_item).setCheckState(QtCore.Qt.CheckState.Checked)
+
+            # list_item = QListWidgetItem(file.stem)
+            # list_item.setFlags(list_item.flags() | QtCore.Qt.ItemIsUserCheckable)
+            # list_item.setCheckState(QtCore.Qt.Checked)
+            # self.list_widget.addItem(list_item)
 
     def list_select_all(self):
         for i in range(self.list_widget.count()):
-            self.list_widget.item(i).setCheckState(QtCore.Qt.Checked)
+            self.list_widget.itemWidget(self.list_widget.item(i)).setCheckState(QtCore.Qt.CheckState.Checked)
 
     def list_deselect_all(self):
         for i in range(self.list_widget.count()):
-            self.list_widget.item(i).setCheckState(QtCore.Qt.Unchecked)
+            self.list_widget.itemWidget(self.list_widget.item(i)).setCheckState(QtCore.Qt.CheckState.Checked)
 
     def create_multipage(self):
-        selection = [self.current_path / f"{self.list_widget.item(i).text()}.pdf" for i in range(self.list_widget.count()) if self.list_widget.item(i).checkState() == QtCore.Qt.Checked]
+        selection = [self.current_path / f"{self.list_widget.itemWidget(self.list_widget.item(i)).text()}.pdf" for i in range(self.list_widget.count()) if self.list_widget.itemWidget(self.list_widget.item(i)).checkState() == QtCore.Qt.CheckState.Checked]
         for line in selection:
             print(line)
 
