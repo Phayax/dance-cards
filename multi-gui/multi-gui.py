@@ -97,7 +97,7 @@ class Ui(QtWidgets.QMainWindow):
             self.list_widget.item(i).setCheckState(QtCore.Qt.Unchecked)
 
     def create_multipage(self):
-        selection = [self.current_path.parent / f"{self.list_widget.item(i).text()}.pdf" for i in range(self.list_widget.count()) if self.list_widget.item(i).checkState() == QtCore.Qt.Checked]
+        selection = [self.current_path / f"{self.list_widget.item(i).text()}.pdf" for i in range(self.list_widget.count()) if self.list_widget.item(i).checkState() == QtCore.Qt.Checked]
         for line in selection:
             print(line)
 
