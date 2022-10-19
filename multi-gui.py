@@ -1,10 +1,13 @@
+import itertools
 import sys
 from pathlib import Path
 
 from PyQt5 import QtWidgets, uic, QtGui, QtCore
 from PyQt5.QtGui import QPixmap, QPalette, QColor, QFont
 from PyQt5.QtWidgets import QListWidget, QPushButton, QHBoxLayout, QWidget, QVBoxLayout, QAbstractItemView, \
-    QListWidgetItem, QFileDialog, QFrame, QCheckBox
+    QListWidgetItem, QFileDialog, QFrame, QCheckBox, QLabel, QRadioButton
+
+from multi import get_page_indices, NupTexDocument
 
 
 class Color(QWidget):
@@ -42,7 +45,8 @@ class Ui(QtWidgets.QMainWindow):
     def __init__(self):
         super(Ui, self).__init__()  # Call the inherited classes __init__ method
 
-        self.current_path = None
+        self.current_single_path = None
+        self.current_full_path = Path("cards.pdf").resolve()
 
         self.setMinimumSize(400, 400)
         self.list_widget = QListWidget()
@@ -68,6 +72,19 @@ class Ui(QtWidgets.QMainWindow):
         sub_v_layout.addWidget(self.button_deselect_all)
         sub_v_layout.addWidget(self.button_load_folder)
         sub_v_layout.addWidget(QHLine())
+        #size_label = QLabel("Größe")
+        #size_label.setFrameStyle(QFrame.Panel | QFrame.Sunken)
+        #size_label.setAlignment(QtCore.Qt.AlignCenter)
+        #sub_v_layout.addWidget(size_label)
+
+        self.nup_2_radio = QRadioButton("2x2 (A6)")
+        self.nup_2_radio.setChecked(True)
+        self.nup_3_radio = QRadioButton("3x3 (A7)")
+        self.nup_4_radio = QRadioButton("4x4 (A8)")
+        sub_v_layout.addWidget(self.nup_2_radio)
+        sub_v_layout.addWidget(self.nup_3_radio)
+        sub_v_layout.addWidget(self.nup_4_radio)
+
         sub_v_layout.addWidget(self.button_create)
 
         widget = QWidget()
@@ -106,7 +123,7 @@ class Ui(QtWidgets.QMainWindow):
         # Currently using native Dialog but without showing files
         path_str = QFileDialog.getExistingDirectory(self, "Select Directory", ) #options=QFileDialog.Option.DontUseNativeDialog)
         path = Path(path_str)
-        self.current_path = path
+        self.current_single_path = path
         self.load_list_from_folder(path)
 
 
@@ -129,12 +146,29 @@ class Ui(QtWidgets.QMainWindow):
 
     def list_deselect_all(self):
         for i in range(self.list_widget.count()):
-            self.list_widget.itemWidget(self.list_widget.item(i)).setCheckState(QtCore.Qt.CheckState.Checked)
+            self.list_widget.itemWidget(self.list_widget.item(i)).setCheckState(QtCore.Qt.CheckState.Unchecked)
 
     def create_multipage(self):
-        selection = [self.current_path / f"{self.list_widget.itemWidget(self.list_widget.item(i)).text()}.pdf" for i in range(self.list_widget.count()) if self.list_widget.itemWidget(self.list_widget.item(i)).checkState() == QtCore.Qt.CheckState.Checked]
-        for line in selection:
-            print(line)
+        selection = [self.current_single_path / f"{self.list_widget.itemWidget(self.list_widget.item(i)).text()}.pdf" for i in range(self.list_widget.count()) if self.list_widget.itemWidget(self.list_widget.item(i)).checkState() == QtCore.Qt.CheckState.Checked]
+        if not selection:
+            return
+        # for line in selection:
+        #     print(line)
+        if self.nup_2_radio.isChecked():
+            nup_factor = 2
+        elif self.nup_3_radio.isChecked():
+            nup_factor = 3
+        elif self.nup_4_radio.isChecked():
+            nup_factor = 4
+        else:
+            raise ValueError("at least one size must be selected!")
+
+        dance_dict = get_page_indices(single_pdf_path=self.current_single_path, full_pdf_path=self.current_full_path)
+        ntc = NupTexDocument(dance_dict=dance_dict, nup_pdf_source=self.current_full_path)
+
+        ntc.layout_dances(output_file=Path("multi_test.tex"), dance_list=selection, fold_edge="short",
+                          nup_factor=nup_factor)
+
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
