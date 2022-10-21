@@ -129,10 +129,12 @@ class NupTexDocument:
         # create working copy of dance_dict with only the selected dances
         sel_dance_dict = self.copy_dict_and_drop_unlisted(self.dance_dict, dance_list)
         # we want to process dances from large to small
+        # TODO: refactoring and cleanup
         sel_dance_dict = dict(reversed(sorted(sel_dance_dict.items())))
+        all_dance_dict = dict(reversed(sorted(self.dance_dict.items())))
         # now let's iterate over the dances
 
-        dance_idx_dict = convert_page_numbers_to_indices(sel_dance_dict)
+        dance_idx_dict = convert_page_numbers_to_indices(all_dance_dict)
 
         for page_count, dances in sel_dance_dict.items():
             for dance in dances:
@@ -254,6 +256,26 @@ class NupPage:
         return tex_str
 
 
+def create_nup_tex_from_pdfs(
+        single_pdf_path: Path,
+        full_pdf_path: Path,
+        nup_factor: int,
+        output_path: Path,
+        fold_edge: str) -> None:
+    dance_dict = get_page_indices(single_pdf_path=single_pdf_path, full_pdf_path=full_pdf_path)
+    ntc = NupTexDocument(dance_dict=dance_dict, nup_pdf_source=full_pdf_path)
+    flat_dance_list = list(dance_dict.values())
+    # flatten code from: https://stackoverflow.com/a/953097
+    flat_dance_list = list(itertools.chain.from_iterable(flat_dance_list))
+    flat_dance_list.sort()
+
+    #p = Path("multipage-tool/")
+    #p.mkdir(exist_ok=True, parents=False)
+    Path(output_path.parent).mkdir(exist_ok=True, parents=False)
+    ntc.layout_dances(output_file=output_path, dance_list=flat_dance_list, fold_edge=fold_edge,
+                      nup_factor=nup_factor)
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("--single_pdfs", type=Path, help="the path to the directory of all split-pdfs", required=True)
@@ -262,10 +284,6 @@ if __name__ == '__main__':
     parser.add_argument("--fold_edge", type=str, help="Either 'short' or 'long' depending on which edge you want to fold the pages for double sided printing.")
     parser.add_argument("--output_tex", type=Path, help="path to where the output tex file should be created.", required=True)
     args = parser.parse_args()
-
-    #SINGLE_PATH = Path("../dev-debug/single")
-    #FULL_PATH = Path("../dev-debug/Tanzkarten.pdf")
-    #OUT_PATH = Path("test.tex")
 
     # dance_dict = get_page_indices(single_pdf_path=SINGLE_PATH, full_pdf_path=FULL_PATH)
     # ntc = NupTexDocument(dance_dict=dance_dict, nup_pdf_source=FULL_PATH)
@@ -277,29 +295,15 @@ if __name__ == '__main__':
     # p = Path("./")
     # p.mkdir(exist_ok=True, parents=False)
 
+    out_path = Path(args.output_tex).resolve()
+    single_path = Path(args.single_pdfs).resolve()
+    full_path = Path(args.full_pdf).resolve()
     # TODO: make a check that ensures that the full file is correctly placed relative to the output file!
 
-    # ntc.layout_dances(output_file=p / "multi_2x2_short.tex", dance_list=flat_dance_list, fold_edge="short",
-    #                   nup_factor=2)
-    # ntc.layout_dances(output_file=p / "multi_2x2_long.tex", dance_list=flat_dance_list, fold_edge="long",
-    #                   nup_factor=2)
-    # ntc.layout_dances(output_file=p / "multi_3x3_short.tex", dance_list=flat_dance_list, fold_edge="short",
-    #                   nup_factor=3)
-    # ntc.layout_dances(output_file=p / "multi_3x3_long.tex", dance_list=flat_dance_list, fold_edge="long",
-    #                   nup_factor=3)
-    # ntc.layout_dances(output_file=p / "multi_4x4_short.tex", dance_list=flat_dance_list, fold_edge="short",
-    #                   nup_factor=4)
-    # ntc.layout_dances(output_file=p / "multi_4x4_long.tex", dance_list=flat_dance_list, fold_edge="long",
-    #                   nup_factor=4)
-
-    dance_dict = get_page_indices(single_pdf_path=args.single_pdfs, full_pdf_path=args.full_pdf)
-    ntc = NupTexDocument(dance_dict=dance_dict, nup_pdf_source=args.full_pdf)
-    flat_dance_list = list(dance_dict.values())
-    # flatten code from: https://stackoverflow.com/a/953097
-    flat_dance_list = list(itertools.chain.from_iterable(flat_dance_list))
-    flat_dance_list.sort()
-
-    p = Path("multipage-tool/")
-    p.mkdir(exist_ok=True, parents=False)
-
-    ntc.layout_dances(output_file=args.output_tex, dance_list=flat_dance_list, fold_edge=args.fold_edge, nup_factor=args.nup_factor)
+    create_nup_tex_from_pdfs(
+        single_pdf_path=single_path,
+        full_pdf_path=full_path,
+        nup_factor=args.nup_factor,
+        output_path=out_path,
+        fold_edge=args.fold_edge
+    )
