@@ -1,7 +1,10 @@
 ## Custom:
 .build/
 split/
+single/
 .idea
+
+venv/
 
 
 ## Core latex/pdflatex auxiliary files:
