@@ -43,7 +43,7 @@ jobs:
 
       # TODO: move to requirements.txt
       - name: Install python dependencies
-        run: pip install tqdm pypdf2
+        run: pip install -r requirements.txt
         
       - name: Run split script
         run: python3 split.py
