@@ -66,7 +66,7 @@ jobs:
 
         # copy those to a separate directory to archive them
       - name: Copy split pdfs
-        run: cp split/.build/*.pdf single/
+        run: cp split/*.pdf single/
 
       # TODO: rename pdf files to german names
       - name: Archive split pdfs
@@ -79,17 +79,26 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: full-pdf
-          path: .build/cards.pdf
+          path: cards.pdf
 
 
       - name: Create multipage tex file 2x2
-        run: python multi.py --single_pdfs single/ --full_pdf .build/cards.pdf --nup_factor 2 --fold_edge short --output_tex cards_2x2.tex
+        run: python multi.py --single_pdfs single/ --full_pdf cards.pdf --nup_factor 2 --fold_edge short --output_tex cards_2x2.tex
 
       - name: Create multipage tex file 3x3
-        run: python multi.py --single_pdfs single/ --full_pdf .build/cards.pdf --nup_factor 3 --fold_edge short --output_tex cards_3x3.tex
+        run: python multi.py --single_pdfs single/ --full_pdf cards.pdf --nup_factor 3 --fold_edge short --output_tex cards_3x3.tex
 
       - name: Create multipage tex file 4x4
-        run: python multi.py --single_pdfs single/ --full_pdf .build/cards.pdf --nup_factor 4 --fold_edge short --output_tex cards_4x4.tex
+        run: python multi.py --single_pdfs single/ --full_pdf cards.pdf --nup_factor 4 --fold_edge short --output_tex cards_4x4.tex
+
+      - name: Debug output
+        run: ls -la single
+        
+      - name: Debug output
+        run: ls -la split
+      
+      - name: Debug output
+        run: cat cards_2x2.tex
 
       - name: Compile multipage 2x2
         uses: dante-ev/latex-action@2021-A
