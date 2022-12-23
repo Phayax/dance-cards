@@ -98,6 +98,12 @@ jobs:
         run: ls -la split
       
       - name: Debug output
+        run: ls -la .
+      
+      - name: Debug output
+        run: pwd
+      
+      - name: Debug output
         run: cat cards_2x2.tex
 
       - name: Compile multipage 2x2
