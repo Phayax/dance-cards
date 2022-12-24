@@ -16,22 +16,39 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  setup:
-    name: Set up 
+  compile-full:
+    name: Compile the full cards
     runs-on: ubuntu-20.04
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
-      - name: Run script
-        run: ls .    
+
+      - name: LaTeX compilation full pdf
+        # You may pin to the exact commit or the version.
+        # uses: dante-ev/latex-action@49cf7cb5f79e7b2006dbdffea85e02bec0b6244b
+        uses: dante-ev/latex-action@2021-A
+        with:
+          # The root LaTeX file to be compiled
+          root_file: cards.tex
+          # The working directory for the latex compiler to be invoked
+          working_directory: .
+          # LaTeX engine to be used
+          #compiler: # optional, default is latexmk
+          # Extra arguments to be passed to the latex compiler
+          #args: # optional, default is -pdf -latexoption=-file-line-error -latexoption=-interaction=nonstopmode
+          # Install extra packages by apt-get
+          #extra_system_packages: # optional
+
+      - name: Archive full pdf
+        uses: actions/upload-artifact@v3
+        with:
+          name: full-pdf
+          path: cards.pdf
 
 
-  compile-cards:
-    needs: setup
-
+  compile-single:
     # The type of runner that the job will run on
     runs-on: ubuntu-20.04
 
@@ -40,31 +57,93 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
-      - name: Run script
-        run: ls -la .
-      
-      - uses: actions/upload-artifact@v2
-        # Upload the artifact so the MacOS runner do something with it
+      - name: Install python dependencies
+        run: pip install -r requirements.txt
+        
+      - name: Run split script
+        run: python3 split.py
+
+      - name: LaTeX compilation
+        # You may pin to the exact commit or the version.
+        # uses: dante-ev/latex-action@49cf7cb5f79e7b2006dbdffea85e02bec0b6244b
+        uses: dante-ev/latex-action@2021-A
         with:
-          name: test-artifact
-          path: requirements.txt
+          # The root LaTeX file to be compiled
+          # left empty so all tex files are compiled
+          root_file: ""
+          # The working directory for the latex compiler to be invoked
+          working_directory: split
+          # LaTeX engine to be used
+          #compiler: # optional, default is latexmk
+          # Extra arguments to be passed to the latex compiler
+          #args: # optional, default is -pdf -latexoption=-file-line-error -latexoption=-interaction=nonstopmode
+          # Install extra packages by apt-get
+          #extra_system_packages: # optional
+
+        # copy those to a separate directory to archive them
+      - run: mkdir -p single
+      - name: Copy split pdfs
+        run: cp split/*.pdf single/
+
+      # TODO: rename pdf files to german names
+      - name: Archive split pdfs
+        uses: actions/upload-artifact@v3
+        with:
+          name: single-pdfs
+          path: single/
       
 
   compile-multipage:
-    needs: compile-cards
+    needs: [compile-full, compile-single]
     name: Compile the multipage versions.
     runs-on: ubuntu-20.04
     steps:
-      - name: Run script
-        run: echo Hello, world!
+      - name: Install python dependencies
+        run: pip install -r requirements.txt
+      
+      - uses: actions/download-artifact@v2
+        # Upload the artifact so the MacOS runner do something with it
+        with:
+          name: single-pdfs
+          path: single/
 
       - uses: actions/download-artifact@v2
         # Upload the artifact so the MacOS runner do something with it
         with:
-          name: test-artifact
-          path: test/
+          name: full-pdfs
 
-      - run: cat test/requirements.txt
+      - run: ls -la .
+      - run: ls -la single
+
+      - name: Create multipage tex file 2x2
+        run: python multi.py --single_pdfs single/ --full_pdf cards.pdf --nup_factor 2 --fold_edge short --output_tex cards_2x2_short.tex
+      - name: Create multipage tex file 2x2
+        run: python multi.py --single_pdfs single/ --full_pdf cards.pdf --nup_factor 2 --fold_edge long --output_tex cards_2x2_long.tex
+
+      - name: Create multipage tex file 3x3
+        run: python multi.py --single_pdfs single/ --full_pdf cards.pdf --nup_factor 3 --fold_edge short --output_tex cards_3x3_short.tex
+      - name: Create multipage tex file 3x3
+        run: python multi.py --single_pdfs single/ --full_pdf cards.pdf --nup_factor 3 --fold_edge long --output_tex cards_3x3_long.tex
+
+      - name: Create multipage tex file 4x4
+        run: python multi.py --single_pdfs single/ --full_pdf cards.pdf --nup_factor 4 --fold_edge short --output_tex cards_4x4_short.tex
+      - name: Create multipage tex file 4x4
+        run: python multi.py --single_pdfs single/ --full_pdf cards.pdf --nup_factor 4 --fold_edge long --output_tex cards_4x4_long.tex
+
+      - name: Compile multipage 2x2
+        uses: dante-ev/latex-action@2021-A
+        with:
+          root_file: cards_2x2_short.tex
+          working_directory: .
+          #compiler: # optional, default is latexmk
+          #args: # optional, default is -pdf -latexoption=-file-line-error -latexoption=-interaction=nonstopmode
+          #extra_system_packages: # optional
+
+      - name: Archive multipage pdf
+        uses: actions/upload-artifact@v3
+        with:
+          name: cards-2x2-shortedge-pdf
+          path: cards_2x2_short.pdf
 
   upload:
     name: Upload the resulting files.
