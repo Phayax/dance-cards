@@ -57,8 +57,6 @@ jobs:
     steps:
       - name: Run script
         run: echo Hello, world!
-      
-      - run: mkdir test
 
       - uses: actions/download-artifact@v2
         # Upload the artifact so the MacOS runner do something with it
