@@ -26,8 +26,8 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
       - name: Run script
-        run: ls .
-      
+        run: ls .    
+
 
   compile-cards:
     needs: setup
@@ -39,8 +39,15 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
+
       - name: Run script
         run: ls -la .
+      
+      - uses: actions/upload-artifact@v2
+        # Upload the artifact so the MacOS runner do something with it
+        with:
+          name: test-artifact
+          path: requirements.txt
       
 
   compile-multipage:
@@ -50,6 +57,16 @@ jobs:
     steps:
       - name: Run script
         run: echo Hello, world!
+      
+      - run: mkdir test
+
+      - uses: actions/download-artifact@v2
+        # Upload the artifact so the MacOS runner do something with it
+        with:
+          name: test-artifact
+          path: test/requirements.txt
+
+      - run: cat test/requirements.txt
 
   upload:
     name: Upload the resulting files.
