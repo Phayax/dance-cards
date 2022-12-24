@@ -111,7 +111,7 @@ jobs:
       - uses: actions/download-artifact@v2
         # Upload the artifact so the MacOS runner do something with it
         with:
-          name: full-pdfs
+          name: full-pdf
 
       - run: ls -la .
       - run: ls -la single
