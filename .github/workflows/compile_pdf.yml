@@ -102,13 +102,13 @@ jobs:
       - name: Install python dependencies
         run: pip install -r requirements.txt
       
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v3
         # Upload the artifact so the MacOS runner do something with it
         with:
           name: single-pdfs
           path: single/
 
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v3
         # Upload the artifact so the MacOS runner do something with it
         with:
           name: full-pdf
