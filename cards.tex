@@ -33,8 +33,19 @@
 
 \usepackage[object=vectorian]{pgfornament}
 
-%\tikzexternalize[prefix=tikzext/]
-%\tikzset{external/force remake}
+% pstricks vs pgf/tikz:
+% Originally we used pstricks to draw the background ornaments.
+% This had the disadvantage of having to use `latex -> dvips -> ps2pdf` with the correct options to get the background
+% graphics to display in the right orientation. The necessary options also varied between MiKTeX and TeXLive :-(.
+%
+% Since i have more experience with tikz, i decided to use that, because it was easier to position the
+% elements (they weren't placed quite correctly with the pstricks version.).
+
+% pgfornament vs eps files
+% I wanted to use pgfornament at first because it has everything necessary in one easy package.
+% Unfortunately the graphics in pgfornament end up having quite thick strokes. This does not look good at the scales
+% we're using the patterns.
+% So i downloaded the vectorian files and extracted the patterns manually with Inkscape. This probably leads to a slowdown though.
 
 
 \AddToShipoutPictureBG{%
@@ -50,7 +61,8 @@
 	%\node [circle, fill=red, minimum size=1pt, xshift=0.0cm, yshift=-0.0cm, scale=0.2] at (current page.north west) {};
 	%\node [circle, fill=red, minimum size=1pt, xshift=0.5cm, yshift=-0.5cm, scale=0.2] at (current page.north west) {};
 	
-	
+	% TODO: This slows down compilation a lot.
+	%       Maybe find a faster way to do this.
 	\node[anchor=north west, xshift=0.5cm, yshift=-0.5cm, inner sep=0] at (current page.north west){\includegraphics[scale=0.8, angle=0, origin=c]{img/corner_black}};
 	\node[anchor=north east, xshift=-0.5cm, yshift=-0.5cm, inner sep=0] at (current page.north east){\includegraphics[scale=0.8, angle=0, origin=c]{img/corner2_black}};
 	\node[anchor=south west, xshift=0.5cm, yshift=0.5cm, inner sep=0] at (current page.south west){\includegraphics[scale=0.8, angle=180, origin=c]{img/corner2_black}};
@@ -58,10 +70,10 @@
 	
 	
 	% Original pgfornament style:
-	%\node[anchor=north west, xshift=0.5cm, yshift=-0.5cm,inner sep=0] at (current page.north west){\pgfornament[scale=0.5]{41}};
-	%\node[anchor=north east, xshift=-0.5cm, yshift=-0.5cm, inner sep=0] at (current page.north east){\pgfornament[scale=0.5,symmetry=v]{41}};
-	%\node[anchor=south west, xshift=0.5cm, yshift=0.5cm, inner sep=0] at (current page.south west){\pgfornament[scale=0.5,symmetry=h]{41}};
-	%\node[anchor=south east, xshift=-0.5cm, yshift=0.5cm, inner sep=0] at (current page.south east){\pgfornament[scale=0.5,symmetry=c]{41}};
+%	\node[anchor=north west, xshift=0.5cm, yshift=-0.5cm,inner sep=0] at (current page.north west){\pgfornament[scale=0.5]{41}};
+%	\node[anchor=north east, xshift=-0.5cm, yshift=-0.5cm, inner sep=0] at (current page.north east){\pgfornament[scale=0.5,symmetry=v]{41}};
+%	\node[anchor=south west, xshift=0.5cm, yshift=0.5cm, inner sep=0] at (current page.south west){\pgfornament[scale=0.5,symmetry=h]{41}};
+%	\node[anchor=south east, xshift=-0.5cm, yshift=0.5cm, inner sep=0] at (current page.south east){\pgfornament[scale=0.5,symmetry=c]{41}};
 	
 	% Background as an image, for example a parchment like texture
 	%\tikz[remember picture, overlay] \node[opacity=0.5, inner sep=0pt] at (current page.center){\includegraphics[width=\paperwidth,height=\paperheight]{example-image}};
@@ -73,33 +85,20 @@
 	{\raggedleft\footnotesize{#1}\par}
 }
 \newcommand{\dancename}[1]{
-	% Dimensionen ausprobiert, dass sie nicht mit den 41er Ornamenten in den Ecken kollidieren.
-	
+	% Dimension are manually chosen so they don't collide with the ornaments in the corners.	
 	\begin{tikzpicture}[remember picture, overlay]
 %		\node[] at (0, 0) (title) {Text};		
 		\node[anchor=north, yshift=-0.5cm, inner sep=0, text width=10.5cm, align=center] at (current page.north){\Huge{#1}};
 	\end{tikzpicture}
 }
 \newcommand{\origininfo}[3]{
-	% Dimensionen ausprobiert, dass sie nicht mit den 41er Ornamenten in den Ecken kollidieren.
+	% Dimension are manually chosen so they don't collide with the ornaments in the corners.
 	\begin{tikzpicture}[remember picture, overlay]
 		% setting the font size in the node options, since it doesn't seem to 
 		% take effect when used in the node text. 
 		\node[anchor=south west, xshift=1.3cm, yshift=1.15cm, inner sep=0, align=left, font={\scriptsize}] at (current page.south west){Choreographie:\\{#1}};
 		\node[anchor=south east, xshift=-1.2cm, yshift=1.15cm, inner sep=0, align=right, font={\scriptsize}] at (current page.south east){Musik:\\ {#2}\\ {#3}};
 	\end{tikzpicture}
-
-%	\begin{textblock}{4}(1.3,12.6)
-%		\begin{flushleft}
-%			{\scriptsize Choreographie:\\[-0.2cm] {#1}}
-%		\end{flushleft}
-%	\end{textblock}
-%	
-%	\begin{textblock}{4}(10.7,12.2)
-%		\begin{flushright}
-%			{\scriptsize Musik:\\ {#2}\\[-0.2cm] {#3}}
-%		\end{flushright}
-%	\end{textblock}
 }
 \newcommand{\danceeasymarker}{
 	\begin{tikzpicture}[remember picture, overlay]
@@ -895,6 +894,31 @@ Takt 	& \\
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Felicity
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+
+\dancename{Felicity}
+\iffalse\subsection{Felicity}\fi % fool texstudio into displaying subsections
+\origininfo{Colin Hume, 2002}{Felicity}{Dave Brown, Outside the Square(2002)}
+\danceinfo{Longway for eight\\\nicefrac{3}{4}Takt}
+\danceinstructionsbegin
+\textbf{Takte} & ~\\
+1 -- 2 	& D1 cast down, D2 move up, H4 cast up, H3 move down\\
+3 -- 4 	& Pos 2 \& 3 Platzwechsel (ohne Anfassen)\\
+5 -- 8  & Mittlere Paare: volle Rechthandmühle, Äußere Paare geben sich die rechten Hände: Balancé zueinander, auseinander, Platzwechsel.\\ 
+1 -- 8  & Wiederholen (Immer Positionen nicht Rollen)\\
+\danceinstructionsel
+1 -- 4  & Dos-a-dos mit Partner\\
+5 -- 8  & Großer Setkreis, Halb herum.\\
+\danceinstructionsel
+1 -- 4  & Äußere Paare starten eine 4-Hände Kette, Mitten machen nur 3-Hände Kette und starten erst ab Takt 2 die Kette mit den ankommenden Äußeren. (Ein Händewechsel pro Takt)\\
+5 -- 8  & Ronde mit dem Partner
+\dancedifficultmarker
+\danceinstructionsend
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Fenterlarick
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
@@ -1120,7 +1144,7 @@ Takt 	& \\
 \danceinfo{Longway for as many as will,\\ \nicefrac{6}{8} Takt}
 \danceinstructionsbegin
 Takte&\\
-1 -- 8 	& D2 cast up um D1 in Figure of Eight um D1 und H2, H2 verfolgt bis beide wieder auf der Ausgangsposition ankommen\\
+1 -- 8 	& D2 cast up um D1 in Figure of Eight um D1 und H2, H1 verfolgt bis beide wieder auf der Ausgangsposition ankommen\\
 9 -- 16 & H2 cast up um H1 in Figure of Eight... D1 verfolgt ...\\
 \danceinstructionsel
 1 -- 2 	& Partner rechte Hände, Balance vor und zurück\\
@@ -1740,15 +1764,9 @@ Paare in Korobushka-Fassung nach oben schauend.
 \textbf{Umbau}& \textbf{II} \\
 17--32 & Wiederholen \\
 
-\multicolumn{2}{c}{\textbf{\large Umbau I \& II:}}\\
-\begin{center}
-	\includegraphics[width=.93\textwidth]{img/lmbt-1}
-\end{center}
-%\danceinstructionsel
-\danceinstructionsel
-\danceinstructionsel
-\danceinstructionsel
 
+\danceinstructionsel
+\danceinstructionsel
 \textbf{Strophe} & \textbf{II} \\
 1 -- 8 & Siding links \\
 9 -- 16 & Siding rechts, aber Innere siden mit Kontrapartner auf Linie \\
@@ -1760,13 +1778,7 @@ Paare in Korobushka-Fassung nach oben schauend.
 17--32 & Wiederholen \\
 \danceinstructionsel
 \danceinstructionsel
-\multicolumn{2}{c}{\textbf{\large Umbau III \& IV:}}\\
-\begin{center}
-	\includegraphics[width=.93\textwidth]{img/lmbt-2}
-\end{center}
-%\danceinstructionsel
-\danceinstructionsel
-\danceinstructionsel
+
 
 \textbf{Strophe} & \textbf{III} \\
 1 -- 8 & Armtour links \\
@@ -1778,7 +1790,20 @@ Paare in Korobushka-Fassung nach oben schauend.
 \textbf{Umbau} & \textbf{VI} \\
 17--32 & Wiederholen\\
 
+
+\multicolumn{2}{c}{\textbf{\large Umbau I \& II:}}\\
+\begin{center}
+	\includegraphics[width=.93\textwidth]{img/lmbt-1}
+\end{center}
 \danceinstructionsel
+\danceinstructionsel
+\multicolumn{2}{c}{\textbf{\large Umbau III \& IV:}}\\
+\begin{center}
+	\includegraphics[width=.93\textwidth]{img/lmbt-2}
+\end{center}
+\danceinstructionsel
+\danceinstructionsel
+
 \multicolumn{2}{c}{\textbf{\large Umbau V \& VI:}}\\
 \begin{center}
 	\includegraphics[width=.93\textwidth]{img/lmbt-3}
@@ -2197,6 +2222,7 @@ Takte 	& \\
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Playing in the Field(s)
+% https://www.youtube.com/watch?v=mf8wQslOsoQ
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 
@@ -2544,6 +2570,7 @@ Takte 	& \\
 \origininfo{Playford}{La Furstemberg}{Anonymous} % Or maybe Purcell: https://www.jstor.org/stable/737425
 \danceinfo{Triple Minor Longway, \nicefrac{4}{4} Takt}
 \danceinstructionsbegin
+\danceinstructionsel
 1 -- 4 & H1 wendet hinter H2 aus und geht zwischen H2 und H3 hindurch zu D3\\
 5 -- 12 & H1 \& D3 Ronde\\
 13 -- 16 & H1 zwischen H2 \& H3 zurück auf seinen Platz\\
@@ -2552,6 +2579,9 @@ Takte 	& \\
 5 -- 12 & H1 \& D3 Ronde\\
 13 -- 16 & H1 zwischen H2 \& H3 zurück auf seinen Platz\\
 \danceinstructionsel
+\danceinstructionsel
+\danceinstructionsel
+
 1 -- 4 & P1 Lead Down zwischen P3\\
 5 -- 16 & P3 Cast Up, P1 Cross Down, und dann Rest einer doppelten Figure eight gehen, sodass P1 proper auf Position 2 endet.\\
 \danceinstructionsel
@@ -2687,15 +2717,28 @@ Takte 	& \\
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % The Homecoming
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \newpage
+\newpage
 
 \iffalse\subsection{[The Homecoming]}\fi % fool texstudio into displaying subsections
-% \dancename{The Homecoming}
-% \origininfo{Gary Roodman(1997)}{The Homecoming}{Jonathan Jensen (1997)}
-% \danceinfo{}
-% \danceinstructionsbegin
-% \danceinstructionsend
-% \dancedifficultmarker
+\dancename{The Homecoming}
+\origininfo{Gary Roodman(1997)}{The Homecoming}{Jonathan Jensen (1997)}
+\danceinfo{Duple Minor Longway,\\1er improper}
+\danceinstructionsbegin
+1 -- 12 & H1 wendet aus, geht unter P2 entlang, und hinter H2 auf den vorigen Platz von D1, D1 folgt H1, geht aber nicht hinter H2 zurück, sondern "kürzt" zwischen P2 hindurch ab, auf den vorigen Platz von H1\\
+1 -- 12 & P2 ebenso: H2 wendet aus, D2 folgt, auf jeweils andere Plätze. Sie werden aber ab ca. der Hälfte vom Contra Partner in eine Line-of-Four gegatet.\\
+\danceinstructionsel
+1 -- 12 & Line-of-Four: 6 Schritte hoch, dabei nach 3 Schritten umdrehen, aber Laufrichtung beibehalten. 6 Schritte ebenso wieder zurück. Zum Contra drehen.\\
+1 -- 12 & \nicefrac{1}{2} Hecke, dann Kontrapaare \nicefrac{3}{4} Ronde und nach außen schauen (z.B. Hecke 8, Ronde 4 Schläge).\\
+1 -- 3 & Contrapaare führen nach außen\\
+4 -- 6 & Contrapaare drehen sich wieder nach innen und führen zurück\\
+7 -- 9 & Platzwechsel Damen\\
+10--12 & Platzwechsel Herren\\
+\danceinstructionsel
+1 -- 6 & Halber Setkreis \\
+7 -- 12 & Paare Ganze Ronde \\
+\danceinstructionsel
+\danceinstructionsend
+\dancedifficultmarker
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -2942,6 +2985,40 @@ Takte 	& \\
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Winter Solstice
+% Video: https://www.youtube.com/watch?v=dEKuxMqWSGE
+% Video + Explanation: https://www.youtube.com/watch?v=a_sbaB6YZQE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+
+\dancename{Winter Solstice}
+\iffalse\subsection{Winter Solstice}\fi % fool texstudio into displaying subsections
+\danceinfo{Grand Square mit Center Couple, das zu Paar 1 gewendet steht.}
+
+\danceinstructionsbegin
+1 -- 16  & Head Couple + Center Couple Spiegelhecke (ähnlich zum Refrain des Grimstock), Side Couple: Siding + Set \& Turn.\\
+17--32 & Center Couple teilt sich und gehen jeweils mit den Side Couples in eine Acht. Head Couples: Siding + Set \& Turn.\\
+\danceinstructionsel
+~  & \textbf{Grand Square Figur}: \\
+1 -- 8 & Head Couples Meet in der Mitte und umfassen, dann Fall back auf die Plätze der Side Couples. \\
+~ & Side Couples Fall back und Meet mit dem Contra zur Position der Head Couples. \\
+~ & Center Couple Fall back auf Side Couple Position, dann weiter Fall Back auf die Ecken neben Position 3.\\
+9 -- 16 & Head \& Side Couples wiederholen die Bewegung der jeweils anderen, um wieder auf den eigenen Plätzen zu enden. Center Couple Meet auf Position 3 und in die Mitte führen.\\
+\danceinstructionsel
+~ & \textbf{„Promenadenfortschritt“:}\\
+~ & \textit{Alle in doppelter Handhaltung (nebeneinander, überkreuzt)}\\
+1 -- 4 & Center Couple mit Paar 1 „linksschultrig“ den Platz tauschen.\\
+5 -- 8 & Paar 1 mit Paar 2 „linksschultrig“ den Platz tauschen.\\
+9 -- 12 & Ebenso Paar 2 mit Paar 3\\
+13 -- 16 & Ebenso Paar 3 mit Paar 4. Paar 4 ist neues Center Couple.\\
+
+~ & \textit{Diese Platzwechsel gehen sehr schön ineinander über, es wird immer ein durchgehender Bogen nach links gelaufen.}
+\origininfo{Wendy Crouch}{Early One Morning}{von Bare Necessities}
+\dancedifficultmarker
+\danceinstructionsend
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Woaf
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
@@ -3006,5 +3083,5 @@ Takte 	& \\
 % remove the background
 \ClearShipoutPictureBG{}
 \null  % to have some content (otherwise the page would not be displayed)
-
+  
 \end{document}
