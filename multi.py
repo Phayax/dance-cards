@@ -295,9 +295,9 @@ if __name__ == '__main__':
     # p = Path("./")
     # p.mkdir(exist_ok=True, parents=False)
 
-    out_path = Path(args.output_tex).resolve()
-    single_path = Path(args.single_pdfs).resolve()
-    full_path = Path(args.full_pdf).resolve()
+    out_path = Path(args.output_tex)#.resolve()
+    single_path = Path(args.single_pdfs)#.resolve()
+    full_path = Path(args.full_pdf)#.resolve()
     # TODO: make a check that ensures that the full file is correctly placed relative to the output file!
 
     create_nup_tex_from_pdfs(
