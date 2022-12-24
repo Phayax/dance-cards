@@ -64,7 +64,7 @@ jobs:
         # Upload the artifact so the MacOS runner do something with it
         with:
           name: test-artifact
-          path: test/requirements.txt
+          path: test/
 
       - run: cat test/requirements.txt
 
