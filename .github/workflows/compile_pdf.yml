@@ -46,13 +46,15 @@ jobs:
   compile-multipage:
     needs: compile-cards
     name: Compile the multipage versions.
+    runs-on: ubuntu-20.04
     steps:
       - name: Run script
         run: echo Hello, world!
 
   upload:
-    needs: compile-multipage
     name: Upload the resulting files.
+    needs: compile-multipage
+    runs-on: ubuntu-20.04
     steps:
       - name: Run script
         run: echo ""
