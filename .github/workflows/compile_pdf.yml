@@ -98,6 +98,7 @@ jobs:
     name: Compile the multipage versions.
     runs-on: ubuntu-20.04
     steps:
+      - uses: actions/checkout@v3
       - name: Install python dependencies
         run: pip install -r requirements.txt
       
@@ -144,11 +145,3 @@ jobs:
         with:
           name: cards-2x2-shortedge-pdf
           path: cards_2x2_short.pdf
-
-  upload:
-    name: Upload the resulting files.
-    needs: compile-multipage
-    runs-on: ubuntu-20.04
-    steps:
-      - name: Run script
-        run: echo ""
