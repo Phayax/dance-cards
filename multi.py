@@ -63,15 +63,15 @@ def get_page_indices(single_pdf_path: Path, full_pdf_path: Path):
     length_dict = {}
     total_page_count = 0
     for file in single_list:
-        reader = PyPDF2.PdfFileReader(str(file))
-        length = reader.numPages
+        reader = PyPDF2.PdfReader(str(file))
+        length = len(reader.pages)
         total_page_count += length
         if length in length_dict.keys():
             length_dict[length].append(file)
         else:
             length_dict.update({length: [file]})
 
-    full_pdf_length = PyPDF2.PdfFileReader(str(full_pdf_path)).numPages
+    full_pdf_length = len(PyPDF2.PdfReader(str(full_pdf_path)).pages)
     if not full_pdf_length == total_page_count + 1:
         raise ValueError(f"Expected exactly one more page in the full pdf, but got {full_pdf_length - total_page_count}\
          more pages.\n\tFull pdf: {full_pdf_length},\n\tCumulative Single Page Count: {total_page_count}.")
@@ -105,8 +105,8 @@ class NupTexDocument:
 
     @classmethod
     def get_last_page_idx(cls, pdf_path: Path) -> int:
-        reader = PyPDF2.PdfFileReader(str(pdf_path))
-        return reader.numPages
+        reader = PyPDF2.PdfReader(str(pdf_path))
+        return len(reader.pages)
 
     @classmethod
     def split_into_front_back_pairs(cls, dance_idxs: List[int]) -> List[List[int]]:

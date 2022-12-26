@@ -211,12 +211,12 @@ class Ui(QtWidgets.QMainWindow):
             return False
         if len(list(self.current_single_path.glob("*.pdf"))) == 0:
             return False
-        reader_full_pdf = PyPDF2.PdfFileReader(str(self.current_full_path))
-        full_length = reader_full_pdf.numPages
+        reader_full_pdf = PyPDF2.PdfReader(str(self.current_full_path))
+        full_length = len(reader_full_pdf.pages)
         single_summed_lengths = 0
         for file in self.current_single_path.glob("*.pdf"):
-            reader_single_pdf = PyPDF2.PdfFileReader(str(file))
-            single_summed_lengths += reader_single_pdf.numPages
+            reader_single_pdf = PyPDF2.PdfReader(str(file))
+            single_summed_lengths += len(reader_single_pdf.pages)
         if full_length - 1 == single_summed_lengths:
             return True
         else:
