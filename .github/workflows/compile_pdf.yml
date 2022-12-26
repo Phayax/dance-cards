@@ -1,58 +1,44 @@
-# This is a basic workflow to help you get started with Actions
-# TODO: split workflows as described here: https://docs.github.com/en/actions/using-workflows/about-workflows#creating-dependent-jobs
+# TODO: create custom action or use the actions listed here to install necessary latex packages:
+#      https://stackoverflow.com/questions/59269850/caching-apt-packages-in-github-actions-workflow/73500415#73500415
 
 name: Create Dance Cards
 
-# Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
     branches: [ main ]
-  #pull_request:
-  #  branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   compile-full:
     name: Compile the full cards
     runs-on: ubuntu-20.04
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      # repository now lies in $GITHUB_WORKSPACE
       - uses: actions/checkout@v3
 
       - name: LaTeX compilation full pdf
-        # You may pin to the exact commit or the version.
-        # uses: dante-ev/latex-action@49cf7cb5f79e7b2006dbdffea85e02bec0b6244b
         uses: dante-ev/latex-action@2021-A
         with:
-          # The root LaTeX file to be compiled
           root_file: cards.tex
-          # The working directory for the latex compiler to be invoked
           working_directory: .
-          # LaTeX engine to be used
-          #compiler: # optional, default is latexmk
-          # Extra arguments to be passed to the latex compiler
-          #args: # optional, default is -pdf -latexoption=-file-line-error -latexoption=-interaction=nonstopmode
-          # Install extra packages by apt-get
-          #extra_system_packages: # optional
-
+          compiler: latexmk
+          
       - name: Archive full pdf
         uses: actions/upload-artifact@v3
         with:
           name: full-pdf
           path: cards.pdf
 
-
   compile-single:
-    # The type of runner that the job will run on
+    name: Compile the single cards
     runs-on: ubuntu-20.04
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
@@ -63,24 +49,15 @@ jobs:
       - name: Run split script
         run: python3 split.py
 
-      - name: LaTeX compilation
-        # You may pin to the exact commit or the version.
-        # uses: dante-ev/latex-action@49cf7cb5f79e7b2006dbdffea85e02bec0b6244b
+      - name: LaTeX compilation single pdfs
         uses: dante-ev/latex-action@2021-A
         with:
-          # The root LaTeX file to be compiled
           # left empty so all tex files are compiled
           root_file: ""
-          # The working directory for the latex compiler to be invoked
           working_directory: split
-          # LaTeX engine to be used
-          #compiler: # optional, default is latexmk
-          # Extra arguments to be passed to the latex compiler
-          #args: # optional, default is -pdf -latexoption=-file-line-error -latexoption=-interaction=nonstopmode
-          # Install extra packages by apt-get
-          #extra_system_packages: # optional
+          compiler: latexmk
 
-        # copy those to a separate directory to archive them
+      # copy those to a separate directory to archive them
       - run: mkdir -p single
       - name: Copy split pdfs
         run: cp split/*.pdf single/
@@ -92,29 +69,29 @@ jobs:
           name: single-pdfs
           path: single/
       
-
   compile-multipage:
-    needs: [compile-full, compile-single]
     name: Compile the multipage versions.
     runs-on: ubuntu-20.04
+    
+    needs: [compile-full, compile-single]
+    
     steps:
       - uses: actions/checkout@v3
+
       - name: Install python dependencies
         run: pip install -r requirements.txt
       
+      # get the compiled pdfs
       - uses: actions/download-artifact@v3
-        # Upload the artifact so the MacOS runner do something with it
         with:
           name: single-pdfs
           path: single/
-
       - uses: actions/download-artifact@v3
-        # Upload the artifact so the MacOS runner do something with it
         with:
           name: full-pdf
 
-      - run: ls -la .
-      - run: ls -la single
+      #- run: ls -la .
+      #- run: ls -la single
 
       - name: Create multipage tex file 2x2
         run: python multi.py --single_pdfs single/ --full_pdf cards.pdf --nup_factor 2 --fold_edge short --output_tex cards_2x2_short.tex
@@ -169,33 +146,28 @@ jobs:
         with:
           name: cards-2x2-shortedge-pdf
           path: cards_2x2_short.pdf
-
       - name: Archive multipage pdf 2x2 long edge
         uses: actions/upload-artifact@v3
         with:
           name: cards-2x2-longedge-pdf
           path: cards_2x2_long.pdf
 
-
       - name: Archive multipage pdf 3x3 short edge
         uses: actions/upload-artifact@v3
         with:
           name: cards-3x3-shortedge-pdf
           path: cards_3x3_short.pdf
-
       - name: Archive multipage pdf 3x3 long edge
         uses: actions/upload-artifact@v3
         with:
           name: cards-3x3-longedge-pdf
           path: cards_3x3_long.pdf
 
-
       - name: Archive multipage pdf 4x4 short edge
         uses: actions/upload-artifact@v3
         with:
           name: cards-4x4-shortedge-pdf
           path: cards_4x4_short.pdf
-
       - name: Archive multipage pdf 4x4 long edge
         uses: actions/upload-artifact@v3
         with:
