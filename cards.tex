@@ -17,6 +17,8 @@
 
 %\pagestyle{empty}
 
+\newif\iffast
+
 \usepackage{graphicx}
 \usepackage{tikz}
 \usetikzlibrary{external}
@@ -63,10 +65,13 @@
 	
 	% TODO: This slows down compilation a lot.
 	%       Maybe find a faster way to do this.
+	\iffast
+	\else
 	\node[anchor=north west, xshift=0.5cm, yshift=-0.5cm, inner sep=0] at (current page.north west){\includegraphics[scale=0.8, angle=0, origin=c]{img/corner_black}};
 	\node[anchor=north east, xshift=-0.5cm, yshift=-0.5cm, inner sep=0] at (current page.north east){\includegraphics[scale=0.8, angle=0, origin=c]{img/corner2_black}};
 	\node[anchor=south west, xshift=0.5cm, yshift=0.5cm, inner sep=0] at (current page.south west){\includegraphics[scale=0.8, angle=180, origin=c]{img/corner2_black}};
 	\node[anchor=south east, xshift=-0.5cm, yshift=0.5cm, inner sep=0] at (current page.south east){\includegraphics[scale=0.8, angle=180, origin=c]{img/corner_black}};
+	\fi
 	
 	
 	% Original pgfornament style:
@@ -101,19 +106,28 @@
 	\end{tikzpicture}
 }
 \newcommand{\danceeasymarker}{
+	\iffast
+	\else
 	\begin{tikzpicture}[remember picture, overlay]
 		\node[anchor=south, xshift=0cm, yshift=0.5cm, inner sep=0] at (current page.south){\pgfornament[width=4cm]{80}};
 	\end{tikzpicture}
+	\fi
 }
 \newcommand{\dancemediummarker}{
+	\iffast
+	\else
 	\begin{tikzpicture}[remember picture, overlay]
 		\node[anchor=south, xshift=0cm, yshift=0.5cm, inner sep=0] at (current page.south){\pgfornament[width=5cm]{83}};
 	\end{tikzpicture}
+	\fi
 }
 \newcommand{\dancedifficultmarker}{
+	\iffast
+	\else
 \begin{tikzpicture}[remember picture, overlay]
 	\node[anchor=south, xshift=0cm, yshift=0.4cm, inner sep=0] at (current page.south){\pgfornament[width=5cm]{84}};
 \end{tikzpicture}
+	\fi
 }
 \newcommand{\danceinstructionsbegin}{\begin{longtable}{p{1cm}p{9.8cm}}}
 \newcommand{\danceinstructionsend}{\end{longtable}}
@@ -126,6 +140,9 @@
 
 \begin{document}
 	
+%\fastfalse
+\fasttrue
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % A Celt's New Dance
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
