@@ -88,6 +88,9 @@ def split_file(base_tex_file: Path, target_file_path: Path):
     with open(base_tex_file, "r", encoding="utf-8") as f:
         file_content = f.readlines()
         file_content = [line for line in file_content if not line.strip().startswith(r"%")]
+        # ignore lines that specify the compilespeed option 
+        # \fastrue or \fastfalse
+        file_content = [line for line in file_content if not line.strip().startswith(r"\fast")]
     # join the lines (keeping newlines)
     file_content = "".join(file_content)
 
