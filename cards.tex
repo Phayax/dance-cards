@@ -17,6 +17,9 @@
 
 %\pagestyle{empty}
 
+\newif\iffast
+\fastfalse
+
 \usepackage{graphicx}
 \usepackage{tikz}
 \usetikzlibrary{external}
@@ -63,10 +66,13 @@
 	
 	% TODO: This slows down compilation a lot.
 	%       Maybe find a faster way to do this.
+	\iffast
+	\else
 	\node[anchor=north west, xshift=0.5cm, yshift=-0.5cm, inner sep=0] at (current page.north west){\includegraphics[scale=0.8, angle=0, origin=c]{img/corner_black}};
 	\node[anchor=north east, xshift=-0.5cm, yshift=-0.5cm, inner sep=0] at (current page.north east){\includegraphics[scale=0.8, angle=0, origin=c]{img/corner2_black}};
 	\node[anchor=south west, xshift=0.5cm, yshift=0.5cm, inner sep=0] at (current page.south west){\includegraphics[scale=0.8, angle=180, origin=c]{img/corner2_black}};
 	\node[anchor=south east, xshift=-0.5cm, yshift=0.5cm, inner sep=0] at (current page.south east){\includegraphics[scale=0.8, angle=180, origin=c]{img/corner_black}};
+	\fi
 	
 	
 	% Original pgfornament style:
@@ -101,19 +107,28 @@
 	\end{tikzpicture}
 }
 \newcommand{\danceeasymarker}{
-	\begin{tikzpicture}[remember picture, overlay]
-		\node[anchor=south, xshift=0cm, yshift=0.5cm, inner sep=0] at (current page.south){\pgfornament[width=4cm]{80}};
-	\end{tikzpicture}
+	\iffast
+	\else
+		\begin{tikzpicture}[remember picture, overlay]
+			\node[anchor=south, xshift=0cm, yshift=0.5cm, inner sep=0] at (current page.south){\pgfornament[width=4cm]{80}};
+		\end{tikzpicture}
+	\fi
 }
 \newcommand{\dancemediummarker}{
-	\begin{tikzpicture}[remember picture, overlay]
-		\node[anchor=south, xshift=0cm, yshift=0.5cm, inner sep=0] at (current page.south){\pgfornament[width=5cm]{83}};
-	\end{tikzpicture}
+	\iffast
+	\else
+		\begin{tikzpicture}[remember picture, overlay]
+			\node[anchor=south, xshift=0cm, yshift=0.5cm, inner sep=0] at (current page.south){\pgfornament[width=5cm]{83}};
+		\end{tikzpicture}
+	\fi
 }
 \newcommand{\dancedifficultmarker}{
-\begin{tikzpicture}[remember picture, overlay]
-	\node[anchor=south, xshift=0cm, yshift=0.4cm, inner sep=0] at (current page.south){\pgfornament[width=5cm]{84}};
-\end{tikzpicture}
+	\iffast
+	\else
+		\begin{tikzpicture}[remember picture, overlay]
+			\node[anchor=south, xshift=0cm, yshift=0.4cm, inner sep=0] at (current page.south){\pgfornament[width=5cm]{84}};
+		\end{tikzpicture}
+	\fi
 }
 \newcommand{\danceinstructionsbegin}{\begin{longtable}{p{1cm}p{9.8cm}}}
 \newcommand{\danceinstructionsend}{\end{longtable}}
@@ -125,7 +140,7 @@
 \pagestyle{empty}
 
 \begin{document}
-	
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % A Celt's New Dance
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -147,6 +162,26 @@
 %%\dancedifficultmarker
 %\fi
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% An Dro
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+
+\iffalse\subsection{An Dro}\fi % fool texstudio into displaying subsections
+
+\dancename{An Dro}
+\danceinfo{Kette}
+
+~\\
+\textit{Kleine Finger haken bei den Nachbarn ein, Arme gesenkt und leicht gebeugt.}
+\danceinstructionsbegin
+1 -- 4 &	Double links, Hände malen eine 6 aufwärts\\
+5 -- 8 &	Double rechts, Hände malen eine 9 abwärts\\
+\danceeasymarker
+\danceinstructionsend
+\textit{Hinweis: Double links wird größer getanzt um vorwärts zu kommen}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % A' Rovin
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -155,7 +190,7 @@
 \iffalse\subsection{A' Rovin}\fi % fool texstudio into displaying subsections
 
 \dancename{A' Rovin}
-
+\origininfo{Cecil Sharp ???}{A-Roving / Faithless Nancy Dawson}{Traditional?/Anna Bidder}
 \danceinfo{Longway for as many as will}
 \danceinstructionsbegin
 1 -- 8 	& Paar 1 Lead Down \& Cast Up (lebhaft gesprungen)\\
@@ -231,12 +266,13 @@
 \newpage
 
 \dancename{An Improper Notion}
+\origininfo{Chris Sackett \& Brooke Friendly (2007)}{An Improper Notion}{von Chris Sackett}
 \iffalse\subsection{An Improper Notion}\fi % fool texstudio into displaying subsections
 \danceinfo{Longway for as many as will}
 \danceinstructionsbegin
 1 -- 8 	& Lead Up \& Down\\
-1 -- 4 	& Paar 1 Cast Down, Paar 2 \textbf{Cross Up}\\
-5 -- 8 	& Paar 1 Lead Up, Paar 2 Cast Down\\
+1 -- 8 	& Paar 1 Cast Down \& Lead Up, Paar 2 Half-Figure Eight\\
+%5 -- 8 	& Paar 1 Lead Up, Paar 2 Cast Down\\
 \danceinstructionsel
 1 -- 4 	& Set links\\
 5 -- 8 	& Paar 1 Cast Down, Paar 2 Lead Up\\
@@ -293,8 +329,9 @@
 \newpage
 
 \dancename{Autumn in Amherst}
+\origininfo{Philippe Callens}{The Red Star Line/Autumn in Amherst}{von Kathy Talvitie}
 \iffalse \subsection{Autumn in Amherst}\fi % fool texstudio into displaying subsections
-\danceinfo{}
+\danceinfo{Longways Duple minor}
 \danceinstructionsbegin
 1 -- 2 & Einzel rechts\\
 3 -- 4 & Referenz\\
@@ -306,6 +343,8 @@
 1 -- 4 & Platztausch Damen auf den Startplatz\\
 5 -- 8 & ebenso Herren\\
 \danceinstructionsel
+\danceinstructionsel
+\danceinstructionsel
 1 -- 4 & Pousette als halber Kreis\\
 5 -- 8 & Pousette senkrecht aus der Gasse und ausfächern - Paare 1 sind aufwärts gerichtet, Paare 2 abwärts\\
 1 -- 4 & Doppel vor\\
@@ -314,7 +353,6 @@
 5 -- 8 & Platztausch Partner
 \dancemediummarker
 \danceinstructionsend
-\origininfo{Philippe Callens}{The Red Star Line}{von Kathy Talvitie}
 
 
 
@@ -352,6 +390,7 @@
 \newpage
 
 \dancename{Black Nag}
+\origininfo{Playford 1657}{Playford}{}  % no specific artist known
 \iffalse\subsection{Black Nag}\fi % fool texstudio into displaying subsections
 \danceinfo{Longway for six}
 %\dancemediummarker
@@ -368,6 +407,8 @@
 1 -- 16 & Siding links, Siding rechts\\
 1 -- 4 & Platztausch H1 und D3 im Seitgalopp\\
 5 -- 8 & Platztausch H3 und D1 ebenso\\
+\danceinstructionsel
+\danceinstructionsel
 9 -- 12 & Platztausch Paar 2\\
 13 -- 16 & Drehung rechts\\
 1 -- 16 & Platztausche und Drehungen wiederholen\\
@@ -389,6 +430,7 @@
 \newpage
 
 \dancename{Blue Flag}
+\origininfo{???}{Die blaue Flagge}{von ???}
 \iffalse\subsection{Blue Flag}\fi % fool texstudio into displaying subsections
 \danceinfo{Kreistanz, Herr innen, Dame außen, ¾ Takt\\Partner anschauen, rechte Handfassung}
 \danceinstructionsbegin
@@ -402,6 +444,7 @@
 \danceinstructionsel
 1--3 	& Gemeinsam einen Schritt nach vorne\\
 4--6 	& Aus der Kiekbuschfassung lösen\\
+\danceinstructionsel
 7--9 	& Beide kicken gegen die Kreisrichtung\\
 10--12 	& Dame dreht unter dem linken Arm des Herren einen Platz weiter\\
 \danceeasymarker
@@ -417,6 +460,7 @@
 %\dancemediummarker
 \iffalse\subsection{Branle Cassandra}\fi % fool texstudio into displaying subsections
 \dancename{Branle Cassandra}
+\origininfo{Arbeau/???}{???}{}
 \danceinfo{Kreistanz, Damen/Herren\\Paare zueinandergedreht}
 \danceinstructionsbegin
 1--4 	& zwei Anstellschritte links\\
@@ -428,6 +472,7 @@
 5--8 	& Doppelhandfassung Platzwechsel (Herr innen)\\
 9--10 	& Schritt links und klatschen\\
 11--14 	& Drehung rechts\\
+\danceinstructionsel
 \danceinstructionsel
 1--4 	& Schulterbalancé links\\
 5--8 	& Doppelhandfassung Platzwechsel (Herr innen)\\
@@ -456,10 +501,11 @@
 \newpage
 
 \dancename{Branle d'Ecosse}
+\origininfo{???}{???}{}
 \iffalse \subsection{Branle d'Ecosse}\fi % fool texstudio into displaying subsections
 \danceinfo{Im Kreis durchgefasst\\Geschlecht egal}
 \danceinstructionsbegin
-&\textbf{Figuren:}\\
+%&\textbf{Figuren:}\\
 E-L& Einzel Links: Schritt links, mit rechts tap\\
 E-R&Einzel Rechts: Schritt rechts, mit links tap\\
 D-L&Doppel Links: Schritt nach links, kreuz links, und tap\\
@@ -482,6 +528,7 @@ D-R&Doppel Rechts: Schritt nach rechts, kreuz rechts, und tap\\
 \newpage
 
 \dancename{Branle des Pois}
+\origininfo{???}{???}{}
 \iffalse\subsection{Branle des Pois}\fi % fool texstudio into displaying subsections
 \danceinfo{Kreistanz, Herr/Dame, durchgefasst}
 \danceinstructionsbegin
@@ -504,6 +551,7 @@ D-R&Doppel Rechts: Schritt nach rechts, kreuz rechts, und tap\\
 \newpage
 
 \dancename{Branle des Rats}
+\origininfo{???}{???}{}
 \iffalse\subsection{Branle des Rats}\fi % fool texstudio into displaying subsections
 \danceinfo{Longway for as many as will (Kein Fortschritt)}
 \danceinstructionsbegin
@@ -524,14 +572,15 @@ D-R&Doppel Rechts: Schritt nach rechts, kreuz rechts, und tap\\
 \newpage
 
 \dancename{Broken Sixpence}
+\origininfo{Don Armstrong}{???}{}
 \iffalse \subsection{Broken Sixpence}\fi % fool texstudio into displaying subsections
-\danceinfo{Longway for as many as will}
+\danceinfo{Longway, Duple Minor\\1er improper}
 \danceinstructionsbegin
-1 -- 8 & Dosado mit der Person diagonal rechts(Sets sind dabei egal)\\
-1 -- 8 & Herren Dosado auf der Linie\\
-9 -- 16 & Damen Dosado auf der Linie\\
+1 -- 8 & Dosado auf den Linien\\
+1 -- 8 & Herren Dosado (diagonal)\\
+9 -- 16 & Damen Dosado (diagonal)\\
 \danceinstructionsel
-1 -- 8 & Paar 1 Swing am Ende davon eine Line of Four nach unten bilden\\
+1 -- 8 & Paar 1 Swing, am Ende eine Line of Four nach unten bilden\\
 1 -- 8 & In der Line of Four Lead Down\\
 9 -- 16 & Umdrehen Lead Up mit Bending the Line (Die zwei äußeren Tänzer gehen wieder in die Gasse und schließen die Viererkette oben zu einem Setkreis)\\
 \danceinstructionsel
@@ -571,6 +620,7 @@ D-R&Doppel Rechts: Schritt nach rechts, kreuz rechts, und tap\\
 \newpage
 
 \dancename{Chapelloise}
+\origininfo{???}{???}{}
 \iffalse\subsection{Chapelloise}\fi % fool texstudio into displaying subsections
 \danceinfo{Kreistanz, Herren innen, GUZS}
 \danceinstructionsbegin
@@ -597,6 +647,7 @@ D-R&Doppel Rechts: Schritt nach rechts, kreuz rechts, und tap\\
 \newpage
 
 \dancename{Chava}
+\origininfo{???}{???}{}
 \iffalse\subsection{Chava}\fi % fool texstudio into displaying subsections
 \danceinfo{Kreistanz, durchgefasst}
 \danceinstructionsbegin
@@ -629,6 +680,7 @@ D-R&Doppel Rechts: Schritt nach rechts, kreuz rechts, und tap\\
 \newpage
 
 \dancename{Childgrove \normalsize{(Arbon)}}
+\origininfo{???}{???}{}
 \iffalse\subsection{Childgrove}\fi % fool texstudio into displaying subsections
 \danceinfo{Longway for as many as will}
 \danceinstructionsbegin
@@ -691,6 +743,66 @@ D-R&Doppel Rechts: Schritt nach rechts, kreuz rechts, und tap\\
 \dancemediummarker
 \danceinstructionsend
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Dargason
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+
+%\dancename{Dargason} 
+%\origininfo{Playford}{Playford}{}
+%\iffalse \subsection{Dargason}\fi % fool texstudio into displaying subsections
+%\danceinfo{Tanz für 4 Paare\\Aufstellung D D D D H H H H\\Alle schauen in die Mitte}
+%\textit{Die Sidings werden meist als Cecil Sharp Siding ausgeführt\\(ähnlich einem halben Gypsy)}
+%\danceinstructionsbegin
+%\textbf{Teil} & \textbf{A1}:\\
+%1 -- 8 & Erstes Paar in der Mitte: Siding links\\
+%1 -- 8 & Set links \& Passieren: Beide passieren mit ganzem Turn rechts, wobei sie rechts voneinander gehen. Man endet mit selber Blickrichtung wie vor dem Turn.\\
+%1 -- 16	& Die mittleren zwei Paare: Siding links, Set links \& Passieren\\
+%1 -- 16	& Die mittleren drei Paare: Siding links, Set links \& Passieren\\
+%1 -- 16	& Alle Paare: Siding links - Set links \& Passieren. Jetzt ist das 1.mittlere Paar auf der Gegenseite hinten angekommen und bleibt stehen\\
+%1 -- 16 & Die mittleren drei Paare: Siding links - Set links, passieren, stehen\\
+%1 -- 16	& Die mittleren zwei Paare: Siding links - Set links, passieren, stehen\\
+%1 -- 16	& Das mittlere Paar: Siding links - Set links, passieren. Alle stehen wieder in Reihe auf Gegenseite, sofort:\\
+%\textbf{Teil} & \textbf{B1}:\\
+%1 -- 16	& Mittleres Paar: Arming rechts iUz halb herum, zurück gUz, Set links, passieren ;zur Gegenseite \\
+%1 -- 16	& die mittleren 2 Paare: Arming rechts iUz halb herum, zurück gUz, Set links ,passieren \\
+%1 -- 16	& die mittleren 3 Paare: Arming rechts iUz ganz herum - Set links -passieren\\
+%1 -- 16	& alle 4 Paare: Arming rechts iUz ganz herum - Set links -passieren. Jetzt ist das 1.mittlere Paar auf der Gegenseite hinten angekommen und bleibt stehen\\
+%1 -- 64	& zurück bis zum eigenen Platz wie am Anfang für alle. Alle stehen wieder in Reihe\\
+%\textbf{Teil} & \textbf{C1}:\\
+%1 -- 32	& Mittlere Paar beginnt mit Hey The single Hey:  rechte H. – li – re –li   turn  li – re – li – re
+%
+%\dancedifficultmarker
+%\danceinstructionsend
+\dancename{Dargason} 
+\origininfo{Playford}{Playford}{}
+\iffalse \subsection{Dargason}\fi % fool texstudio into displaying subsections
+\danceinfo{Longway for as many as will\\Aufstellung: . . . D D D H H H . . . \\Alle schauen in die Mitte}
+\textit{Die Sidings werden meist als Cecil Sharp Siding ausgeführt\\(ähnlich einem halben Gypsy)}
+\danceinstructionsbegin
+\textbf{Strophe} & \textbf{I}\\
+1 -- 8 & Erstes Paar in der Mitte: Siding links\\
+1 -- 8 & Set links \& Passieren: Beide passieren mit ganzem Turn rechts, wobei sie rechts voneinander gehen. Man endet mit selber Blickrichtung wie vor dem Turn.\\
+1 -- 16 & Die mittleren zwei Paare: Siding links, Set links \& Passieren\\
+1 -- 16	& Die mittleren drei Paare: Siding links, ... \\
+\danceinstructionsel
+1 -- 16 & \hspace*{1.0cm} $\vdots$\\
+ & \textit{So Tanzen bis die innersten Tänzer außen angekommen sind. Dann wieder den selben Weg zurücktanzen bis alle wieder an ihrer Startposition angelangt sind.}\\
+1 -- 16 & \hspace*{1.0cm} $\vdots$\\
+1 -- 16 & Die mittleren zwei Paare: Siding links, Set links \& Passieren\\
+1 -- 16 & Das mittlere Paar: Siding links, Set links \& Passieren. Alle sind nun wieder auf ihren Startpositionen.\\
+\danceinstructionsel
+\textbf{Strophe} & \textbf{II}\\
+1 -- XX & Wie auch in Strophe I aber statt des Sidings eine Armtour mit eingehakten Armen\\
+\danceinstructionsel
+\textbf{Strophe} & \textbf{III}\\
+1 -- XX & Eine Hey: Die beiden inneren Partner Starten eine Hey zum Partner mit der rechten Hand. Während sie nach außen gehen Tanzen so immer mehr in der Hey bis alle wieder auf ihren eigenen Plätzen sind.\\
+
+\dancemediummarker
+\danceinstructionsend
+
+\textit{Je nach Länge der Musik können mehr oder weniger Tänzer mittanzen beziehungsweise weniger oder mehr Strophen getanzt werden}\\
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Das Scheitern des Premierministers
@@ -837,7 +949,8 @@ D-R&Doppel Rechts: Schritt nach rechts, kreuz rechts, und tap\\
 
 \dancename{Far Away}
 \iffalse\subsection{Far Away}\fi % fool texstudio into displaying subsections
-\danceinfo{Longway for as many as will\\¾ Takt, doppelter Fortschritt}
+\origininfo{Gary Roodman (2003)}{Far away}{von Peter Jung}
+\danceinfo{Longway, Duple Minor\\¾ Takt, doppelter Fortschritt}
 \danceinstructionsbegin
 Takt 	& \\
 1 -- 4 	& Setkreis ganz im UZS\\
@@ -848,6 +961,7 @@ Takt 	& \\
 1 -- 2 	& Paar 1 lead down bis zum Platz der nächsten 1er, 2er casten up neben den Platz der 1er (in ihrem Set)\\
 & \textbf{(Erster Fortschritt)}\\
 3 -- 4 	& Paar 2 gaten die ankommenden 1er, dann finden sich alle zu einer Line of Four\\
+\danceinstructionsel
 5 -- 6 	& Line of Four zwei Takte nach unten gehen.\\
 7 -- 8 	& Line of Four Fall back, bending the line\\
 \danceinstructionsel
@@ -1440,6 +1554,31 @@ Takte&\\
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	Impropriety
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+
+\dancename{Impropriety}
+\origininfo{Brooke Friendly \& Chris Sackett (1999)}{Millisons Jegge}{Playford}
+\iffalse\subsection{Impropriety}\fi % fool texstudio into displaying subsections
+\danceinfo{Longway, Duple Minor}
+
+\danceinstructionsbegin
+1 -- 8 & P2 gatet P1 1\nicefrac{1}{4} Drehungen nach unten.\\
+9 -- 16 & Line of Four: Lead down and Fall back up.\\
+\danceinstructionsel
+1 -- 4 & Linien nach außen schauend ein Double nach außen\\
+5 -- 8 & Platzwechsel der 1er und 2er. 2er drehen unter dem Arm der 1er durch und enden mit Blick nach innen.\\
+9 -- 12 & Linien wieder ein Double nach innen.\\
+\danceinstructionsel
+13 -- 16 & P1 cast down, P2 lead up.\\
+1 -- 8 & P1 Half figure Eight durch P2.\\
+9 -- 16 & P2 gatet P1 einmal nach oben.\\
+\dancedifficultmarker
+\danceinstructionsend
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %	Indian Queen
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
@@ -1462,6 +1601,7 @@ Takte&\\
 1 -- 8  & $\nicefrac{3}{4}$ Kette\\
 \danceeasymarker
 \danceinstructionsend
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Jamaica
@@ -1537,13 +1677,14 @@ Takte&\\
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% John Tallis Canon
+% John Tallis' Canon
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 
-\dancename{John Tallis Canon}
-\iffalse\subsection{John Tallis Canon}\fi % fool texstudio into displaying subsections
-\danceinfo{Longway for as many as will, Kanon}
+\dancename{John Tallis' Canon}
+\origininfo{Pat Shaw}{John Tallis' Canon}{von Pat Shaw}
+\iffalse\subsection{John Tallis' Canon}\fi % fool texstudio into displaying subsections
+\danceinfo{Longway, Duple minor, Kanon}
 %\danceinstructionsbegin
 %\dancedifficultmarker
 \begin{longtable}{c | c | c}
@@ -1570,6 +1711,58 @@ Takte&\\
 \danceinstructionsend
 \textit{Es hilft sich vor dem Start des Tanzes einzuprägen in welche Richtung einen der eigene Fortschritt bringt.}
 \dancedifficultmarker
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Juice of Barley (Variante)
+% Erläuterungen: abgewandelt,
+% Notes:
+% Used in the 1996 Television production of Emma.
+
+% Original: 
+% The Juice of Barley	Dancing Master 1688
+% The 1 cu go back to back with their Partners, and the 2 cu do the same at the same time.
+% The 1 cu take hands with his Partner and turn her round, the 2 cu doing the same at the same time.
+% The two we stand still, whilst the 1 man goes round about the 2 wo into the 2 man’s place, and the 2 man goes round about the 1 wo into the 1 man’s place, 
+% then all clap hands, then all four take hands and go quite round, the we doing the like. 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+
+\dancename{Juice of Barley \normalsize{(Variante)}}
+\iffalse\subsection{Juice of Barley (Variante)}\fi % fool texstudio into displaying subsections
+\origininfo{Playford abgewandelt}{Playford}{}
+\danceinfo{Longway for as many as will}
+\danceinstructionsbegin
+1 -- 8 &	Paare Dos-á-Dos \\
+		& umrunden + vertreiben\\
+1 -- 8 &	H1 durch Damen, um D2 auf Platz H2 \\
+9 -- 16 &	H2 durch Damen, um D1 auf Platz H1 \\
+1 -- 8 &	D1 durch Herren, um H1 auf Platz D2 \\
+9 -- 16 &	D2 durch Herren, um H2 auf Platz D1 \\
+1 -- 4 &	P1 geht gefasst nach oben (verabschieden)\\
+5 -- 8 & 	und wieder zurück\\
+\dancemediummarker
+\danceinstructionsend
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Juice of Barley (Playford)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+
+\dancename{Juice of Barley \normalsize{(Playford)}}
+\iffalse\subsection{Juice of Barley (Playford)}\fi % fool texstudio into displaying subsections
+\origininfo{Playford}{Playford}{}
+\danceinfo{Longway for as many as will}
+\danceinstructionsbegin
+1 -- 8 &	Paare Dos-á-Dos \\
+9 -- 16 & 	Paare Ronde \\
+1 -- 8 & 	H1 \& H2 Half-Figure-Eight durch die Damen auf des jeweils anderen Platz\\
+9 -- 16 & 	Klatschen auf den ersten Schlag, dann Setkreis ganz herum\\
+1 -- 8 & 	D1 \& D2 Half-Figure-Eight durch die Herren auf des jeweils anderen Platz\\
+9 -- 16 & 	Klatschen auf den ersten Schlag, dann Setkreis ganz herum\\
+\danceeasymarker
+\danceinstructionsend
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1655,14 +1848,15 @@ Paare in Korobushka-Fassung nach oben schauend.
 \newpage
 
 \dancename{Land of Mist and Wonder}
+\origininfo{Gary Roodman (2018)}{Mylne's Court}{von Rachel Bell}
 \iffalse\subsection{Land of Mist and Wonder}\fi % fool texstudio into displaying subsections
 \danceinfo{4-Paar Set, 1er und 3er improper,\\ 2er und 3er stehen Rücken an Rücken, ¾-Takt}
 \danceinstructionsbegin
 \textbf{Teil}&\textbf{A1:}\\
-1 -- 8 	& Mirror-image-Hecken auf den Seitenlinien. Die 1er gehen durch die 2er, die 3er gehen durch die 4er. Drei Schritte für jeden Wechsel. Die Paare können wann immer möglich Handfassung aufnehmen.\\
+1 -- 8 \footnotesize{(Takte)}	& Mirror-image-Hey auf den Seitenlinien. Die 1er gehen durch die 2er, die 3er gehen durch die 4er. Drei Schritte für jeden Wechsel. Die Paare können wann immer möglich Handfassung aufnehmen.\\
 \textbf{Teil}& \textbf{A2:}\\
 1 -- 4 & 1er lead down durch die anderen Paare, turn single und lead up\\
-5 -- 8 & Invert Lines: Die 1er machen einen cast down auf die Position der 4er. Die anderen Paare folgen ihnen, so dass am Ende die 1er mit den 4ern und die 2er mit den 3ern die Plätze getauscht haben.\\
+5 -- 8 & Invert Lines: Die 1er casten auf die Position der 4er. Die anderen Paare folgen ihnen, so dass am Ende die 1er mit den 4ern und die 2er mit den 3ern die Plätze getauscht haben.\\
 &\\
 \textbf{Teil} & \textbf{B:}\\
 1 -- 4 	& Vor dem Partner Set and turn single\\
@@ -1676,6 +1870,40 @@ Paare in Korobushka-Fassung nach oben schauend.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% La Matelotte
+% Info:
+% from Feuillets 1706: "Recueil de contredances mises en chorégraphie d'une manière si aisée que toutes personnes peuvent facilement les apprendre"
+% Dance can be found on Book pages 121 - 128
+% Music: 
+%  - Taken from Marin Marais Opera Alcione (or Alcyone) in Act III Scene 2/3
+%    -> Not practical for dancing since it would have to be cut first.
+%  Available "dancable" music:
+%  - Artist: Les Talens Lyriques / Christophe Rousset
+%    - Album: Musiques à danser à la cour et à l'opéra
+%      - Title: Alcyone ; La Matelotte
+%  - Amazon: https://www.amazon.fr/Musiques-%C3%A0-Danser-Cour-lOp%C3%A9ra/dp/B000001Z2T
+%  - https://www.youtube.com/watch?v=g-e-5VSgpvY
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+
+\iffalse\subsection{La Matelotte}\fi % fool texstudio into displaying subsections
+\origininfo{Feuillet (1706)}{La Matelote (Thema aus Alcione)}{Marin Marais}
+\dancename{La Matelotte}
+\danceinfo{Longway, Duple Minor}
+\danceinstructionsbegin
+1 -- 8 & P1 Lead up \& Cast Down durch P2 des oberen Sets\\
+1 -- 8 & P1 Lead down \& Cast Up durch P2\\
+1 -- 8 & P1 Half figure eight durch P2\\
+1 -- 8 & P1 Ronde\\
+1 -- 8 & Dosado auf Linien\\
+1 -- 8 & Ronde auf Linien\\
+1 -- 8 & P1 Dosado.\\
+1 -- 8 & P1 halbe Ronde \& Cast Down, P2 Lead up\\
+\dancemediummarker
+\danceinstructionsend
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Lillibulero
 % There are a lot of versions of this dance.
 % This one is from the original Playford Book: 
@@ -1685,7 +1913,8 @@ Paare in Korobushka-Fassung nach oben schauend.
 
 \iffalse\subsection{Lilli Burlero (Playford)}\fi % fool texstudio into displaying subsections
 \dancename{Lilli Burlero {\normalsize(Playford)}}
-\danceinfo{Longway for as many as will}
+\origininfo{Playford (???)}{???}{}
+\danceinfo{Longway, Duple Minor}
 \danceinstructionsbegin
 1 -- 8 & Paar 1 Lead Down \& Cast Up\\
 1 -- 8 & Paar 2 Lead Up \& Cast Down\\
@@ -1708,7 +1937,7 @@ Paare in Korobushka-Fassung nach oben schauend.
 
 \iffalse\subsection{Lilli Burlero (Modern)}\fi % fool texstudio into displaying subsections
 \dancename{Lilli Burlero {\normalsize(Modern)}}
-\danceinfo{Longway for as many as will}
+\danceinfo{Longway, Duple Minor}
 \danceinstructionsbegin
 1 -- 8 & Paar 1 Lead Down \& Cast Up\\
 1 -- 8 & Paar 2 Lead Up \& Cast Down\\
@@ -1730,7 +1959,7 @@ Paare in Korobushka-Fassung nach oben schauend.
 
 \iffalse\subsection{Lilli Burlero (1/2 Dos-a-dos)}\fi % fool texstudio into displaying subsections
 \dancename{Lilli Burlero {\normalsize(\nicefrac{1}{2} Dos-a-dos)}}
-\danceinfo{Longway for as many as will}
+\danceinfo{Longway, Duple Minor}
 \danceinstructionsbegin
 1 -- 8 & Paar 1 Lead Down \& Cast Up\\
 1 -- 8 & Paar 2 Lead Up \& Cast Down\\
@@ -1752,7 +1981,10 @@ Paare in Korobushka-Fassung nach oben schauend.
 
 \iffalse\subsection{Lulle Me Beyond Thee}\fi % fool texstudio into displaying subsections
 \dancename{Lulle Me Beyond Thee}
-\danceinfo{Playford für Vier Paare, Aufstellung:\\H~~H~~D~~D\\D~~D~~H~~H}
+\origininfo{Playford (1651)}{Playford}{}
+\danceinfo{Playford für Vier Paare, Aufstellung:\\H~~H~~D~~D\\[-0.1cm]D~~D~~H~~H}
+% Hacking a bit to get enough space for the attribution at the bottom
+\vspace{-.3cm}
 \danceinstructionsbegin
 \textbf{Strophe} & \textbf{I} \\
 1 -- 8 & Lead \& Fall Back ~~~(\textit{Linien durchgefasst zueinander})\\
@@ -1764,7 +1996,7 @@ Paare in Korobushka-Fassung nach oben schauend.
 \textbf{Umbau}& \textbf{II} \\
 17--32 & Wiederholen \\
 
-
+\danceinstructionsel
 \danceinstructionsel
 \danceinstructionsel
 \textbf{Strophe} & \textbf{II} \\
@@ -1818,6 +2050,7 @@ Paare in Korobushka-Fassung nach oben schauend.
 \newpage
 
 \dancename{Mad Robin}
+\origininfo{Playford (1695)}{Mad Robin}{Playford}
 \iffalse\subsection{Mad Robin}\fi % fool texstudio into displaying subsections
 \danceinfo{Longway for as many as will}
 \danceinstructionsbegin
@@ -1855,10 +2088,11 @@ Paare in Korobushka-Fassung nach oben schauend.
 
 \iffalse\subsection{Michael and All Angels}\fi % fool texstudio into displaying subsections
 \dancename{Michael and All Angels}
+\origininfo{Fried de Metz Herman (1991)}{„Let Monarchs Fight for Power and Fame“ (aus Dioclesian)}{Henry Purcell}
 \danceinfo{Longway for as many as will\\\nicefrac{3}{4}Takt}
 \danceinstructionsbegin
-Takte 	& \\
-\danceinstructionsel
+Takte:	& \\
+%\danceinstructionsel
 ~\textbf{Teil}& \textbf{I a}\\
 1 -- 2 & First Corner Gypsy rechtsschultrig\\
 3 -- 8 & Cast down/up um H2/D1, in der Setmitte Linkhandronde, man endet auf dem Ausgangsgplatz des jeweils anderen\\
@@ -1866,6 +2100,7 @@ Takte 	& \\
 ~\textbf{Teil}& \textbf{I b}\\
 1 -- 2 & Second Corner Gypsy linksschultrig\\
 3 -- 8 & Cast up/down um H1/D2, in der Setmitte Rechthandronde, man endet auf dem Ausgangsplatz des jeweils anderen\\
+\danceinstructionsel
 \danceinstructionsel
 ~\textbf{Teil}& \textbf{II}\\
 1 -- 2 & Im Set halber Rechthandstern\\
@@ -1900,6 +2135,7 @@ Takte 	& \\
 \newpage
 
 \dancename{Mulberry Garden}
+\origininfo{Playford (1670)}{Mulberry Garden}{Playford}
 \iffalse\subsection{Mulberry Garden}\fi % fool texstudio into displaying subsections
 \danceinfo{Longway for as many as will}
 \danceinstructionsbegin
@@ -1924,7 +2160,8 @@ Takte 	& \\
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 
-\dancename{Mulberry Garden (Berlin)}
+\dancename{Mulberry Garden \large{(Berlin)}}
+\origininfo{Playford (1670) abgewandelt}{Mulberry Garden}{Playford}
 \iffalse\subsection{Mulberry Garden à la Berlin}\fi % fool texstudio into displaying subsections
 \danceinfo{Longway for as many as will}
 \danceinstructionsbegin
@@ -1974,14 +2211,14 @@ Takte 	& \\
 \newpage
 
 \dancename{Old Bachelor}
+\origininfo{Playford (1695)}{Old Bachelor, häufiger Nobody's Jig}{Playford}
 \iffalse\subsection{Old Bachelor}\fi % fool texstudio into displaying subsections
 \danceinfo{Longway for as many as will}
-%\dancedifficultmarker
 \danceinstructionsbegin
 1 -- 8 	& P1 passiert sich rechtschultrig, geht um den jeweiligen Contra herum und trifft sich zwischen und mit P2 zu einer Line of Four \\
 9 -- 16 	& Lead up and back der Line of Four, am Ende zum Kontra wenden\\
 \danceinstructionsel
-1 -- 16 	& H1 D2/H2 D1 siding rechtsschultrig\\
+1 -- 4 	& H1 D2/H2 D1 siding rechtsschultrig\\
 5 -- 8 	& Dann zurück linksschultrig(nur P1)\\
 9 -- 12 & Wieder H1 D2/H2 D1 siding linksschultrig\\
 13 -- 16& zurück und P1 wendet sich zueinander\\
@@ -1995,6 +2232,30 @@ Takte 	& \\
 1 -- 4 	& Damen und H2 tanzen im 3er Kreis halb rechtsherum, H2 steht dann auf der Damenseite. \\
 5 -- 8 	& Turn links auf Linie. Paare nun improper\\
 9 -- 16 	& 2er Kette\\
+\dancedifficultmarker
+\danceinstructionsend
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% On Wittman's Golden Floor
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+
+\dancename{On Wittman's Golden Floor}
+\origininfo{Chris Sackett and Brooke Friendly (2003)}{On Wittman's Golden Floor}{von Todd Barton (2003)}
+\iffalse\subsection{On Wittman's Golden Floor}\fi % fool texstudio into displaying subsections
+\danceinfo{Longway, Duple Minor}
+\danceinstructionsbegin
+1 -- 8 & Linkhandstern \\
+9 -- 16 & SC: Linke Handtour fast ganz herum, dann nach außen wenden, sodass man den Partner anschaut \\
+& FC: Orbiten im UZS halb um die SC herum. Am Ende ergibt sich die Aufstellung für eine Vierer-Hey \\
+1 -- 16 & Volle Hey rechtsschultrig mit Partner beginnend.\\
+\danceinstructionsel
+1 -- 8 & Paare rechtsschultrig 1\nicefrac{1}{4} Gypsy\\
+9 -- 16 & Setkreis ganz herum\\
+1 -- 4 & SC Platzwechsel (rechtsschultrig)\\
+5 -- 8 & Partner Platzwechsel (rechtsschultrig)\\
+9 -- 16 & Rechthandstern\\
 \dancedifficultmarker
 \danceinstructionsend
 
@@ -2018,6 +2279,7 @@ Takte 	& \\
 \newpage
 
 \dancename{Pavane Belle qui tiens ma vie}
+\origininfo{???}{Arbeau}{}
 \iffalse \subsection{Pavane Belle qui tiens ma vie}\fi % fool texstudio into displaying subsections
 \danceinfo{Pavane in einer Reihe,\\ Paar 1/2\\Ein Schritt/2 Schläge}
 \danceinstructionsbegin
@@ -2181,8 +2443,10 @@ Takte 	& \\
 \newpage
 
 \dancename{Picking of Sticks}
+\origininfo{Lovelace Manuscript, Playford (1651), Cecil Sharp}{Picking of Sticks}{Playford}
 \iffalse\subsection{Picking of Sticks}\fi % fool texstudio into displaying subsections
 \danceinfo{Playford, Longway for six}
+\textit{Unclear Dance instructions, Playford Mentions no set \& turns, have no access to Sharps Interpretation}
 \danceinstructionsbegin
 \textbf{Strophe} & \textbf{~I}\\
 1 -- 8 & Lead Up \& Down\\
@@ -2221,13 +2485,15 @@ Takte 	& \\
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Playing in the Field(s)
+% Playing in the Field
 % https://www.youtube.com/watch?v=mf8wQslOsoQ
+% https://calculatedfigures.com/DanceIndex.htm
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 
-\dancename{Playing in the Field(s)}
-\iffalse\subsection{Playing in the Field(s)}\fi % fool texstudio into displaying subsections
+\dancename{Playing in the Field}
+\origininfo{Gary Roodman (2005)}{Entrée (aus Il Pastor Fido)???}{Georg Friedrich Händel} % https://upadouble.info/dance.php?id=PlayingInTheField&devisor=Gary%20Roodman
+\iffalse\subsection{Playing in the Field}\fi % fool texstudio into displaying subsections
 \danceinfo{Grand Square}
 \textit{Alle Gypsies in diesem Tanz sind rechtsschultrig}
 \danceinstructionsbegin
@@ -2259,11 +2525,44 @@ Takte 	& \\
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Pony Express
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+
+\dancename{Pony Express}
+\origininfo{Chris Sackett (2008)}{Pony Up/Branle des Cheveaux}{von Chris Sackett, Arbeau}
+\iffalse\subsection{Pony Express}\fi % fool texstudio into displaying subsections
+\danceinfo{Kreis für 6 Tänzer,\\Partner gegenüber}
+\textit{Hauptpaar gegenüber, FC jeweils links von ihnen, SC rechts}
+\danceinstructionsbegin
+1 -- 8 & Hauptpaar: Siding rechtsschultrig\\
+9 -- 16 & Hauptpaar: Gypsy linksschultrig\\
+1 -- 8 & Hauptpaar: Siding linksschultrig\\
+9 -- 16 & Hauptpaar: Gypsy rechtsschultrig\\
+\danceinstructionsel
+1 -- 4 & Hauptpaar: Linke Handtour mit FC (gleichgeschlechtlich)\\
+5 -- 8 & Hauptpaar: Rechte Handtour in Mitte zu SC\\
+9 -- 12 & Hauptpaar: Linke Handtour mit SC (andersgeschlechtlich)\\
+13--16 & Hauptpaar: Rechte Handtour in Mitte zu FC\\
+\danceinstructionsel
+\danceinstructionsel
+1 -- 4 & Hauptpaar: Linke Handtour mit FC (andersgeschlechtlich)\\
+5 -- 8 & Hauptpaar: Rechte Handtour in Mitte zu SC\\
+9 -- 16 & Hauptpaar: Linke Handtour mit SC (gleichgeschlechtlich) auf eigenen Platz zurück\\
+\dancemediummarker
+\danceinstructionsend
+\noindent
+\textit{Alle Rollen wandern eine Position nach links (FC werden zu Hauptpaar).}
+\noindent
+\textit{Die Hauptpaare tanzen als ersten mit den FC (zweite Person von rechts.). Von dort aus Tanzen sie im Uhrzeigersinn mit allen anderen. Die Drehungen in der Mitte sind immer \nicefrac{3}{4} herum.}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Puck's Deceit
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 
 \dancename{Puck's Deceit}
+\origininfo{Chris Sackett \& Brooke Friendly (1997)}{Kettle Drum}{Playford}
 \iffalse\subsection{Puck's Deceit}\fi % fool texstudio into displaying subsections
 \danceinfo{Longway for as many as will}
 \danceinstructionsbegin
@@ -2309,6 +2608,7 @@ Takte 	& \\
 \newpage
 
 \dancename{Red House}
+\origininfo{Playford (1695)}{Playford}{}
 \iffalse\subsection{Red House}\fi % fool texstudio into displaying subsections
 \danceinfo{Longway for as many as will}
 
@@ -2335,6 +2635,7 @@ Takte 	& \\
 \newpage
 
 \dancename{Row well, ye mariniers}
+\origininfo{Playford (1651)}{Playford}{}
 \iffalse\subsection{Row well, ye mariniers}\fi % fool texstudio into displaying subsections
 \danceinfo{Longway for as many as will\\1er improper}
 \danceinstructionsbegin
@@ -2364,7 +2665,7 @@ Takte 	& \\
 
 \dancename{Sapphire Sea}
 \iffalse\subsection{Sapphire Sea}\fi % fool texstudio into displaying subsections
-\origininfo{Christine Robb}{Tom Kruskal's}{von ???}
+\origininfo{Christine Robb}{Tom Kruskal's}{von Amelia Mason \& Emily Troll}
 \danceinfo{Longway for as many as will}
 \danceinstructionsbegin
 1 -- 8	& Setkreis links \\
@@ -2391,7 +2692,7 @@ Takte 	& \\
 \dancename{Scales of Justice}
 \iffalse\subsection{Scales of Justice}\fi % fool texstudio into displaying subsections
 \danceinfo{Longway for as many as will}
-\origininfo{Chris Sacket \& Brooke Friendly}{Scale of Justice}{Shira Kammen \& Roguery}
+\origininfo{Chris Sackett \& Brooke Friendly}{Scale of Justice}{Shira Kammen \& Roguery}
 \danceinstructionsbegin
 1 -- 12 & \nicefrac{3}{4} Kette auf Seitenlinie beginnend\\
 \danceinstructionsel
@@ -2442,10 +2743,13 @@ Takte 	& \\
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Seepferd und Biber
+% Laut dem Arbon Dancing Master: 
+% Musik und Choreographie: Ina Lemm
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 
 \dancename{Seepferd und Biber}
+\origininfo{Ina Lemm}{Ina Lemm}{}
 \iffalse\subsection{Seepferd und Biber}\fi % fool texstudio into displaying subsections
 \danceinfo{Kreistanz, Herren innen, Damen außen\\gerade Anzahl an Paaren}
 
@@ -2456,7 +2760,7 @@ Takte 	& \\
 1 -- 16 &	Seepferde bilden Tore, Biber machen eine Figure of Eight hindurch\\
 \danceinstructionsel
 \textit{Anm.:} & \textit{Drehrichtungen: Biber rechts, Seepferde links}\\
-\danceinstructionsel
+
 1 -- 4	& Zweimal Klatschen, Zwei Schritte am Partner vorbei, Drehung in Tierrichtung\\
 5 -- 8 	& Klatschen, Zwei Schritte am Gegenüber auf Kreisbahn vorbei, Drehung Tierrichtung\\
 9 -- 12	& Klatschen, Zwei Schritte am neuen Partner vorbei, in Laufrichtung stehen bleiben\\
@@ -2472,6 +2776,7 @@ Takte 	& \\
 \newpage
 
 \dancename{Siege of Buda}
+\origininfo{Playford (1689)}{Playford}{}
 \iffalse\subsection{Siege of Buda}\fi % fool texstudio into displaying subsections
 \danceinfo{Longway for as many as will}
 \danceinstructionsbegin
@@ -2495,13 +2800,14 @@ Takte 	& \\
 \newpage
 
 \dancename{Siege of Limerick}
+\origininfo{Playford (1695)}{Playford}{}
 \iffalse\subsection{Siege of Limerick}\fi % fool texstudio into displaying subsections
 \danceinfo{Longway for as many as will}
 \danceinstructionsbegin
 1--6 	& H1 cast down, H2 rückt auf\\
-7--12 	& H1 geht zwischen Damen durch, um D2 rum, und zurück auf Platz\\
+7--12 	& H1 geht zwischen Damen durch, um D2, und zurück auf Platz\\
 1--6 	& D1 cast down, D2 rückt auf\\
-7--12 	& D1 zwischen Herren durch, um H1 rum, und zurück auf Platz\\
+7--12 	& D1 zwischen Herren durch, um H1 rum, und zurück.\\
 \danceinstructionsel
 1--6 	& P2 cast down, P1 lead up\\
 1--6 	& Dos-à-Dos\\
@@ -2540,6 +2846,7 @@ Takte 	& \\
 \newpage
 
 \dancename{Softly Good Tummas}
+\origininfo{Nathaniel Kynastion (1718)/Andrew Shaw(2002)}{Softly Good Tummas}{Nathaniel Kynastion}
 \iffalse\subsection{Softly Good Tummas}\fi % fool texstudio into displaying subsections
 \danceinfo{Longway for as many as will}
 \danceinstructionsbegin
@@ -2596,12 +2903,46 @@ Takte 	& \\
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Tango in Toronto
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+
+
+\dancename{Tango in Toronto}
+\iffalse\subsection{Tango in Toronto}\fi % fool texstudio into displaying subsections
+\origininfo{Colin Hume}{Tango in Toronto}{von Colin Hume} 
+\danceinfo{Longway, Duple Minor}
+\danceinstructionsbegin
+1 -- 8 & FC: H1 Double vor, D2 Double rückwärts und zurück.\\
+9 -- 16 & FC Gypsy linksschultrig, am Ende Turn rechts.\\
+1 -- 8 & Rechthandstern ganz herum. Am Ende Partner rechte Hand geben.\\
+9 -- 16 & Partner halbe rechte Handtour, dann Turn links.\\
+\danceinstructionsel
+1 -- 8 & SC: D1 Double vor, H2 Double rückwarts und zurück.\\
+9 -- 16 & FC Gypsy rechtsschultrig, am Ende Turn links.\\
+1 -- 8 & Linkshandstern ganz herum. Am Ende Partner links Hand geben.\\
+9 -- 16 & Partner halbe linke Handtour, dann Turn rechts.\\
+\danceinstructionsel
+\danceinstructionsel
+1 -- 24 & Halbe Hey + Gypsy + Halbe Hey:\\
+ & FC starten eine halbe Hey rechtsschultrig. SC steigen ein, sobald sich FC passiert haben und starten mit eigenem Partner linkschultrig.\\
+ & Nach einer halben Hey begegnen sich die FC und tanzen einen halben Gypsy rechtsschultrig (ergo eine halbe Drehung), dann eine weitere halbe Hey.\\
+ & Man endet, sodass Fortschritt erzielt wurde. (nachdem sich die FC passiert haben)\\
+1 -- 8 & Ganzer Setkreis ohne Anfassen (original: Single file circle)\\
+\dancedifficultmarker
+\danceinstructionsend
+\vspace{-0.1cm}
+\textit{Wie Colin Hume auch schon anmerkt sollte man darauf achten die Hey nicht diagonal sondern rechtwinklig zum Longway zu tanzen. Es kann helfen, wenn die SC einen Schritt nach links hinten machen, um von dort in die Hey zu starten.}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Tanz der Karibik
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\iffalse
 \newpage
 
 \dancename{Tanz der Karibik}
+\origininfo{Oliver Herde}{Davy Jones}{von Hans Zimmer}
 \iffalse\subsection{Tanz der Karibik}\fi % fool texstudio into displaying subsections
 \danceinfo{Gasse ohne Fortschritt, ¾ Takt}
 \danceinstructionsbegin
@@ -2690,28 +3031,67 @@ Takte 	& \\
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % The Crossroads
+% Video: https://www.youtube.com/watch?v=t_mkdMxuZ6Y
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \newpage
+\newpage
 
-\iffalse\subsection{[The Crossroads]}\fi % fool texstudio into displaying subsections
-% \dancename{The Crossroads}
-% \danceinfo{}
-% \danceinstructionsbegin
-% \danceinstructionsend
-% \dancedifficultmarker
+\iffalse\subsection{The Crossroads}\fi % fool texstudio into displaying subsections
+\dancename{The Crossroads}
+\danceinfo{Tanz für 4 Paare,\\P1\&P2 improper}
+\origininfo{Sascha Glimmann}{Soldier Boy}{von Custer LaRue}
+\danceinstructionsbegin
+1 -- 4 &  Set links zum Partner\\
+5 -- 8 &  Halber Ronde\\
+9 -- 16 & Paare Dos-á-Dos\\
+1 -- 8 &  Setkreis je 2 Paare\\
+9 -- 16 & Außenpaare gaten Innenpaare nach außen \nicefrac{3}{4} herum, sodass der Longway um 90° gedreht endet.\\
+\dancemediummarker
+\danceinstructionsend
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % The Gun
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \newpage
+\newpage
 
 \iffalse\subsection{[The Gun]}\fi % fool texstudio into displaying subsections
-% \dancename{The Gun}
-% \danceinfo{}
-% \danceinstructionsbegin
-% \danceinstructionsend
-% \dancedifficultmarker
+\dancename{The Gun}
+\danceinfo{Duple Minor Longway}
+\origininfo{Playford 1651}{Playford}{}
+\danceinstructionsbegin
+\textbf{Teil} & \textbf{I}~~~ (Leading)\\
+1 -- 8 & Lead Up and Back\\
+9 -- 16 & Set \& Turn Links\\
+1 -- 16 & Wiederholen (Rechts)\\
+\danceinstructionsel
+1 -- 8 & Herren- \& Damenlinien: Fall back \& Meet\\
+9 -- 12 & First Corner Platzwechsel\\
+13--16 & Second Corner Platzwechsel\\
+1 -- 16 & Wiederholen (Doppelter Fortschritt, 1er bleiben in ihren Rollen, die zweiten FC sind in der üblichen SC Position)\\
+& \textit{Bäumchen müssen je nach Stelle einen Platzwechsel machen.}\\
+\danceinstructionsel
+\textbf{Teil} & \textbf{II}~~~ (Siding)\\
+1 -- 8 & Siding Links\\
+9 -- 16 & Set \& Turn Links\\
+1 -- 16 & Wiederholen (Rechts)\\
+\danceinstructionsel
+1 -- 8 & Ganzer Setkreis \\
+9 -- 12 & Seitgalopp 1er innen nach unten, 2er außen hoch\\
+13 -- 16 & Turn (1er: unten, 2er: oben)\\
+1 -- 16 & Wiederholen (Doppelter Fortschritt)\\
+\danceinstructionsel
+\textbf{Teil} & \textbf{III}~~~ (Armtour)\\
+1 -- 8 & Armtour Links (mit rechten Armen)\\
+9 -- 16 & Set \& Turn Links\\
+1 -- 16 & Wiederholen (Rechts)\\
+\danceinstructionsel
+1 -- 4 & Herren Platzwechsel, dabei Schnipsen (1er innen)\\
+5 -- 8 & Damen Platzwechsel, dabei Schnipsen (1er innen)\\
+9 -- 16 & Mühle rechts mit den bisherigen Setpartnern\\
+1 -- 16 & Wiederholen (Doppelter Fortschritt)\\
+\dancedifficultmarker
+\danceinstructionsend
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -2719,7 +3099,7 @@ Takte 	& \\
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 
-\iffalse\subsection{[The Homecoming]}\fi % fool texstudio into displaying subsections
+\iffalse\subsection{The Homecoming}\fi % fool texstudio into displaying subsections
 \dancename{The Homecoming}
 \origininfo{Gary Roodman(1997)}{The Homecoming}{Jonathan Jensen (1997)}
 \danceinfo{Duple Minor Longway,\\1er improper}
@@ -2743,10 +3123,12 @@ Takte 	& \\
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % The Introduction
+% Music Source: https://tunearch.org/wiki/Annotation:Carolan%27s_Cottage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 
 \dancename{The Introduction}
+\origininfo{Fried de Metz Herman}{Carolans Cottage}{Turlough O'Carolan}
 \iffalse\subsection{The Introduction}\fi % fool texstudio into displaying subsections
 \danceinfo{Longway for four couples\\¾ Takt}
 \danceinstructionsbegin
@@ -2770,6 +3152,7 @@ Takte 	& \\
 \newpage
 
 \dancename{Tourdion}
+\origininfo{???}{???}{}
 \iffalse\subsection{Tourdion}\fi % fool texstudio into displaying subsections
 \danceinfo{Kreistanz, Herr/Dame, durchgefasst}
 \danceinstructionsbegin
@@ -2780,8 +3163,8 @@ Takte 	& \\
 3--4 	& Vor und zurück wiegen\\
 5--16 	& 3x Wiederholen \\
 \danceinstructionsel
-1--16 	& Grundschritt: Links, rechts, vor, zurück\\
-\danceinstructionsel
+1--16 	& Grundschritt: Links, rechts, vor, zurück (x4)\\
+%\danceinstructionsel
 1--4 	& Die Damen geben/heben/werfen den links stehenden Herren einen Platz nach rechts, danach Vor und zurück wiegen\\
 5--16 	& 3x Wiederholen
 \danceeasymarker
@@ -2794,6 +3177,7 @@ Takte 	& \\
 \newpage
 
 \dancename{Traubentritt}
+\origininfo{???}{???}{}
 \iffalse\subsection{Traubentritt}\fi % fool texstudio into displaying subsections
 \danceinfo{Longway for as many as will}
 \danceinstructionsbegin
@@ -2841,6 +3225,7 @@ Takte 	& \\
 \newpage
 
 \dancename{Upon a Summers Day}
+\origininfo{Playford (1651)}{Playford}{}
 \iffalse\subsection{Upon a Summers Day}\fi % fool texstudio into displaying subsections
 \danceinfo{Longway for six}
 
@@ -2892,7 +3277,7 @@ Takte 	& \\
 	%		{\scriptsize Musik:\\[-0.2cm] Roguery(2010)}
 	%	\end{flushright}
 %\end{textblock}
-\origininfo{Brooke Friendly \& Chris Sackett}{Ursa Minor}{von Roguery(2010)}
+\origininfo{Chris Sackett \& Brooke Friendly}{Ursa Minor}{von Roguery(2010)}
 
 \iffalse \subsection{Ursa Minor}\fi % fool texstudio into displaying subsections
 \danceinfo{Longway for as many as will}
@@ -2917,6 +3302,7 @@ Takte 	& \\
 \newpage
 
 \dancename{Vivaldi in Paradise}
+\origininfo{Gary Roodman (2005)}{Vivaldi in Paradise}{Van Kaynor (?)}
 \iffalse\subsection{Vivaldi in Paradise}\fi % fool texstudio into displaying subsections
 \danceinfo{}
 \danceinstructionsbegin
@@ -2940,6 +3326,7 @@ Takte 	& \\
 \newpage
 
 \dancename{Walenki}
+\origininfo{???}{???}{}
 \iffalse \subsection{Walenki}\fi % fool texstudio into displaying subsections
 \danceinfo{Doppelter Kreis, Damen innen, \\Herren versetzt außen,\\ beide Kreise durchgefasst}
 \danceinstructionsbegin
@@ -2965,6 +3352,7 @@ Takte 	& \\
 \newpage
 
 \dancename{Well's Humour}
+\origininfo{???}{???}{}
 \iffalse\subsection{Well's Humour}\fi % fool texstudio into displaying subsections
 \danceinfo{Longway for as many as will\\¾ Takt\\(original für 3 Paare)}
 \danceinstructionsbegin
@@ -2992,6 +3380,7 @@ Takte 	& \\
 \newpage
 
 \dancename{Winter Solstice}
+\origininfo{Wendy Crouch (1998)}{Early One Morning}{Traditional}
 \iffalse\subsection{Winter Solstice}\fi % fool texstudio into displaying subsections
 \danceinfo{Grand Square mit Center Couple, das zu Paar 1 gewendet steht.}
 
@@ -3024,6 +3413,7 @@ Takte 	& \\
 \newpage
 
 \dancename{Woaf}
+\origininfo{???}{???}{}
 \iffalse\subsection{Woaf}\fi % fool texstudio into displaying subsections
 \danceinfo{Kreistanz}
 
@@ -3058,6 +3448,7 @@ Takte 	& \\
 \newpage
 
 \dancename{Woodland Chase}
+\origininfo{Loretta Holz (2005)}{Eat Your Oatmeal}{von Charlene Thomson}
 \iffalse\subsection{Woodland Chase}\fi % fool texstudio into displaying subsections
 \danceinfo{Longway for six, \nicefrac{6}{8}Takt}
 % Musik : Eat Your Oatmeal (Charlene Thomson) [Quelle: http://www.englische-taenze.de/media/a9c8cc7b30389d84ffff8010fffffff0.pdf]
