@@ -87,7 +87,7 @@ class NupTexDocument:
     %\geometry{left=1.2cm,right=1.2cm,top=1.5cm,bottom=1.5cm}
     \pagestyle{empty}
     % Define very light gray color so as to be nearly invisible
-    \definecolor{ultra-light-gray}{gray}{0.6}
+    \definecolor{ultra-light-gray}{gray}{0.9}
     % since pdfpages uses fbox to draw the frames lets change the stroke color
     % to the desired value
     \renewcommand\fbox{\fcolorbox{ultra-light-gray}{white}}
