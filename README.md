@@ -13,11 +13,18 @@
 Die Karten können zum Beispiel mit Adobe Acrobat auf A4 Papier gedruckt werden (immer 4 auf eine Seite).   
 Papier schwerer als 200g/m² liefert schöne Ergebnisse.  
 
-Wenn man die Karten doppelseitig drucken möchte, muss man die richtigen Seiten "zueinander" legen, dies erfordert etwas mehr Aufwand. Dafür gibt es hier PDFs, bei denen die Seiten richtig für doppelseitigen Druck angeordnet wurden (in den Druckeinstellungen den "Falz" auf "kurze Seite" einstellen).
+Wenn man die Karten doppelseitig drucken möchte, muss man die richtigen Seiten "zueinander" legen, dies erfordert etwas mehr Aufwand. Dafür gibt es hier PDFs, bei denen die Seiten richtig für doppelseitigen Druck angeordnet wurden (jeweils einmal für Falz auf der "kurzen" und "langen" Blattkante).
 
-- [2x2 Tanzkarten auf A4- ergibt A6](https://github.com/Phayax/dance-cards/releases/latest/download/Tanzanleitungen_2x2_A6.pdf)
-- [3x3 Tanzkarten auf A4- ergibt ~A7](https://github.com/Phayax/dance-cards/releases/latest/download/Tanzanleitungen_3x3_A7.pdf)
-- [4x4 Tanzkarten auf A4- ergibt A8](https://github.com/Phayax/dance-cards/releases/latest/download/Tanzanleitungen_4x4_A8.pdf)
+##### Falz kurze Kante:
+- [2x2 Tanzkarten auf A4- ergibt A6](https://github.com/Phayax/dance-cards/releases/latest/download/Tanzanleitungen_2x2_A6_kurze_Kante.pdf)
+- [3x3 Tanzkarten auf A4- ergibt ~A7](https://github.com/Phayax/dance-cards/releases/latest/download/Tanzanleitungen_3x3_A7_kurze_Kante.pdf)
+- [4x4 Tanzkarten auf A4- ergibt A8](https://github.com/Phayax/dance-cards/releases/latest/download/Tanzanleitungen_4x4_A8_kurze_Kante.pdf)
+
+##### Falz lange Kante:
+- [2x2 Tanzkarten auf A4- ergibt A6](https://github.com/Phayax/dance-cards/releases/latest/download/Tanzanleitungen_2x2_A6_lange_Kante.pdf)
+- [3x3 Tanzkarten auf A4- ergibt ~A7](https://github.com/Phayax/dance-cards/releases/latest/download/Tanzanleitungen_3x3_A7_lange_Kante.pdf)
+- [4x4 Tanzkarten auf A4- ergibt A8](https://github.com/Phayax/dance-cards/releases/latest/download/Tanzanleitungen_4x4_A8_lange_Kante.pdf)
+
 
 Während die A6 Karten 0,5cm Rand haben, was die meisten Drucker gut schaffen müssten, wird der Rand bei den kleiner Formaten weniger als 0,5cm sein. Hier muss man eventuell die Seitengröße im PDF-Programm leicht anpassen.
 
