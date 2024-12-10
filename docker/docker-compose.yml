@@ -1,0 +1,16 @@
+# docker-compose up
+services:  
+  dance-cards-gui:
+    build:
+      context: ../
+      dockerfile: ./docker/Dockerfile
+    image: arthurniedz/dance-cards
+    container_name: dance_cards_container
+    network_mode: host
+    privileged: true
+    environment:
+      - DISPLAY=${DISPLAY}
+    volumes:
+      - ..:/dance-cards
+    command: python3 /dance-cards/multi-gui.py
+    
