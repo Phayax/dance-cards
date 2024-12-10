@@ -1,9 +1,9 @@
-# Multi GUI per Docker
+# Python-lose Multi GUI per Docker
 
-Dies ist eine Methode für ältere Systeme, deren Python Version unter 3.9 liegt.
+Für Ubuntu 20.04 und alle, deren Python Version unter 3.9 liegt.
 
 ```bash
-python --version # sollte mindestens 3.9 sein um die Skripte verwenden zu können
+python --version
 ```
 
 Um die Tanzauswahl zu starten und die individuellen Tänze zu erstellen kann Docker verwendet werden. Für das kompilieren der Tänze braucht es weiterhin die LaTeX installation.
