@@ -5,12 +5,21 @@ services:
       context: ../
       dockerfile: ./docker/Dockerfile
     image: arthurniedz/dance-cards
-    container_name: dance_cards_container
+    container_name: dance_cards_gui_container
     network_mode: host
     privileged: true
     environment:
       - DISPLAY=${DISPLAY}
     volumes:
       - ..:/dance-cards
-    command: python3 /dance-cards/multi-gui.py
-    
+    command: bash -c "cd /dance-cards && python3 multi-gui.py"
+  
+  dance-cards-split:
+    build:
+      context: ../
+      dockerfile: ./docker/Dockerfile
+    image: arthurniedz/dance-cards
+    container_name: dance_cards_split_container
+    volumes:
+      - ..:/dance-cards
+    command: bash -c "cd /dance-cards && python3 split.py"
