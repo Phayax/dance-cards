@@ -89,7 +89,9 @@ Um die Tanzauswahl zu starten und die individuellen Tänze zu erstellen kann Doc
 5. Kompiliere die Tänze als einzelne PDFs
 
    ```bash
-   latexmk split/*.tex
+   cd split
+   latexmk *.tex
+   cd ..
    ```
 
 6. Erlaube Docker UI-Anwendungen zu öffnen
