@@ -20,17 +20,17 @@ jobs:
 
     steps:
       # repository now lies in $GITHUB_WORKSPACE
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: LaTeX compilation full pdf
-        uses: dante-ev/latex-action@2021-A
+        uses: dante-ev/latex-action@2024-B
         with:
           root_file: cards.tex
           working_directory: .
           compiler: latexmk
           
       - name: Archive full pdf
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: full-pdf
           path: cards.pdf
@@ -64,7 +64,7 @@ jobs:
 
       # TODO: rename pdf files to german names
       - name: Archive split pdfs
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: single-pdfs
           path: single/
@@ -142,34 +142,34 @@ jobs:
           working_directory: .
 
       - name: Archive multipage pdf 2x2 short edge
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: cards-2x2-shortedge-pdf
           path: cards_2x2_short.pdf
       - name: Archive multipage pdf 2x2 long edge
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: cards-2x2-longedge-pdf
           path: cards_2x2_long.pdf
 
       - name: Archive multipage pdf 3x3 short edge
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: cards-3x3-shortedge-pdf
           path: cards_3x3_short.pdf
       - name: Archive multipage pdf 3x3 long edge
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: cards-3x3-longedge-pdf
           path: cards_3x3_long.pdf
 
       - name: Archive multipage pdf 4x4 short edge
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: cards-4x4-shortedge-pdf
           path: cards_4x4_short.pdf
       - name: Archive multipage pdf 4x4 long edge
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: cards-4x4-longedge-pdf
           path: cards_4x4_long.pdf
