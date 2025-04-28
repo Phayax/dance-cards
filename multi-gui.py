@@ -1,6 +1,7 @@
 import itertools
 import sys
 from pathlib import Path
+from datetime import datetime
 
 import PyPDF2
 from PyQt5 import QtWidgets, uic, QtGui, QtCore
@@ -299,7 +300,8 @@ class Ui(QtWidgets.QMainWindow):
 
         dance_dict = get_page_indices(single_pdf_path=self.current_single_path, full_pdf_path=self.current_full_path)
         ntc = NupTexDocument(dance_dict=dance_dict, nup_pdf_source=self.current_full_path)
-        ntc.layout_dances(output_file=Path(f"multi_cards_{nup_factor}x{nup_factor}_fold_{fold_edge}_.tex"), dance_list=selection, fold_edge=fold_edge,
+        date_string = datetime.now().strftime("%y-%m-%d_%H-%M")
+        ntc.layout_dances(output_file=Path(f"{date_string}_multi_cards_{nup_factor}x{nup_factor}_fold_{fold_edge}_.tex"), dance_list=selection, fold_edge=fold_edge,
                           nup_factor=nup_factor)
 
 
