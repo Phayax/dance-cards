@@ -16,7 +16,7 @@ on:
 jobs:
   compile-full:
     name: Compile the full cards
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     steps:
       # repository now lies in $GITHUB_WORKSPACE
@@ -37,7 +37,7 @@ jobs:
 
   compile-single:
     name: Compile the single cards
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -71,7 +71,7 @@ jobs:
       
   compile-multipage:
     name: Compile the multipage versions.
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     
     needs: [compile-full, compile-single]
     
