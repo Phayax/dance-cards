@@ -50,7 +50,7 @@ jobs:
         run: python3 split.py
 
       - name: LaTeX compilation single pdfs
-        uses: dante-ev/latex-action@2021-A
+        uses: dante-ev/latex-action@2024-B
         with:
           # left empty so all tex files are compiled
           root_file: ""
@@ -109,34 +109,34 @@ jobs:
         run: python multi.py --single_pdfs single/ --full_pdf cards.pdf --nup_factor 4 --fold_edge long --output_tex cards_4x4_long.tex
 
       - name: Compile multipage 2x2 short edge
-        uses: dante-ev/latex-action@2021-A
+        uses: dante-ev/latex-action@2024-B
         with:
           root_file: cards_2x2_short.tex
           working_directory: .
       - name: Compile multipage 2x2 long edge
-        uses: dante-ev/latex-action@2021-A
+        uses: dante-ev/latex-action@2024-B
         with:
           root_file: cards_2x2_long.tex
           working_directory: .
 
       - name: Compile multipage 3x3 short edge
-        uses: dante-ev/latex-action@2021-A
+        uses: dante-ev/latex-action@2024-B
         with:
           root_file: cards_3x3_short.tex
           working_directory: .
       - name: Compile multipage 3x3 long edge
-        uses: dante-ev/latex-action@2021-A
+        uses: dante-ev/latex-action@2024-B
         with:
           root_file: cards_3x3_long.tex
           working_directory: .
 
       - name: Compile multipage 4x4 short edge
-        uses: dante-ev/latex-action@2021-A
+        uses: dante-ev/latex-action@2024-B
         with:
           root_file: cards_4x4_short.tex
           working_directory: .
       - name: Compile multipage 4x4 long edge
-        uses: dante-ev/latex-action@2021-A
+        uses: dante-ev/latex-action@2024-B
         with:
           root_file: cards_4x4_long.tex
           working_directory: .
