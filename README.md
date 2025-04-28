@@ -1,8 +1,6 @@
 # Tanzkarten
 ## LaTeX Tanzkarten für Historische und davon inspirierte Tänze
 
-### [Für Tanzkarten zum Ball in Wuppertal 2022 immer hier entlang](https://github.com/Phayax/dance-cards/blob/ball-2022/BALL.md)
-
 ## Download
 
 [Tanzkarten A6 - Alle Tänze zusammen](https://github.com/Phayax/dance-cards/releases/latest/download/Tanzanleitungen.pdf)  
