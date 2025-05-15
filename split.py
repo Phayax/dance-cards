@@ -132,7 +132,7 @@ def compile_dance_serial():
         ret = subprocess.run(["latexmk", file.name], cwd=p, capture_output=True)
         if ret.returncode == 0:
             pdf_path = p / ".build" / f"{file.stem}.pdf"
-            shutil.copy(pdf_path, single_pdf_target / pdf_path.name)
+            shutil.copy(pdf_path, TEMP_DIR / pdf_path.name)
         else:
             print(f"Warning latexmk returned with non-zero Returncode {ret.returncode} on file {file}!")
 
@@ -155,8 +155,8 @@ if __name__ == '__main__':
     shutil.copy(".latexmkrc", str(p / ".latexmkrc"))
     shutil.copytree(Path("./img"), p / "img")
     split_file(base_tex_file=Path(BASE_TEX_FILE), target_file_path=p)
-    single_pdf_target = Path("./single/")
-    single_pdf_target.mkdir(exist_ok=True, parents=False)
+    #single_pdf_target = Path("./single/")
+    #single_pdf_target.mkdir(exist_ok=True, parents=False)
 
     print("="*60)
     # then call latexmk on build-single-temp
