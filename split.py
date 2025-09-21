@@ -2,6 +2,8 @@ import subprocess
 import shutil
 from pathlib import Path
 from multiprocessing import Pool
+from concurrent.futures import ProcessPoolExecutor
+from multiprocessing import cpu_count
 
 #from tqdm import tqdm
 
@@ -113,16 +115,45 @@ def split_file(base_tex_file: Path, target_file_path: Path):
         print(f"\t{dance_file.name}")
 
 
-def compile_dance(filename, working_dir):
-    ret = subprocess.run(["latexmk", filename], cwd=working_dir)
-    return ret
+def compile_dance(file: Path):
+    working_dir = file.parent
+    try:
+        subprocess.run(['tectonic', file.name],
+                       cwd=working_dir,
+                       check=True,
+                       stdout=subprocess.PIPE,
+                       stderr=subprocess.PIPE)
+        return (file, True, "")
+    except subprocess.CalledProcessError as e:
+        return (file, False, e.stderr.decode())
 
-def compile_dances_parallel():
-    dance_list = [file for file in p.iterdir() if file.is_file and file.suffix == ".tex"]
-    pool = Pool()
-    joblist = []
-    for file in dance_list:
-        pool.apply_async(compile_dance, )
+def compile_dances_parallel(target_path: Path):
+    dance_files = [file for file in sorted(target_path.iterdir()) if file.is_file and file.suffix == ".tex"]
+
+    max_workers = cpu_count()
+
+    results = []
+    with ProcessPoolExecutor(max_workers=max_workers) as executor:
+        futures = executor.map(compile_dance, dance_files)
+        for result in tqdm(futures, total=len(dance_files), desc="Compiling .tex files"):
+            results.append(result)
+
+    # Optionally print failed files
+    failed = [r for r in results if not r[1]]
+    if failed:
+        print("\n⚠️ Some files failed to compile:")
+        for f in failed:
+            print(f"- {f[0]}:\n{f[2]}")
+
+    # with Pool() as pool:
+    #     pool.map(compile_dance, dance_list)
+    #     joblist = []
+    #     for file in dance_list:
+    #         joblist.append(pool.apply_async(compile_dance, file))
+        
+    #     for job in tqdm(joblist):
+    #         # wait for the job to finish
+    #         job.wait()
 
 def compile_dance_serial():
     dance_list = [file for file in p.iterdir() if file.is_file and file.suffix == ".tex"]
@@ -143,7 +174,8 @@ def compile_dance_serial():
 if __name__ == '__main__':
     # remove potential old build data
     if Path(TEMP_DIR).exists():
-        shutil.rmtree(Path(TEMP_DIR))
+        pass
+        #shutil.rmtree(Path(TEMP_DIR))
 
     print("="*60)
     print("Splitting tex file.")
@@ -151,10 +183,14 @@ if __name__ == '__main__':
     print("-"*30)
     # create build directory
     p = Path(TEMP_DIR)
-    p.mkdir(exist_ok=False)
-    shutil.copy(".latexmkrc", str(p / ".latexmkrc"))
-    shutil.copytree(Path("./img"), p / "img")
-    split_file(base_tex_file=Path(BASE_TEX_FILE), target_file_path=p)
+    #p.mkdir(exist_ok=False)
+    #shutil.copy(".latexmkrc", str(p / ".latexmkrc"))
+    #shutil.copytree(Path("./img"), p / "img")
+    #split_file(base_tex_file=Path(BASE_TEX_FILE), target_file_path=p)
+    #compile_dance(
+    #    list(sorted(p.glob("*.tex")))[0]
+    #)
+    compile_dances_parallel(target_path=p)
     #single_pdf_target = Path("./single/")
     #single_pdf_target.mkdir(exist_ok=True, parents=False)
 

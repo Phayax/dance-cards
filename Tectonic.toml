@@ -3,9 +3,9 @@ name = "dance-cards-tectonic"
 bundle = "https://data1.fullyjustified.net/tlextras-2022.0r0.tar"
 #extra_paths = ["../img"]
 
-[[output]]
-name = "default"
-type = "pdf"
+#[[output]]
+#name = "default"
+#type = "pdf"
 
 [[output]]
 name = "cards"
