@@ -26,8 +26,15 @@
 \usepackage{eso-pic}
 
 % Fonts and encodings
-\usepackage[nf]{coelacanth}
-\usepackage[T1]{fontenc}
+%\usepackage{coelacanth}
+\usepackage{fontspec}
+\setmainfont{Coelacanth}[
+	Extension=.otf,
+	BoldFont=*Bold,
+	ItalicFont=*Italic,
+	%Contextuals=Alternate, 
+	%Ligatures=TeX
+	]
 
 \usepackage{longtable} % Um Tabellen zu machen, die mehrere Seiten lang sind und einen passenden Seitenumbruch haben.
 \usepackage{multicol}
@@ -3756,7 +3763,6 @@ TODO & TODO\\
 9 -- 12 & halbe linke Handtour (im Scottish ohne Hand). Am Ende landen beide auf der gegenüber liegenden Seite.
 \dancemediummarker
 \danceinstructionsend
-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
