@@ -175,7 +175,7 @@ if __name__ == '__main__':
     # remove potential old build data
     if Path(TEMP_DIR).exists():
         pass
-        #shutil.rmtree(Path(TEMP_DIR))
+        shutil.rmtree(Path(TEMP_DIR))
 
     print("="*60)
     print("Splitting tex file.")
@@ -183,10 +183,10 @@ if __name__ == '__main__':
     print("-"*30)
     # create build directory
     p = Path(TEMP_DIR)
-    #p.mkdir(exist_ok=False)
+    p.mkdir(exist_ok=False)
     #shutil.copy(".latexmkrc", str(p / ".latexmkrc"))
-    #shutil.copytree(Path("./img"), p / "img")
-    #split_file(base_tex_file=Path(BASE_TEX_FILE), target_file_path=p)
+    shutil.copytree(Path("./img"), p / "img")
+    split_file(base_tex_file=Path(BASE_TEX_FILE), target_file_path=p)
     #compile_dance(
     #    list(sorted(p.glob("*.tex")))[0]
     #)
