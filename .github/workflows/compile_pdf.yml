@@ -35,7 +35,7 @@ jobs:
 
       - uses: wtfjoke/setup-tectonic@v4
         with:
-        tectonic-version: 0.15.0
+          tectonic-version: 0.15.0
       
       - name: Run Tectonic
         run: tectonic cards.tex
