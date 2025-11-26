@@ -139,27 +139,17 @@ jobs:
       - name: Compile multipage 2x2 long edge
         run: tectonic cards_2x2_long.tex
         
-      # - name: Compile multipage 3x3 short edge
-      #   uses: dante-ev/latex-action@2021-A
-      #   with:
-      #     root_file: cards_3x3_short.tex
-      #     working_directory: .
-      # - name: Compile multipage 3x3 long edge
-      #   uses: dante-ev/latex-action@2021-A
-      #   with:
-      #     root_file: cards_3x3_long.tex
-      #     working_directory: .
-
-      # - name: Compile multipage 4x4 short edge
-      #   uses: dante-ev/latex-action@2021-A
-      #   with:
-      #     root_file: cards_4x4_short.tex
-      #     working_directory: .
-      # - name: Compile multipage 4x4 long edge
-      #   uses: dante-ev/latex-action@2021-A
-      #   with:
-      #     root_file: cards_4x4_long.tex
-      #     working_directory: .
+      - name: Compile multipage 3x3 short edge
+        run: tectonic cards_3x3_short.tex
+        
+      - name: Compile multipage 3x3 long edge
+        run: tectonic cards_3x3_long.tex
+        
+      - name: Compile multipage 4x4 short edge
+        run: tectonic cards_4x4_short.tex
+        
+      - name: Compile multipage 4x4 long edge
+        run: tectonic cards_4x4_long.tex
 
       - name: Archive multipage pdf 2x2 short edge
         uses: actions/upload-artifact@v4
@@ -172,24 +162,24 @@ jobs:
           name: cards-2x2-longedge-pdf
           path: cards_2x2_long.pdf
 
-      # - name: Archive multipage pdf 3x3 short edge
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: cards-3x3-shortedge-pdf
-      #     path: cards_3x3_short.pdf
-      # - name: Archive multipage pdf 3x3 long edge
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: cards-3x3-longedge-pdf
-      #     path: cards_3x3_long.pdf
+      - name: Archive multipage pdf 3x3 short edge
+        uses: actions/upload-artifact@v4
+        with:
+          name: cards-3x3-shortedge-pdf
+          path: cards_3x3_short.pdf
+      - name: Archive multipage pdf 3x3 long edge
+        uses: actions/upload-artifact@v4
+        with:
+          name: cards-3x3-longedge-pdf
+          path: cards_3x3_long.pdf
 
-      # - name: Archive multipage pdf 4x4 short edge
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: cards-4x4-shortedge-pdf
-      #     path: cards_4x4_short.pdf
-      # - name: Archive multipage pdf 4x4 long edge
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: cards-4x4-longedge-pdf
-      #     path: cards_4x4_long.pdf
+      - name: Archive multipage pdf 4x4 short edge
+        uses: actions/upload-artifact@v4
+        with:
+          name: cards-4x4-shortedge-pdf
+          path: cards_4x4_short.pdf
+      - name: Archive multipage pdf 4x4 long edge
+        uses: actions/upload-artifact@v4
+        with:
+          name: cards-4x4-longedge-pdf
+          path: cards_4x4_long.pdf
