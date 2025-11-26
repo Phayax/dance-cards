@@ -24,8 +24,18 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      
+      - uses: actions/cache@v3
+        name: Tectonic Cache
+        with:
+          path: ~/.cache/Tectonic
+          key: ${{ runner.os }}-tectonic-${{ hashFiles('**/*.tex') }}
+          restore-keys: |
+            ${{ runner.os }}-tectonic-
 
       - uses: wtfjoke/setup-tectonic@v4
+        with:
+        tectonic-version: 0.15.0
       
       - name: Run Tectonic
         run: tectonic cards.tex
@@ -43,13 +53,34 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
 
+      - uses: actions/cache@v3
+        name: Tectonic Cache
+        with:
+          path: ~/.cache/Tectonic
+          key: ${{ runner.os }}-tectonic-${{ hashFiles('**/*.tex') }}
+          restore-keys: |
+            ${{ runner.os }}-tectonic-
+
       - uses: wtfjoke/setup-tectonic@v4
+        with:
+          tectonic-version: 0.15.0
 
       - name: Install python dependencies
         run: pip install -r requirements.txt
         
       - name: Run split script
-        run: python3 split.py    
+        run: python3 split.py
+      
+      - run: mkdir -p single
+      - name: Copy split pdfs
+        run: cp split/*.pdf single/
+
+      # TODO: rename pdf files to german names
+      - name: Archive split pdfs
+        uses: actions/upload-artifact@v4
+        with:
+          name: single-pdfs
+          path: single/
 
       # TODO: rename pdf files to german names
       # - name: Archive split pdfs
