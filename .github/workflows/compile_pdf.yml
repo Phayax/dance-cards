@@ -40,11 +40,14 @@ jobs:
       - name: Run Tectonic
         run: tectonic cards.tex
       
+      - name: Rename to target name
+        run: mv cards.pdf Tanzanleitungen.pdf
+      
       - name: Archive full pdf
         uses: actions/upload-artifact@v4
         with:
           name: full-pdf
-          path: cards.pdf
+          path: Tanzanleitungen.pdf
   compile-single:
     name: Compile the single cards
     runs-on: ubuntu-latest 
@@ -119,67 +122,67 @@ jobs:
       #- run: ls -la single
 
       - name: Create multipage tex file 2x2
-        run: python multi.py --single_pdfs single/ --full_pdf cards.pdf --nup_factor 2 --fold_edge short --output_tex cards_2x2_short.tex
+        run: python multi.py --single_pdfs single/ --full_pdf Tanzanleitungen.pdf --nup_factor 2 --fold_edge short --output_tex Tanzanleitungen_2x2_A6_kurze_Kante.tex
       - name: Create multipage tex file 2x2
-        run: python multi.py --single_pdfs single/ --full_pdf cards.pdf --nup_factor 2 --fold_edge long --output_tex cards_2x2_long.tex
+        run: python multi.py --single_pdfs single/ --full_pdf Tanzanleitungen.pdf --nup_factor 2 --fold_edge long --output_tex Tanzanleitungen_2x2_A6_lange_Kante.tex
 
       - name: Create multipage tex file 3x3
-        run: python multi.py --single_pdfs single/ --full_pdf cards.pdf --nup_factor 3 --fold_edge short --output_tex cards_3x3_short.tex
+        run: python multi.py --single_pdfs single/ --full_pdf Tanzanleitungen.pdf --nup_factor 3 --fold_edge short --output_tex Tanzanleitungen_3x3_A7_kurze_Kante.tex
       - name: Create multipage tex file 3x3
-        run: python multi.py --single_pdfs single/ --full_pdf cards.pdf --nup_factor 3 --fold_edge long --output_tex cards_3x3_long.tex
+        run: python multi.py --single_pdfs single/ --full_pdf Tanzanleitungen.pdf --nup_factor 3 --fold_edge long --output_tex Tanzanleitungen_3x3_A6_lange_Kante.tex
 
       - name: Create multipage tex file 4x4
-        run: python multi.py --single_pdfs single/ --full_pdf cards.pdf --nup_factor 4 --fold_edge short --output_tex cards_4x4_short.tex
+        run: python multi.py --single_pdfs single/ --full_pdf Tanzanleitungen.pdf --nup_factor 4 --fold_edge short --output_tex Tanzanleitungen_4x4_A8_kurze_Kante.tex
       - name: Create multipage tex file 4x4
-        run: python multi.py --single_pdfs single/ --full_pdf cards.pdf --nup_factor 4 --fold_edge long --output_tex cards_4x4_long.tex
+        run: python multi.py --single_pdfs single/ --full_pdf Tanzanleitungen.pdf --nup_factor 4 --fold_edge long --output_tex Tanzanleitungen_4x4_A8_lange_Kante.tex
 
       - name: Compile multipage 2x2 short edge
-        run: tectonic cards_2x2_short.tex
+        run: tectonic Tanzanleitungen_2x2_A6_kurze_Kante.tex
         
       - name: Compile multipage 2x2 long edge
-        run: tectonic cards_2x2_long.tex
+        run: tectonic Tanzanleitungen_2x2_A6_lange_Kante.tex
         
       - name: Compile multipage 3x3 short edge
-        run: tectonic cards_3x3_short.tex
+        run: tectonic Tanzanleitungen_3x3_A7_kurze_Kante.tex
         
       - name: Compile multipage 3x3 long edge
-        run: tectonic cards_3x3_long.tex
+        run: tectonic Tanzanleitungen_3x3_A7_lange_Kante.tex
         
       - name: Compile multipage 4x4 short edge
-        run: tectonic cards_4x4_short.tex
+        run: tectonic Tanzanleitungen_4x4_A8_kurze_Kante.tex
         
       - name: Compile multipage 4x4 long edge
-        run: tectonic cards_4x4_long.tex
+        run: tectonic Tanzanleitungen_4x4_A8_lange_Kante.tex
 
       - name: Archive multipage pdf 2x2 short edge
         uses: actions/upload-artifact@v4
         with:
           name: cards-2x2-shortedge-pdf
-          path: cards_2x2_short.pdf
+          path: Tanzanleitungen_2x2_A6_kurze_Kante.pdf
       - name: Archive multipage pdf 2x2 long edge
         uses: actions/upload-artifact@v4
         with:
           name: cards-2x2-longedge-pdf
-          path: cards_2x2_long.pdf
+          path: Tanzanleitungen_2x2_A6_lange_Kante.pdf
 
       - name: Archive multipage pdf 3x3 short edge
         uses: actions/upload-artifact@v4
         with:
           name: cards-3x3-shortedge-pdf
-          path: cards_3x3_short.pdf
+          path: Tanzanleitungen_3x3_A7_kurze_Kante.pdf
       - name: Archive multipage pdf 3x3 long edge
         uses: actions/upload-artifact@v4
         with:
           name: cards-3x3-longedge-pdf
-          path: cards_3x3_long.pdf
+          path: Tanzanleitungen_3x3_A7_lange_Kante.pdf
 
       - name: Archive multipage pdf 4x4 short edge
         uses: actions/upload-artifact@v4
         with:
           name: cards-4x4-shortedge-pdf
-          path: cards_4x4_short.pdf
+          path: Tanzanleitungen_4x4_A8_kurze_Kante.pdf
       - name: Archive multipage pdf 4x4 long edge
         uses: actions/upload-artifact@v4
         with:
           name: cards-4x4-longedge-pdf
-          path: cards_4x4_long.pdf
+          path: Tanzanleitungen_4x4_A8_lange_Kante.pdf
