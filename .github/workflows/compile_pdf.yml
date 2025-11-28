@@ -129,7 +129,7 @@ jobs:
       - name: Create multipage tex file 3x3
         run: python multi.py --single_pdfs single/ --full_pdf Tanzanleitungen.pdf --nup_factor 3 --fold_edge short --output_tex Tanzanleitungen_3x3_A7_kurze_Kante.tex
       - name: Create multipage tex file 3x3
-        run: python multi.py --single_pdfs single/ --full_pdf Tanzanleitungen.pdf --nup_factor 3 --fold_edge long --output_tex Tanzanleitungen_3x3_A6_lange_Kante.tex
+        run: python multi.py --single_pdfs single/ --full_pdf Tanzanleitungen.pdf --nup_factor 3 --fold_edge long --output_tex Tanzanleitungen_3x3_A7_lange_Kante.tex
 
       - name: Create multipage tex file 4x4
         run: python multi.py --single_pdfs single/ --full_pdf Tanzanleitungen.pdf --nup_factor 4 --fold_edge short --output_tex Tanzanleitungen_4x4_A8_kurze_Kante.tex
