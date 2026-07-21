@@ -77,7 +77,7 @@ jobs:
       with:
         name: "${{ github.event.inputs.release_title }}"
         tag_name: "${{ github.event.inputs.version }}"
-        make_latest: false  # TODO change to true when everything works
+        make_latest: true  # TODO change to true when everything works
         fail_on_unmatched_files: true
         body: "${{ github.event.inputs.release_text }}"
         files: |
