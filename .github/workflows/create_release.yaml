@@ -11,9 +11,15 @@ on:
         required: true
 
 jobs:
-  greet:
+  release:
     runs-on: ubuntu-latest
 
     steps:
     - name: Send greeting
       run: echo "${{ github.event.inputs.release_title }} ${{ github.event.inputs.version }}"
+    - name: Release
+      uses: softprops/action-gh-release@v3
+      with:
+        name: "${{ github.event.inputs.release_title }}"
+        tag_name: "${{ github.event.inputs.version }}"
+        make_latest: false  # TODO change to true when everything works
