@@ -24,6 +24,12 @@ jobs:
       uses: actions/download-artifact@v8
       with:
         name: full-pdf
+        
+    - name: Download multipage 3x3 long edge
+      uses: actions/download-artifact@v8
+      with:
+        name: cards-3x3-longedge-pdf
+      
     - name: get file listing
       run: ls -la .
       
@@ -36,4 +42,6 @@ jobs:
         tag_name: "${{ github.event.inputs.version }}"
         make_latest: false  # TODO change to true when everything works
         fail_on_unmatched_files: true
-        files: Tanzanleitung.pdf
+        files: |
+          Tanzanleitungen.pdf
+          Tanzanleitungen_3x3_A7_lange_Kante.pdf
