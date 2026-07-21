@@ -11,10 +11,22 @@ on:
         required: true
 
 jobs:
+  compile-job:
+    uses: ./.github/workflows/compile_pdf.yml
+    secrets: inherit
+    
   release:
+    needs: compile-job
     runs-on: ubuntu-latest
 
     steps:
+    - name: Download Build results
+      uses: actions/download-artifact@v4
+      with:
+        name: full-pdf
+    - name: get file listing
+      run: ls -la .
+      
     - name: Send greeting
       run: echo "${{ github.event.inputs.release_title }} ${{ github.event.inputs.version }}"
     - name: Release
@@ -23,3 +35,5 @@ jobs:
         name: "${{ github.event.inputs.release_title }}"
         tag_name: "${{ github.event.inputs.version }}"
         make_latest: false  # TODO change to true when everything works
+        fail_on_unmatched_files: true
+        files: Tanzanleitung.pdf
