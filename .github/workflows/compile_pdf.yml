@@ -45,7 +45,7 @@ jobs:
         run: mv cards.pdf Tanzanleitungen.pdf
       
       - name: Archive full pdf
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: full-pdf
           path: Tanzanleitungen.pdf
@@ -81,7 +81,7 @@ jobs:
 
       # TODO: rename pdf files to german names
       - name: Archive split pdfs
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: Tanzanleitungen-einzeln
           path: single/
@@ -156,34 +156,34 @@ jobs:
         run: tectonic Tanzanleitungen_4x4_A8_lange_Kante.tex
 
       - name: Archive multipage pdf 2x2 short edge
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: cards-2x2-shortedge-pdf
           path: Tanzanleitungen_2x2_A6_kurze_Kante.pdf
       - name: Archive multipage pdf 2x2 long edge
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: cards-2x2-longedge-pdf
           path: Tanzanleitungen_2x2_A6_lange_Kante.pdf
 
       - name: Archive multipage pdf 3x3 short edge
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: cards-3x3-shortedge-pdf
           path: Tanzanleitungen_3x3_A7_kurze_Kante.pdf
       - name: Archive multipage pdf 3x3 long edge
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: cards-3x3-longedge-pdf
           path: Tanzanleitungen_3x3_A7_lange_Kante.pdf
 
       - name: Archive multipage pdf 4x4 short edge
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: cards-4x4-shortedge-pdf
           path: Tanzanleitungen_4x4_A8_kurze_Kante.pdf
       - name: Archive multipage pdf 4x4 long edge
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: cards-4x4-longedge-pdf
           path: Tanzanleitungen_4x4_A8_lange_Kante.pdf
