@@ -79,6 +79,7 @@ jobs:
         tag_name: "${{ github.event.inputs.version }}"
         make_latest: false  # TODO change to true when everything works
         fail_on_unmatched_files: true
+        body: "${{ github.event.inputs.release_text }}"
         files: |
           Tanzanleitungen.pdf
           Tanzanleitungen-einzeln.zip
