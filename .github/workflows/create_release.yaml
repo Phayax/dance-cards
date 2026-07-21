@@ -9,6 +9,9 @@ on:
       release_title:
         type: string
         required: true
+      release_text:
+        type: string
+        required: false
 
 jobs:
   compile-job:
@@ -25,10 +28,44 @@ jobs:
       with:
         name: full-pdf
         
+    - name: Download multipage 2x2 long edge
+      uses: actions/download-artifact@v8
+      with:
+        name: cards-2x2-longedge-pdf
+        
+    - name: Download multipage 2x2 short edge
+      uses: actions/download-artifact@v8
+      with:
+        name: cards-2x2-shortedge-pdf
+        
     - name: Download multipage 3x3 long edge
       uses: actions/download-artifact@v8
       with:
         name: cards-3x3-longedge-pdf
+        
+    - name: Download multipage 3x3 short edge
+      uses: actions/download-artifact@v8
+      with:
+        name: cards-3x3-shortedge-pdf
+
+    - name: Download multipage 4x4 long edge
+      uses: actions/download-artifact@v8
+      with:
+        name: cards-4x4-longedge-pdf
+        
+    - name: Download multipage 4x4 short edge
+      uses: actions/download-artifact@v8
+      with:
+        name: cards-4x4-shortedge-pdf
+    
+    # Download the single cards
+    - uses: actions/download-artifact@v8
+      with:
+        name: Tanzanleitungen-einzeln
+        path: Tanzanleitungen-einzeln/
+
+    - name: Zip the single files
+      run: zip -r Tanzanleitungen-einzeln.zip Tanzanleitungen-einzeln
       
     - name: get file listing
       run: ls -la .
@@ -44,4 +81,14 @@ jobs:
         fail_on_unmatched_files: true
         files: |
           Tanzanleitungen.pdf
-          Tanzanleitungen_3x3_A7_lange_Kante.pdf
+          Tanzanleitungen-einzeln.zip
+          Tanzanleitungen_*.pdf
+
+          
+        #Tanzanleitungen_2x2_A6_lange_Kante.pdf
+        #Tanzanleitungen_2x2_A6_kurze_Kante.pdf
+        #Tanzanleitungen_3x3_A7_lange_Kante.pdf
+        #Tanzanleitungen_3x3_A7_kurze_Kante.pdf
+        #Tanzanleitungen_4x4_A8_lange_Kante.pdf
+        #Tanzanleitungen_4x4_A8_kurze_Kante.pdf
+
