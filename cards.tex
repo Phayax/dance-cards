@@ -20,6 +20,14 @@
 \newif\iffast
 \fastfalse
 
+\usepackage{bookmark}
+
+\hypersetup{
+	pdfpagemode=UseOutlines,
+	bookmarksopen=true,
+	bookmarksopenlevel=1
+}
+
 \usepackage{graphicx}
 \usepackage{tikz}
 \usetikzlibrary{external}
@@ -96,15 +104,21 @@
 \end{tikzpicture}
 }
 
+\newcounter{dancecounter}
+
 \newcommand{\danceinfo}[1]{%
 	{\raggedleft\footnotesize{#1}\par}
 }
 \newcommand{\dancename}[1]{
+	\stepcounter{dancecounter}
+	\pdfbookmark[1]{\texorpdfstring{#1}{\unexpanded{#1}}}{dance-\thedancecounter}
 	% Dimension are manually chosen so they don't collide with the ornaments in the corners.	
 	\begin{tikzpicture}[remember picture, overlay]
 %		\node[] at (0, 0) (title) {Text};		
 		\node[anchor=north, yshift=-0.5cm, inner sep=0, text width=10.5cm, align=center] at (current page.north){\Huge{#1}};
 	\end{tikzpicture}
+	
+	%\pdfbookmark[2]{#1}{#1}
 }
 \newcommand{\origininfo}[3]{
 	% Dimension are manually chosen so they don't collide with the ornaments in the corners.
